@@ -1,0 +1,151 @@
+╔══════════════════════════════════════════════════════════════════════╗
+║                                                                      ║
+║   🌿 LILI ORGANIC - PROYECTO LISTO PARA GITHUB 🌿                    ║
+║                                                                      ║
+╚══════════════════════════════════════════════════════════════════════╝
+
+📋 TIENES 3 OPCIONES PARA SUBIR A GITHUB:
+═══════════════════════════════════════════════════════════════════════
+
+
+OPCIÓN 1: COMANDOS MANUALES (RECOMENDADO) ⌨️
+═══════════════════════════════════════════════════════════════════════
+
+Abre Visual Studio Code y la terminal (Ctrl + `), luego:
+
+# 1. Navegar a tu carpeta de proyectos
+cd Documents
+
+# 2. Clonar el repositorio
+git clone https://github.com/jjoanz/Web-Lili-organic.git
+
+# 3. Entrar a la carpeta
+cd Web-Lili-organic
+
+# 4. Copiar todos los archivos descargados a esta carpeta
+
+# 5. Agregar todo
+git add .
+
+# 6. Commit
+git commit -m "✨ Proyecto inicial Lili Organic"
+
+# 7. Push
+git push origin main
+
+¡LISTO! ✅
+
+
+OPCIÓN 2: SCRIPT AUTOMÁTICO (Mac/Linux) 🚀
+═══════════════════════════════════════════════════════════════════════
+
+1. Clonar el repo:
+   git clone https://github.com/jjoanz/Web-Lili-organic.git
+
+2. Copiar todos los archivos del proyecto a Web-Lili-organic/
+
+3. En la terminal, dentro de la carpeta Web-Lili-organic:
+   bash subir-a-github.sh
+
+¡LISTO! ✅
+
+
+OPCIÓN 3: SCRIPT AUTOMÁTICO (Windows) 🪟
+═══════════════════════════════════════════════════════════════════════
+
+1. Clonar el repo:
+   git clone https://github.com/jjoanz/Web-Lili-organic.git
+
+2. Copiar todos los archivos del proyecto a Web-Lili-organic\
+
+3. Doble click en:
+   subir-a-github.bat
+
+¡LISTO! ✅
+
+
+📖 DOCUMENTACIÓN INCLUIDA:
+═══════════════════════════════════════════════════════════════════════
+
+📄 LEER_PRIMERO.txt .......... Este archivo
+📄 COMANDOS_GIT.txt ........... Guía completa de comandos
+📄 README.md .................. Documentación técnica
+📄 GUIA_RAPIDA.txt ............ Guía de uso del proyecto
+📄 subir-a-github.sh .......... Script para Mac/Linux
+📄 subir-a-github.bat ......... Script para Windows
+📄 .gitignore ................. Archivos a ignorar en Git
+
+
+🌐 ACTIVAR GITHUB PAGES (WEB EN VIVO):
+═══════════════════════════════════════════════════════════════════════
+
+Después de subir el proyecto:
+
+1. Ir a: https://github.com/jjoanz/Web-Lili-organic
+2. Click en "Settings"
+3. En el menú izquierdo: "Pages"
+4. En "Source", seleccionar: "main" branch
+5. Click "Save"
+6. ¡Esperar 2-3 minutos!
+
+Tu web estará en vivo en:
+👉 https://jjoanz.github.io/Web-Lili-organic/
+
+
+📦 ARCHIVOS DEL PROYECTO:
+═══════════════════════════════════════════════════════════════════════
+
+✓ index.html .................. Página principal
+✓ tienda.html ................. Catálogo de productos
+✓ carrito.html ................ Carrito y checkout
+✓ nosotros.html ............... Sobre nosotros
+✓ beneficios.html ............. Beneficios
+✓ contacto.html ............... Contacto
+✓ logo.svg .................... Logo
+✓ css/styles.css .............. Estilos (6000+ líneas)
+✓ js/main.js .................. JavaScript principal
+✓ js/cart.js .................. Sistema de carrito
+✓ js/products.js .............. Base de datos
+✓ js/shop.js .................. Filtros
+
+
+❓ SI TIENES PROBLEMAS:
+═══════════════════════════════════════════════════════════════════════
+
+PROBLEMA: "git: command not found"
+→ Instalar Git: https://git-scm.com/downloads
+
+PROBLEMA: "Authentication failed"
+→ Usar token de GitHub en lugar de contraseña
+→ Crear token en: GitHub → Settings → Developer settings
+
+PROBLEMA: "Permission denied"
+→ Verificar que tienes acceso al repositorio
+
+
+💡 PRÓXIMOS PASOS:
+═══════════════════════════════════════════════════════════════════════
+
+1. ✅ Subir proyecto a GitHub
+2. ✅ Activar GitHub Pages
+3. 🔄 Agregar imágenes de productos en images/products/
+4. 🔄 Personalizar textos y contenidos
+5. 🔄 Configurar dominio personalizado (opcional)
+6. 🔄 Integrar pasarela de pago real
+
+
+📞 SOPORTE:
+═══════════════════════════════════════════════════════════════════════
+
+Si tienes dudas, revisa:
+• COMANDOS_GIT.txt - Guía detallada
+• README.md - Documentación técnica
+
+
+═══════════════════════════════════════════════════════════════════════
+
+¡Tu proyecto está listo para GitHub! 🚀
+
+© 2025 Lili Organic - Desarrollado con 💜
+
+═══════════════════════════════════════════════════════════════════════
