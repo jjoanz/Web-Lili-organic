@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrito de Compras - Lili Organic</title>
+    <link rel="stylesheet" href="asents/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo"><img src="logo.svg" alt="Lili Organic"></a>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="tienda.html" class="nav-link">Tienda</a>
+                <a href="nosotros.html" class="nav-link">Nosotros</a>
+                <a href="beneficios.html" class="nav-link">Beneficios</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
+                <i class="fas fa-times nav-close" id="nav-close"></i>
+            </nav>
+            <div class="nav-actions">
+                <a href="carrito.html" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </a>
+                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="cart-container container">
+        <div class="cart-items" id="cartItemsContainer"></div>
+        <div class="cart-summary" id="cartSummary"></div>
+    </section>
+
+    <section id="checkout" style="max-width: 800px; margin: 3rem auto; padding: 0 1.5rem;">
+        <h2 class="section-title">Finalizar Compra</h2>
+        <div class="checkout-steps">
+            <div class="step active"><i class="fas fa-user"></i> Información</div>
+            <div class="step"><i class="fas fa-truck"></i> Envío</div>
+            <div class="step"><i class="fas fa-credit-card"></i> Pago</div>
+        </div>
+        
+        <div class="checkout-form">
+            <form id="checkoutForm">
+                <h3 style="margin-bottom: 1.5rem;">Información de Contacto</h3>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Nombre Completo *</label>
+                        <input type="text" required placeholder="Tu nombre">
+                    </div>
+                    <div class="form-group">
+                        <label>Teléfono *</label>
+                        <input type="tel" required placeholder="809-xxx-xxxx">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Email *</label>
+                    <input type="email" required placeholder="tu@email.com">
+                </div>
+
+                <h3 style="margin: 2rem 0 1.5rem;">Dirección de Envío</h3>
+                <div class="form-group">
+                    <label>Dirección Completa *</label>
+                    <input type="text" required placeholder="Calle, número, edificio, apartamento">
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Ciudad *</label>
+                        <input type="text" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Provincia *</label>
+                        <select required>
+                            <option value="">Seleccionar</option>
+                            <option>Santo Domingo</option>
+                            <option>Santiago</option>
+                            <option>La Romana</option>
+                            <option>San Cristóbal</option>
+                            <option>Otra</option>
+                        </select>
+                    </div>
+                </div>
+
+                <h3 style="margin: 2rem 0 1.5rem;">Método de Pago</h3>
+                <div class="payment-methods">
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="transfer" checked>
+                        <div>
+                            <strong><i class="fas fa-university"></i> Transferencia Bancaria</strong>
+                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Recibirás los datos bancarios por email</p>
+                        </div>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="link">
+                        <div>
+                            <strong><i class="fas fa-credit-card"></i> Link de Pago (Tarjeta)</strong>
+                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Te enviaremos un link seguro para pagar</p>
+                        </div>
+                    </label>
+                    <label class="payment-method">
+                        <input type="radio" name="payment" value="delivery">
+                        <div>
+                            <strong><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</strong>
+                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Paga en efectivo al recibir tu pedido</p>
+                        </div>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 2rem;">
+                    <i class="fas fa-check-circle"></i> Confirmar Pedido
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lili Organic</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Inicio</a>
+                        <a href="tienda.html">Tienda</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p>
+                </div>
+                <div class="footer-section">
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 Lili Organic. Todos los derechos reservados.</p></div>
+        </div>
+    </footer>
+
+    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+    
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadCartItems);
+        document.getElementById('checkoutForm')?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('¡Pedido confirmado! Recibirás un email con los detalles de tu orden.');
+            clearCart();
+            window.location.href = 'index.html';
+        });
+        
+        // Hacer que los métodos de pago se vean seleccionados
+        document.querySelectorAll('.payment-method').forEach(method => {
+            method.addEventListener('click', function() {
+                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+                this.classList.add('selected');
+                this.querySelector('input').checked = true;
+            });
+        });
+        document.querySelector('.payment-method').classList.add('selected');
+    </script>
+</body>
+</html>

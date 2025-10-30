@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contacto - Lili Organic</title>
+    <link rel="stylesheet" href="asents/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo"><img src="logo.svg" alt="Lili Organic"></a>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="tienda.html" class="nav-link">Tienda</a>
+                <a href="nosotros.html" class="nav-link">Nosotros</a>
+                <a href="beneficios.html" class="nav-link">Beneficios</a>
+                <a href="contacto.html" class="nav-link active">Contacto</a>
+                <i class="fas fa-times nav-close" id="nav-close"></i>
+            </nav>
+            <div class="nav-actions">
+                <a href="carrito.html" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </a>
+                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" style="margin-top: calc(var(--header-height) + 2rem);">
+        <div class="container">
+            <h1 class="section-title">Contáctanos</h1>
+            <p class="section-subtitle">¿Tienes preguntas? Estamos aquí para ayudarte</p>
+            
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
+                        <div>
+                            <h3>Teléfono</h3>
+                            <p>829-210-1162</p>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">Lun - Vie: 9:00 AM - 6:00 PM</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
+                        <div>
+                            <h3>Email</h3>
+                            <p>info@liliorganic.com</p>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">Respuesta en 24 horas</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div>
+                            <h3>Ubicación</h3>
+                            <p>Santo Domingo</p>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">República Dominicana</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
+                        <div>
+                            <h3>Redes Sociales</h3>
+                            <p>@liliorganic</p>
+                            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-instagram" style="font-size: 1.5rem;"></i></a>
+                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-facebook-f" style="font-size: 1.5rem;"></i></a>
+                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md);">
+                        <h2 style="margin-bottom: 1.5rem;">Envíanos un Mensaje</h2>
+                        <form id="contactForm">
+                            <div class="form-group">
+                                <label>Nombre Completo *</label>
+                                <input type="text" required placeholder="Tu nombre">
+                            </div>
+                            <div class="form-group">
+                                <label>Email *</label>
+                                <input type="email" required placeholder="tu@email.com">
+                            </div>
+                            <div class="form-group">
+                                <label>Teléfono</label>
+                                <input type="tel" placeholder="809-xxx-xxxx">
+                            </div>
+                            <div class="form-group">
+                                <label>Asunto *</label>
+                                <select required>
+                                    <option value="">Seleccionar</option>
+                                    <option>Consulta de Producto</option>
+                                    <option>Problema con Pedido</option>
+                                    <option>Sugerencia</option>
+                                    <option>Otro</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Mensaje *</label>
+                                <textarea required rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
+                                <i class="fas fa-paper-plane"></i> Enviar Mensaje
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: var(--color-gray-light);">
+        <div class="container">
+            <h2 class="section-title">Preguntas Frecuentes</h2>
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Los productos son 100% naturales?</h3>
+                    <p style="color: var(--color-gray-dark);">Sí, todos nuestros productos están formulados con ingredientes naturales y orgánicos, sin parabenos, sulfatos ni químicos dañinos.</p>
+                </div>
+                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Hacen envíos a todo el país?</h3>
+                    <p style="color: var(--color-gray-dark);">Sí, enviamos a toda la República Dominicana. Envío gratis en compras mayores a RD$ 2,000.</p>
+                </div>
+                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
+                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Cuánto tiempo tarda en verse resultados?</h3>
+                    <p style="color: var(--color-gray-dark);">La mayoría de nuestras clientas reportan cambios visibles en 2-4 semanas de uso constante.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section"><h3>Lili Organic</h3><p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p></div>
+                <div class="footer-section"><h3>Enlaces</h3><div class="footer-links"><a href="index.html">Inicio</a><a href="tienda.html">Tienda</a></div></div>
+                <div class="footer-section"><h3>Contacto</h3><p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2025 Lili Organic.</p></div>
+        </div>
+    </footer>
+
+    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        document.getElementById('contactForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            showNotification('¡Mensaje enviado! Te contactaremos pronto.', 'success');
+            e.target.reset();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<svg width="200" height="80" viewBox="0 0 200 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .logo-text { font-family: 'Brush Script MT', cursive; font-weight: 400; }
+      .logo-organic { font-family: 'Montserrat', sans-serif; font-weight: 500; }
+    </style>
+  </defs>
+  
+  <!-- Lili en cursiva -->
+  <text x="10" y="50" font-size="48" fill="#652C83" class="logo-text">Lili</text>
+  
+  <!-- organic en minúsculas -->
+  <text x="100" y="50" font-size="28" fill="#C04F4C" class="logo-organic">organic</text>
+  
+  <!-- Línea decorativa debajo de Lili -->
+  <path d="M 10 55 Q 45 60, 90 52" stroke="#652C83" stroke-width="2" fill="none"/>
+</svg>

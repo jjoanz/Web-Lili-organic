@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tienda - Lili Organic</title>
+    <link rel="stylesheet" href="asents/styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo"><img src="logo.svg" alt="Lili Organic"></a>
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link">Inicio</a>
+                <a href="tienda.html" class="nav-link active">Tienda</a>
+                <a href="nosotros.html" class="nav-link">Nosotros</a>
+                <a href="beneficios.html" class="nav-link">Beneficios</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
+                <i class="fas fa-times nav-close" id="nav-close"></i>
+            </nav>
+            <div class="nav-actions">
+                <i class="fas fa-search nav-icon" id="searchBtn"></i>
+                <a href="carrito.html" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </a>
+                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
+            </div>
+        </div>
+    </header>
+
+    <section class="section" style="margin-top: calc(var(--header-height) + 2rem);">
+        <div class="container">
+            <h1 class="section-title">Nuestra Tienda</h1>
+            <p class="section-subtitle">Explora nuestra colección completa de productos naturales para el cuidado capilar</p>
+            
+            <div class="shop-filters">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Buscar</label>
+                        <div class="search-box">
+                            <input type="text" id="searchInput" placeholder="Buscar productos...">
+                            <button><i class="fas fa-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="filter-group">
+                        <label>Categoría</label>
+                        <select id="categoryFilter">
+                            <option value="all">Todas</option>
+                            <option value="shampoo">Shampoos</option>
+                            <option value="acondicionador">Acondicionadores</option>
+                            <option value="tratamiento">Tratamientos</option>
+                            <option value="serum">Sueros</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Precio</label>
+                        <select id="priceFilter">
+                            <option value="all">Todos</option>
+                            <option value="0-500">RD$ 0 - 500</option>
+                            <option value="500-1000">RD$ 500 - 1,000</option>
+                            <option value="1000-2000">RD$ 1,000+</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label>Ordenar por</label>
+                        <select id="sortFilter">
+                            <option value="default">Destacados</option>
+                            <option value="price-low">Precio: Bajo a Alto</option>
+                            <option value="price-high">Precio: Alto a Bajo</option>
+                            <option value="name">Nombre A-Z</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="products-grid" id="productsGrid"></div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lili Organic</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Enlaces</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Inicio</a>
+                        <a href="tienda.html">Tienda</a>
+                        <a href="nosotros.html">Nosotros</a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Contacto</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Síguenos</h3>
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Lili Organic. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+    
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/shop.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

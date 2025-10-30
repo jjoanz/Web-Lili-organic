@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Lili Organic - Productos naturales y orgánicos para el cuidado capilar. Shampoos, acondicionadores y tratamientos con ingredientes 100% naturales.">
+    <meta name="keywords" content="productos naturales, cuidado capilar, shampoo orgánico, acondicionador natural, República Dominicana">
+    <title>Lili Organic - Productos Naturales para el Cuidado Capilar</title>
+    
+    <!-- CSS -->
+    <link rel="stylesheet" href="asents/styles.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header class="header" id="header">
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="logo.svg" alt="Lili Organic Logo">
+            </a>
+            
+            <nav class="nav-menu" id="nav-menu">
+                <a href="index.html" class="nav-link active">Inicio</a>
+                <a href="tienda.html" class="nav-link">Tienda</a>
+                <a href="nosotros.html" class="nav-link">Nosotros</a>
+                <a href="beneficios.html" class="nav-link">Beneficios</a>
+                <a href="contacto.html" class="nav-link">Contacto</a>
+                <i class="fas fa-times nav-close" id="nav-close"></i>
+            </nav>
+            
+            <div class="nav-actions">
+                <i class="fas fa-search nav-icon" id="searchBtn"></i>
+                <a href="carrito.html" class="nav-icon">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span class="cart-badge" id="cartCount">0</span>
+                </a>
+                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1>Descubre el Poder de lo Natural</h1>
+                <p>Productos 100% orgánicos y naturales para el cuidado de tu cabello. Formulados con extractos botánicos de la más alta calidad para resultados visibles.</p>
+                <div class="hero-buttons">
+                    <a href="tienda.html" class="btn btn-primary">Ver Productos</a>
+                    <a href="nosotros.html" class="btn btn-outline">Nuestra Historia</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="asents/Captura de pantalla 2025-10-30 113356.png" alt="Productos Lili Organic" style="max-width: 500px;">
+            </div>
+        </div>
+    </section>
+
+    <!-- CARACTERÍSTICAS -->
+    <section class="section">
+        <div class="container">
+            <div class="grid grid-4">
+                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
+                    <i class="fas fa-leaf" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
+                    <h3>100% Natural</h3>
+                    <p>Ingredientes orgánicos certificados sin químicos dañinos</p>
+                </div>
+                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
+                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: 1rem;"></i>
+                    <h3>Sin Crueldad</h3>
+                    <p>Productos no testados en animales, 100% cruelty-free</p>
+                </div>
+                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
+                    <i class="fas fa-award" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
+                    <h3>Certificados</h3>
+                    <p>Productos certificados y respaldados por expertos</p>
+                </div>
+                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
+                    <i class="fas fa-truck" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: 1rem;"></i>
+                    <h3>Envío Gratis</h3>
+                    <p>En compras mayores a RD$ 2,000 en todo el país</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PRODUCTOS DESTACADOS -->
+    <section class="section" style="background: var(--color-gray-light);">
+        <div class="container">
+            <h2 class="section-title">Productos Más Vendidos</h2>
+            <p class="section-subtitle">Los favoritos de nuestros clientes, formulados con ingredientes naturales de la más alta calidad</p>
+            
+            <div class="products-grid" id="featuredProducts">
+                <!-- Los productos se cargarán dinámicamente con JavaScript -->
+            </div>
+            
+            <div style="text-align: center; margin-top: 3rem;">
+                <a href="tienda.html" class="btn btn-primary btn-lg">Ver Todos los Productos</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIOS -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Lo Que Dicen Nuestras Clientas</h2>
+            <p class="section-subtitle">Miles de personas confían en Lili Organic para el cuidado de su cabello</p>
+            
+            <div class="grid grid-3">
+                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"El shampoo fortalecedor cambió completamente mi cabello. Después de 2 meses de uso, mi cabello está más fuerte y con menos caída. ¡Lo recomiendo 100%!"</p>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <img src="images/testimonials/maria.jpg" alt="María" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
+                        <div>
+                            <h4 style="margin-bottom: 0.25rem;">María Rodríguez</h4>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">Santo Domingo</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"Me encanta que sean productos naturales. El suero capilar es increíble, mi cabello ahora tiene más brillo y se siente super suave. ¡Gracias Lili Organic!"</p>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <img src="images/testimonials/ana.jpg" alt="Ana" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
+                        <div>
+                            <h4 style="margin-bottom: 0.25rem;">Ana López</h4>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">Santiago</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
+                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"La mascarilla hidratante es lo máximo. Mi cabello estaba muy maltratado y ahora luce saludable. El servicio al cliente también es excelente. ¡5 estrellas!"</p>
+                    <div style="display: flex; align-items: center; gap: 1rem;">
+                        <img src="images/testimonials/carmen.jpg" alt="Carmen" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
+                        <div>
+                            <h4 style="margin-bottom: 0.25rem;">Carmen Pérez</h4>
+                            <p style="font-size: 0.875rem; color: var(--color-gray);">La Romana</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CALL TO ACTION -->
+    <section class="section" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: var(--color-white); text-align: center;">
+        <div class="container">
+            <h2 style="font-family: var(--font-secondary); font-size: var(--font-size-4xl); margin-bottom: 1rem;">¿Lista para Transformar tu Cabello?</h2>
+            <p style="font-size: var(--font-size-lg); margin-bottom: 2rem; opacity: 0.9;">Únete a miles de mujeres que ya confiaron en nuestros productos naturales</p>
+            <a href="tienda.html" class="btn btn-secondary btn-lg">Comprar Ahora</a>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Lili Organic</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Productos naturales y orgánicos para el cuidado capilar de la más alta calidad.</p>
+                    <div class="social-links">
+                        <a href="https://instagram.com/liliorganic" class="social-link" target="_blank">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="https://facebook.com/liliorganic" class="social-link" target="_blank">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://wa.me/18292101162" class="social-link" target="_blank">
+                            <i class="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Enlaces Rápidos</h3>
+                    <div class="footer-links">
+                        <a href="index.html">Inicio</a>
+                        <a href="tienda.html">Tienda</a>
+                        <a href="nosotros.html">Nosotros</a>
+                        <a href="beneficios.html">Beneficios</a>
+                        <a href="contacto.html">Contacto</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Ayuda</h3>
+                    <div class="footer-links">
+                        <a href="#">Preguntas Frecuentes</a>
+                        <a href="#">Envíos y Devoluciones</a>
+                        <a href="#">Términos y Condiciones</a>
+                        <a href="#">Política de Privacidad</a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Newsletter</h3>
+                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Suscríbete para recibir ofertas exclusivas</p>
+                    <form class="newsletter-form">
+                        <input type="email" placeholder="Tu email" required>
+                        <button type="submit" class="btn btn-secondary">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Industria Garli SRL - Lili Organic. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <button id="scrollTop">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- WHATSAPP FLOTANTE -->
+    <a href="https://wa.me/18292101162" class="whatsapp-float" target="_blank" style="position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; transition: 0.3s;">
+        <i class="fab fa-whatsapp" style="font-size: 2rem; color: white;"></i>
+    </a>
+
+    <!-- JavaScript -->
+    <script src="js/products.js"></script>
+    <script src="js/cart.js"></script>
+    <script src="js/main.js"></script>
+    <script>
+        // Cargar productos destacados en la página principal
+        document.addEventListener('DOMContentLoaded', () => {
+            const featuredProducts = PRODUCTS.slice(0, 6);
+            displayProducts(featuredProducts, 'featuredProducts');
+        });
+    </script>
+</body>
+</html>
