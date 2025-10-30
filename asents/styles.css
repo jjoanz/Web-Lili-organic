@@ -1615,3 +1615,38 @@ ul, ol {
     font-size: var(--font-size-2xl);
     flex-shrink: 0;
 }
+
+/* ===== LISTA DE VALORES ===== */
+.values-list {
+    list-style: none;
+    padding: 0;
+    margin: var(--spacing-lg) 0 0;
+    text-align: left;
+}
+
+.values-list li {
+    position: relative;
+    padding-left: 1.8rem;
+    margin-bottom: var(--spacing-sm);
+    font-size: var(--font-size-base);
+    line-height: 1.6;
+    color: var(--color-text);
+}
+
+/* Ícono elegante antes de cada valor */
+.values-list li::before {
+    content: "\f00c"; /* fa-check */
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    color: var(--color-primary);
+    position: absolute;
+    left: 0;
+    top: 0.1rem;
+    font-size: 1rem;
+}
+
+/* Alinea solo los párrafos y listas de cada tarjeta */
+.mvv-card p,
+.mvv-card ul {
+  text-align: justify;
+}
