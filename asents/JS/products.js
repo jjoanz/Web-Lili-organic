@@ -1,4 +1,4 @@
-// Base de datos de productos - Lili Organic - Actualizado 2025
+// Base de datos de productos - Lili Organic - Actualizado 2025 en google sheets
 const PRODUCTS = [
     // MASCARILLAS
     {
@@ -474,11 +474,10 @@ const PRODUCTS = [
         category: 'combo',
         description: 'Kit completo: Shampoo Anticaída + Mascarilla Anticaída + Gotero Estimulador + Leave In. Todo lo necesario para crecimiento.',
         price: 2500,
-        oldPrice: 3150,
         image: 'images/products/combo-crecimiento.jpg',
         rating: 5,
         reviews: 234,
-        badge: '¡Ahorra RD$ 650!',
+        badge: 'Combo Especial',
         stock: 22
     },
     {
@@ -487,14 +486,13 @@ const PRODUCTS = [
         category: 'combo',
         description: 'Kit hidratación: Shampoo Hidratante + Mascarilla Hidratante + Leave In + Crema de Peinar. Hidratación profunda completa.',
         price: 2200,
-        oldPrice: 2900,
         image: 'images/products/combo-hidratacion.jpg',
         rating: 5,
         reviews: 187,
-        badge: '¡Ahorra RD$ 700!',
+        badge: 'Combo Especial',
         stock: 18
     }
-];
+]; 
 
 // Función para mostrar productos
 function displayProducts(products, containerId = 'productsGrid') {
