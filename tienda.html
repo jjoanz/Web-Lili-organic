@@ -18,7 +18,6 @@
                 <a href="nosotros.html" class="nav-link">Nosotros</a>
                 <a href="beneficios.html" class="nav-link">Beneficios</a>
                 <a href="contacto.html" class="nav-link">Contacto</a>
-                
             </nav>
             <div class="nav-actions">
                 <i class="fas fa-search nav-icon" id="searchBtn"></i>
@@ -48,20 +47,24 @@
                     <div class="filter-group">
                         <label>Categoría</label>
                         <select id="categoryFilter">
-                            <option value="all">Todas</option>
+                            <option value="all">Todas las categorías</option>
                             <option value="shampoo">Shampoos</option>
                             <option value="acondicionador">Acondicionadores</option>
                             <option value="tratamiento">Tratamientos</option>
                             <option value="serum">Sueros</option>
+                            <option value="combo">Combos</option>
+                            <option value="cuidado-personal">Cuidado Personal</option>
                         </select>
                     </div>
                     <div class="filter-group">
                         <label>Precio</label>
                         <select id="priceFilter">
-                            <option value="all">Todos</option>
+                            <option value="all">Todos los precios</option>
                             <option value="0-500">RD$ 0 - 500</option>
-                            <option value="500-1000">RD$ 500 - 1,000</option>
-                            <option value="1000-2000">RD$ 1,000+</option>
+                            <option value="500-800">RD$ 500 - 800</option>
+                            <option value="800-1000">RD$ 800 - 1,000</option>
+                            <option value="1000-2000">RD$ 1,000 - 2,000</option>
+                            <option value="2000+">RD$ 2,000+</option>
                         </select>
                     </div>
                     <div class="filter-group">
@@ -71,11 +74,13 @@
                             <option value="price-low">Precio: Bajo a Alto</option>
                             <option value="price-high">Precio: Alto a Bajo</option>
                             <option value="name">Nombre A-Z</option>
+                            <option value="popular">Más Populares</option>
                         </select>
                     </div>
                 </div>
             </div>
 
+            <div class="products-count" id="productsCount"></div>
             <div class="products-grid" id="productsGrid"></div>
         </div>
     </section>
@@ -85,7 +90,7 @@
             <div class="footer-content">
                 <div class="footer-section">
                     <h3>Lili Organic</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p>
+                    <p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad para el cuidado capilar</p>
                 </div>
                 <div class="footer-section">
                     <h3>Enlaces</h3>
@@ -93,18 +98,20 @@
                         <a href="index.html">Inicio</a>
                         <a href="tienda.html">Tienda</a>
                         <a href="nosotros.html">Nosotros</a>
+                        <a href="beneficios.html">Beneficios</a>
+                        <a href="contacto.html">Contacto</a>
                     </div>
                 </div>
                 <div class="footer-section">
                     <h3>Contacto</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p>
+                    <p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com<br>📍 Santo Domingo, República Dominicana</p>
                 </div>
                 <div class="footer-section">
                     <h3>Síguenos</h3>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+                        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
                     </div>
                 </div>
             </div>
@@ -116,8 +123,8 @@
 
     <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
     
-    <script src="js/products.js"></script>
-    <script src="js/cart.js"></script>
+    <script src="asents/JS/products.js"></script>
+    <script src="asents/JS/cart.js"></script>
     <script src="asents/JS/shop.js"></script>
     <script src="asents/JS/main.js"></script>
 </body>

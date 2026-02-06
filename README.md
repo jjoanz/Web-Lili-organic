@@ -147,6 +147,275 @@ En `js/cart.js`, cambiar `2000` por el monto deseado.
 © 2025 Industria Garli SRL - Lili Organic
 Todos los derechos reservados.
 
+# LILI ORGANIC - Actualización de Productos de la Tienda
+
+## 📦 Archivos Actualizados
+
+Este paquete contiene los archivos actualizados para tu tienda web de Lili Organic con los 31 productos del listado oficial.
+
+### Archivos Incluidos:
+
+1. **products.js** - Base de datos completa de productos
+2. **tienda.html** - Página de tienda actualizada
+3. **shop.js** - Lógica de filtros y búsqueda mejorada
+
+---
+
+## 🚀 Instrucciones de Instalación
+
+### Paso 1: Reemplazar products.js
+
+```
+📁 Ubicación: C:\Users\Jose\Downloads\Web-Lili-organic\js\products.js
+```
+
+**Acción:** Reemplaza el archivo `products.js` existente con el nuevo archivo.
+
+**Cambios principales:**
+- 31 productos completos con toda la información del listado
+- Información de múltiples tamaños para cada producto
+- Modo de uso incluido
+- 6 categorías: Shampoos, Acondicionadores, Tratamientos, Sueros, Combos, Cuidado Personal
+
+---
+
+### Paso 2: Reemplazar tienda.html
+
+```
+📁 Ubicación: C:\Users\Jose\Downloads\Web-Lili-organic\tienda.html
+```
+
+**Acción:** Reemplaza el archivo `tienda.html` existente con el nuevo archivo.
+
+**Mejoras:**
+- Filtros actualizados con todas las categorías
+- Mejor estructura de precios
+- Contador de productos
+- Footer mejorado con información completa
+
+---
+
+### Paso 3: Actualizar shop.js
+
+```
+📁 Ubicación: C:\Users\Jose\Downloads\Web-Lili-organic\asents\JS\shop.js
+```
+
+**Acción:** Reemplaza el archivo `shop.js` existente con el nuevo archivo.
+
+**Nuevas funcionalidades:**
+- Modal mejorado para ver detalles de productos
+- Sistema de filtros más preciso
+- Múltiples opciones de ordenamiento
+- Contador de productos filtrados
+- Muestra información de múltiples tamaños
+
+---
+
+## 📋 Lista Completa de Productos Agregados
+
+### Mascarillas (6 productos):
+1. Mascarilla Nutritiva Intensiva (10oz, 16oz, 28oz)
+2. Mascarilla Hidratante (16oz, 28oz)
+3. Mascarilla Crecimiento y Anticaída (10oz, 16oz, 28oz)
+4. Mascarilla de Karité Anticaída (16oz, 28oz)
+5. Mascarilla Re estructurante (10oz, 16oz, 28oz)
+6. Mascarilla Detox (10oz, 16oz, 28oz)
+
+### Shampoos (6 productos):
+7. Shampoo Crecimiento y Anticaída (10oz, 16oz, 33oz)
+8. Shampoo Nutritivo Intensivo (16oz, 33oz)
+9. Shampoo Detox (10oz, 16oz, 33oz)
+10. Shampoo Control Grasa y Caspa (16oz, 33oz)
+11. Shampoo Reestructurante (10oz, 16oz, 33oz)
+12. Shampoo Hidratante (16oz, 33oz)
+
+### Sueros y Aceites (5 productos):
+13. Serum Abrillantador (2oz, 4oz)
+14. Aceite de Rosa de Mosqueta (2oz)
+15. Gotero Crecimiento y Anticaída
+16. Gotero Estimulador de Crecimiento
+17. Suero Vitaminado (16oz)
+
+### Tratamientos (11 productos):
+18. Leave In Ultra Hidratante (5oz, 8oz)
+19. Shot Capilar (6oz)
+20. Gel Keratin (4oz)
+21. Pre-Poo Crecimiento y Anticaída (10oz, 16oz)
+22. Protector Térmico (6oz)
+23. Crema de Peinar (9oz, 16oz)
+24. Tratamiento Reparador e Hidratante (4oz)
+25. Botox Capilar (1oz, 2oz, 5oz)
+26. Grasita Nutritiva (4oz)
+28. Serum Brillo & Sedosidad 33oz (tamaño familiar)
+
+### Acondicionadores (1 producto):
+27. Acondicionador Crecimiento y Anticaída (16oz)
+
+### Cuidado Personal (1 producto):
+29. Jabón Íntimo (4oz, 8oz)
+
+### Combos (2 productos):
+30. Combo Crecimiento Capilar (ahorra RD$ 650)
+31. Combo Hidratación Total (ahorra RD$ 700)
+
+---
+
+## 🎨 Características de los Productos
+
+Cada producto incluye:
+- ✅ Nombre completo
+- ✅ Categoría
+- ✅ Descripción detallada
+- ✅ Precio base
+- ✅ Múltiples tamaños (donde aplica)
+- ✅ Modo de uso
+- ✅ Rating (5 estrellas)
+- ✅ Número de reseñas
+- ✅ Badges especiales (Más Vendido, Top #1, Popular, etc.)
+- ✅ Stock disponible
+- ✅ Imagen placeholder (agregar imágenes reales después)
+
+---
+
+## 🖼️ Imágenes de Productos
+
+**IMPORTANTE:** Los archivos incluyen placeholders para las imágenes. Necesitarás agregar las imágenes reales en:
+
+```
+📁 Ubicación: C:\Users\Jose\Downloads\Web-Lili-organic\images\products\
+```
+
+### Nombres de archivo esperados:
+- mascarilla-nutritiva.jpg
+- mascarilla-hidratante.jpg
+- mascarilla-anticaida.jpg
+- mascarilla-karite.jpg
+- mascarilla-reestructurante.jpg
+- mascarilla-detox.jpg
+- shampoo-anticaida.jpg
+- shampoo-nutritivo.jpg
+- shampoo-detox.jpg
+- shampoo-menta-nopal.jpg
+- shampoo-reestructurante.jpg
+- shampoo-hidratante.jpg
+- serum-abrillantador.jpg
+- aceite-rosa-mosqueta.jpg
+- gotero-anticaida.jpg
+- gotero-estimulador.jpg
+- suero-vitaminado.jpg
+- leave-in.jpg
+- shot-capilar.jpg
+- gel-keratin.jpg
+- pre-poo.jpg
+- protector-termico.jpg
+- crema-peinar.jpg
+- tratamiento-reparador.jpg
+- botox-capilar.jpg
+- grasita-nutritiva.jpg
+- acondicionador-anticaida.jpg
+- serum-grande.jpg
+- jabon-intimo.jpg
+- combo-crecimiento.jpg
+- combo-hidratacion.jpg
+
+---
+
+## 🔧 Configuración de Filtros
+
+Los nuevos filtros incluyen:
+
+### Por Categoría:
+- Todas las categorías
+- Shampoos
+- Acondicionadores
+- Tratamientos
+- Sueros
+- Combos
+- Cuidado Personal
+
+### Por Precio:
+- Todos los precios
+- RD$ 0 - 500
+- RD$ 500 - 800
+- RD$ 800 - 1,000
+- RD$ 1,000 - 2,000
+- RD$ 2,000+
+
+### Ordenar por:
+- Destacados
+- Precio: Bajo a Alto
+- Precio: Alto a Bajo
+- Nombre A-Z
+- Más Populares
+
+---
+
+## ✨ Nuevas Funcionalidades
+
+1. **Modal de Producto Mejorado:**
+   - Vista previa de imagen grande
+   - Información completa del producto
+   - Todos los tamaños disponibles con precios
+   - Modo de uso
+   - Indicador de stock
+   - Botón directo para agregar al carrito
+
+2. **Búsqueda Inteligente:**
+   - Busca por nombre de producto
+   - Busca por descripción
+   - Busca por categoría
+
+3. **Contador de Productos:**
+   - Muestra productos actuales vs total
+   - Se actualiza dinámicamente con filtros
+
+4. **Indicadores Visuales:**
+   - Badges para productos destacados
+   - Alerta de "Últimas unidades" cuando hay poco stock
+   - Precios tachados para combos con descuento
+
+---
+
+## 🐛 Solución de Problemas
+
+### Problema: Los productos no se muestran
+**Solución:** Verifica que `products.js` esté correctamente vinculado en `tienda.html` antes de `shop.js`
+
+### Problema: Las imágenes no cargan
+**Solución:** 
+1. Verifica que las imágenes estén en la carpeta correcta
+2. Los nombres de archivo deben coincidir exactamente
+3. Si no tienes las imágenes, aparecerán placeholders automáticamente
+
+### Problema: Los filtros no funcionan
+**Solución:** Asegúrate de que `shop.js` esté cargado después de `products.js`
+
+---
+
+## 📞 Contacto
+
+Para soporte o consultas:
+- 📞 829-210-1162
+- 📧 info@liliorganic.com
+- 📍 Santo Domingo, República Dominicana
+
+---
+
+## 📝 Notas Adicionales
+
+- Todos los precios están en Pesos Dominicanos (RD$)
+- Los productos tienen información basada en el listado oficial de Lili Organic
+- El sistema de carrito debe estar implementado por separado (cart.js)
+- Se recomienda agregar imágenes reales para mejor presentación
+
+---
+
+**Fecha de Actualización:** Febrero 2025
+**Versión:** 2.0
+**Desarrollado para:** Lili Organic
+
+
 ---
 
 **Desarrollado con 💜 para Lili Organic**
