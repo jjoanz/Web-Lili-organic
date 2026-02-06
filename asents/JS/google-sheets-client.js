@@ -9,7 +9,7 @@
 // ============================================================================
 const GOOGLE_SHEETS_CONFIG = {
     // ⚠️ PEGA AQUÍ LA URL DE TU WEB APP DE GOOGLE APPS SCRIPT
-    API_URL: 'https://script.google.com/macros/s/AKfycbzUVn28V5aE9-QvOmjm8cWbYOizB-GzQu_6o0ee5lNAOOdE7TpMTbwF1jXVZl69HnBWlw/exec',
+   API_URL: 'https://script.google.com/macros/s/AKfycbzUVn28V5aE9-QvOmjm8cWbYOizB-GzQu_6o0ee5lNAOOdE7TpMTbwF1jXVZl69HnBWlw/exec',
     
     // Configuración de cache (5 minutos)
     CACHE_DURATION: 5 * 60 * 1000,
