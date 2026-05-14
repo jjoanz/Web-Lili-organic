@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Lili Organic</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Montserrat', sans-serif; background: #f5f5f5; color: #333; }
+
+        /* LOGIN */
+        .login-screen {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #652C83, #9B4DBF);
+        }
+        .login-box {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            text-align: center;
+        }
+        .login-box img { width: 120px; margin-bottom: 1.5rem; }
+        .login-box h2 { color: #652C83; margin-bottom: 0.5rem; }
+        .login-box p { color: #999; margin-bottom: 2rem; font-size: 0.9rem; }
+        .form-group { margin-bottom: 1.25rem; text-align: left; }
+        .form-group label { display: block; font-weight: 600; margin-bottom: 0.5rem; font-size: 0.875rem; }
+        .form-group input {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0; border-radius: 0.5rem;
+            font-family: inherit; font-size: 1rem; transition: border 0.2s;
+        }
+        .form-group input:focus { outline: none; border-color: #652C83; }
+        .btn-login {
+            width: 100%; padding: 0.875rem;
+            background: #652C83; color: white;
+            border: none; border-radius: 0.5rem;
+            font-family: inherit; font-size: 1rem; font-weight: 600;
+            cursor: pointer; transition: background 0.2s;
+        }
+        .btn-login:hover { background: #4a1f61; }
+        .login-error {
+            color: #e53e3e; font-size: 0.875rem;
+            margin-top: 1rem; display: none;
+        }
+
+        /* DASHBOARD */
+        .dashboard { display: none; }
+        .sidebar {
+            position: fixed; top: 0; left: 0;
+            width: 250px; height: 100vh;
+            background: #1a1a2e; color: white;
+            padding: 2rem 0; overflow-y: auto; z-index: 100;
+        }
+        .sidebar-logo {
+            padding: 0 1.5rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+        .sidebar-logo img { width: 80px; }
+        .sidebar-logo p { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; }
+        .sidebar-menu { padding: 1.5rem 0; }
+        .menu-item {
+            display: flex; align-items: center; gap: 0.75rem;
+            padding: 0.875rem 1.5rem; cursor: pointer;
+            transition: background 0.2s; color: rgba(255,255,255,0.7);
+            font-size: 0.9rem;
+        }
+        .menu-item:hover, .menu-item.active {
+            background: rgba(101, 44, 131, 0.4);
+            color: white;
+        }
+        .menu-item i { width: 20px; }
+        .sidebar-footer {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+        }
+        .btn-logout {
+            width: 100%; padding: 0.75rem;
+            background: rgba(255,255,255,0.1); color: white;
+            border: none; border-radius: 0.5rem;
+            font-family: inherit; cursor: pointer; transition: background 0.2s;
+        }
+        .btn-logout:hover { background: rgba(255,0,0,0.3); }
+
+        .main-content {
+            margin-left: 250px; padding: 2rem;
+            min-height: 100vh;
+        }
+        .topbar {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 2rem;
+        }
+        .topbar h1 { font-size: 1.5rem; color: #333; }
+        .admin-badge {
+            background: #652C83; color: white;
+            padding: 0.5rem 1rem; border-radius: 2rem;
+            font-size: 0.875rem;
+        }
+
+        /* STATS */
+        .stats-grid {
+            display: grid; grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem; margin-bottom: 2rem;
+        }
+        .stat-card {
+            background: white; padding: 1.5rem;
+            border-radius: 0.75rem; box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .stat-icon {
+            width: 50px; height: 50px; border-radius: 0.75rem;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.25rem; color: white;
+        }
+        .stat-info h3 { font-size: 1.75rem; font-weight: 700; }
+        .stat-info p { font-size: 0.8rem; color: #999; }
+
+        /* PANELS */
+        .panel { display: none; }
+        .panel.active { display: block; }
+
+        /* TABLA */
+        .panel-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 1.5rem;
+        }
+        .panel-header h2 { font-size: 1.25rem; }
+        .btn {
+            padding: 0.625rem 1.25rem; border-radius: 0.5rem;
+            border: none; font-family: inherit; font-size: 0.875rem;
+            font-weight: 600; cursor: pointer; transition: all 0.2s;
+            display: inline-flex; align-items: center; gap: 0.5rem;
+        }
+        .btn-primary { background: #652C83; color: white; }
+        .btn-primary:hover { background: #4a1f61; }
+        .btn-success { background: #38a169; color: white; }
+        .btn-success:hover { background: #2f855a; }
+        .btn-danger { background: #e53e3e; color: white; }
+        .btn-danger:hover { background: #c53030; }
+        .btn-warning { background: #d69e2e; color: white; }
+        .btn-warning:hover { background: #b7791f; }
+        .btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8rem; }
+        .btn-outline { background: transparent; border: 2px solid #652C83; color: #652C83; }
+
+        .search-bar {
+            display: flex; gap: 1rem; margin-bottom: 1.5rem;
+        }
+        .search-bar input, .search-bar select {
+            padding: 0.625rem 1rem; border: 2px solid #e0e0e0;
+            border-radius: 0.5rem; font-family: inherit; font-size: 0.875rem;
+        }
+        .search-bar input { flex: 1; }
+        .search-bar input:focus, .search-bar select:focus {
+            outline: none; border-color: #652C83;
+        }
+
+        .table-wrapper {
+            background: white; border-radius: 0.75rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08); overflow: hidden;
+        }
+        table { width: 100%; border-collapse: collapse; }
+        th {
+            background: #f8f8f8; padding: 1rem;
+            text-align: left; font-size: 0.8rem;
+            text-transform: uppercase; color: #666;
+            border-bottom: 2px solid #e0e0e0;
+        }
+        td { padding: 0.875rem 1rem; border-bottom: 1px solid #f0f0f0; font-size: 0.875rem; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background: #fafafa; }
+
+        .product-thumb {
+            width: 50px; height: 50px; border-radius: 0.5rem;
+            object-fit: cover; background: #f0f0f0;
+        }
+        .badge {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            border-radius: 2rem; font-size: 0.75rem; font-weight: 600;
+        }
+        .badge-active { background: #c6f6d5; color: #276749; }
+        .badge-inactive { background: #fed7d7; color: #9b2c2c; }
+        .badge-categoria {
+            background: #e9d8fd; color: #553c9a;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            display: none; align-items: center; justify-content: center;
+            z-index: 1000;
+        }
+        .modal-overlay.open { display: flex; }
+        .modal {
+            background: white; border-radius: 1rem;
+            width: 90%; max-width: 600px;
+            max-height: 90vh; overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .modal-header {
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid #e0e0e0;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .modal-header h3 { font-size: 1.1rem; color: #652C83; }
+        .modal-close {
+            background: none; border: none; font-size: 1.25rem;
+            cursor: pointer; color: #999; transition: color 0.2s;
+        }
+        .modal-close:hover { color: #333; }
+        .modal-body { padding: 2rem; }
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            border-top: 1px solid #e0e0e0;
+            display: flex; justify-content: flex-end; gap: 1rem;
+        }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        .form-group { margin-bottom: 1.25rem; }
+        .form-group label {
+            display: block; font-weight: 600;
+            margin-bottom: 0.5rem; font-size: 0.875rem;
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%; padding: 0.75rem 1rem;
+            border: 2px solid #e0e0e0; border-radius: 0.5rem;
+            font-family: inherit; font-size: 0.875rem; transition: border 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none; border-color: #652C83;
+        }
+        .form-group textarea { resize: vertical; min-height: 80px; }
+
+        /* IMAGEN UPLOAD */
+        .image-upload-area {
+            border: 2px dashed #d0d0d0; border-radius: 0.75rem;
+            padding: 2rem; text-align: center; cursor: pointer;
+            transition: border-color 0.2s; position: relative;
+        }
+        .image-upload-area:hover { border-color: #652C83; }
+        .image-upload-area input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+        .image-preview {
+            width: 100px; height: 100px; border-radius: 0.5rem;
+            object-fit: cover; margin: 0 auto 1rem; display: none;
+        }
+        .image-upload-icon { font-size: 2.5rem; color: #ccc; margin-bottom: 0.5rem; }
+        .image-upload-text { font-size: 0.875rem; color: #999; }
+
+        /* TOAST */
+        .toast {
+            position: fixed; bottom: 2rem; right: 2rem;
+            padding: 1rem 1.5rem; border-radius: 0.75rem;
+            color: white; font-weight: 600; font-size: 0.875rem;
+            display: flex; align-items: center; gap: 0.75rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            transform: translateY(100px); opacity: 0;
+            transition: all 0.3s; z-index: 9999;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast-success { background: #38a169; }
+        .toast-error { background: #e53e3e; }
+
+        /* LOADING */
+        .loading {
+            text-align: center; padding: 3rem; color: #999;
+        }
+        .spinner {
+            width: 40px; height: 40px;
+            border: 4px solid #e0e0e0;
+            border-top-color: #652C83;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; height: auto; position: relative; }
+            .main-content { margin-left: 0; }
+            .stats-grid { grid-template-columns: 1fr 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-screen" id="loginScreen">
+    <div class="login-box">
+        <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+        <h2>Panel de Administración</h2>
+        <p>Lili Organic — Acceso exclusivo</p>
+        <div class="form-group">
+            <label>Usuario</label>
+            <input type="text" id="loginUser" placeholder="Usuario" autocomplete="username">
+        </div>
+        <div class="form-group">
+            <label>Contraseña</label>
+            <input type="password" id="loginPass" placeholder="Contraseña" autocomplete="current-password">
+        </div>
+        <button class="btn-login" onclick="handleLogin()">
+            <i class="fas fa-sign-in-alt"></i> Entrar
+        </button>
+        <p class="login-error" id="loginError">
+            <i class="fas fa-exclamation-circle"></i> Usuario o contraseña incorrectos
+        </p>
+    </div>
+</div>
+
+<!-- DASHBOARD -->
+<div class="dashboard" id="dashboard">
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+            <p>Panel Admin</p>
+        </div>
+        <div class="sidebar-menu">
+            <div class="menu-item active" onclick="showPanel('productos')">
+                <i class="fas fa-box"></i> Productos
+            </div>
+            <div class="menu-item" onclick="showPanel('nuevo')">
+                <i class="fas fa-plus-circle"></i> Nuevo Producto
+            </div>
+            <div class="menu-item" onclick="window.open('tienda.html', '_blank')">
+                <i class="fas fa-store"></i> Ver Tienda
+            </div>
+        </div>
+        <div class="sidebar-footer">
+            <button class="btn-logout" onclick="handleLogout()">
+                <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+            </button>
+        </div>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="main-content">
+        <div class="topbar">
+            <h1 id="pageTitle">Productos</h1>
+            <span class="admin-badge" id="adminName">Admin</span>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#652C83"><i class="fas fa-box"></i></div>
+                <div class="stat-info"><h3 id="statTotal">-</h3><p>Total Productos</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#38a169"><i class="fas fa-check-circle"></i></div>
+                <div class="stat-info"><h3 id="statActivos">-</h3><p>Activos</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#d69e2e"><i class="fas fa-warehouse"></i></div>
+                <div class="stat-info"><h3 id="statStock">-</h3><p>Unidades en Stock</p></div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon" style="background:#3182ce"><i class="fas fa-tags"></i></div>
+                <div class="stat-info"><h3 id="statCategorias">-</h3><p>Categorías</p></div>
+            </div>
+        </div>
+
+        <!-- PANEL PRODUCTOS -->
+        <div class="panel active" id="panel-productos">
+            <div class="panel-header">
+                <h2>Todos los Productos</h2>
+                <button class="btn btn-primary" onclick="showPanel('nuevo')">
+                    <i class="fas fa-plus"></i> Nuevo Producto
+                </button>
+            </div>
+            <div class="search-bar">
+                <input type="text" id="adminSearch" placeholder="Buscar producto..." oninput="filterAdminProducts()">
+                <select id="adminCatFilter" onchange="filterAdminProducts()">
+                    <option value="all">Todas las categorías</option>
+                    <option value="shampoo">Shampoos</option>
+                    <option value="acondicionador">Acondicionadores</option>
+                    <option value="tratamiento">Tratamientos</option>
+                    <option value="serum">Sueros</option>
+                    <option value="combo">Combos</option>
+                    <option value="cuidado-personal">Cuidado Personal</option>
+                </select>
+            </div>
+            <div class="table-wrapper">
+                <div id="productsTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando productos...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL NUEVO PRODUCTO -->
+        <div class="panel" id="panel-nuevo">
+            <div class="panel-header">
+                <h2>Nuevo Producto</h2>
+                <button class="btn btn-outline" onclick="showPanel('productos')">
+                    <i class="fas fa-arrow-left"></i> Volver
+                </button>
+            </div>
+            <div style="background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Nombre del Producto *</label>
+                        <input type="text" id="newNombre" placeholder="Ej: Shampoo Hidratante">
+                    </div>
+                    <div class="form-group">
+                        <label>Categoría *</label>
+                        <select id="newCategoria">
+                            <option value="shampoo">Shampoo</option>
+                            <option value="acondicionador">Acondicionador</option>
+                            <option value="tratamiento">Tratamiento</option>
+                            <option value="serum">Suero</option>
+                            <option value="combo">Combo</option>
+                            <option value="cuidado-personal">Cuidado Personal</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Descripción</label>
+                    <textarea id="newDescripcion" placeholder="Describe el producto..."></textarea>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio (RD$) *</label>
+                        <input type="number" id="newPrecio" placeholder="900">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock *</label>
+                        <input type="number" id="newStock" placeholder="0">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Badge (opcional)</label>
+                        <input type="text" id="newBadge" placeholder="Ej: Más Vendido, Nuevo">
+                    </div>
+                    <div class="form-group">
+                        <label>Modo de Uso (opcional)</label>
+                        <input type="text" id="newUso" placeholder="Instrucciones de uso">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Imagen del Producto</label>
+                    <div class="image-upload-area" id="newImageArea">
+                        <input type="file" accept="image/*" onchange="previewNewImage(this)">
+                        <img class="image-preview" id="newImagePreview">
+                        <div id="newImagePlaceholder">
+                            <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                            <p class="image-upload-text">Haz clic o arrastra una imagen aquí</p>
+                        </div>
+                    </div>
+                </div>
+                <div style="display:flex; gap:1rem; justify-content:flex-end; margin-top:1rem;">
+                    <button class="btn btn-outline" onclick="showPanel('productos')">Cancelar</button>
+                    <button class="btn btn-success" onclick="saveNewProduct()">
+                        <i class="fas fa-save"></i> Guardar Producto
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL EDITAR -->
+<div class="modal-overlay" id="editModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-edit"></i> Editar Producto</h3>
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="editId">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Nombre *</label>
+                    <input type="text" id="editNombre">
+                </div>
+                <div class="form-group">
+                    <label>Categoría</label>
+                    <select id="editCategoria">
+                        <option value="shampoo">Shampoo</option>
+                        <option value="acondicionador">Acondicionador</option>
+                        <option value="tratamiento">Tratamiento</option>
+                        <option value="serum">Suero</option>
+                        <option value="combo">Combo</option>
+                        <option value="cuidado-personal">Cuidado Personal</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Descripción</label>
+                <textarea id="editDescripcion"></textarea>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Precio (RD$)</label>
+                    <input type="number" id="editPrecio">
+                </div>
+                <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" id="editStock">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Badge</label>
+                    <input type="text" id="editBadge">
+                </div>
+                <div class="form-group">
+                    <label>Modo de Uso</label>
+                    <input type="text" id="editUso">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Imagen del Producto</label>
+                <div class="image-upload-area">
+                    <input type="file" accept="image/*" onchange="previewEditImage(this)">
+                    <img class="image-preview" id="editImagePreview">
+                    <div id="editImagePlaceholder">
+                        <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p class="image-upload-text">Haz clic para cambiar la imagen</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="saveEdit()">
+                <i class="fas fa-save"></i> Guardar Cambios
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+const SUPABASE_URL = 'https://tvxknfbfusuppuwsdwag.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PchhZA-S7q-nGckaaK4-rw_tQW_SHgw';
+const HEADERS = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json',
+    'Prefer': 'return=representation'
+};
+
+let allAdminProducts = [];
+let currentEditFile = null;
+let newImageFile = null;
+
+// ============================================================
+// LOGIN
+// ============================================================
+async function handleLogin() {
+    const usuario = document.getElementById('loginUser').value.trim();
+    const password = document.getElementById('loginPass').value.trim();
+    const errorEl = document.getElementById('loginError');
+
+    if (!usuario || !password) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Por favor completa todos los campos';
+        return;
+    }
+
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/admins?usuario=eq.${encodeURIComponent(usuario)}&password=eq.${encodeURIComponent(password)}&select=*`,
+            { headers: HEADERS }
+        );
+        const data = await res.json();
+
+        if (data.length > 0) {
+            sessionStorage.setItem('adminLogged', 'true');
+            sessionStorage.setItem('adminName', data[0].nombre || usuario);
+            errorEl.style.display = 'none';
+            showDashboard(data[0].nombre || usuario);
+        } else {
+            errorEl.style.display = 'block';
+            errorEl.textContent = 'Usuario o contraseña incorrectos';
+        }
+    } catch (err) {
+        errorEl.style.display = 'block';
+        errorEl.textContent = 'Error de conexión. Intenta de nuevo.';
+    }
+}
+
+function handleLogout() {
+    sessionStorage.removeItem('adminLogged');
+    sessionStorage.removeItem('adminName');
+    document.getElementById('dashboard').style.display = 'none';
+    document.getElementById('loginScreen').style.display = 'flex';
+}
+
+function showDashboard(nombre) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('dashboard').style.display = 'flex';
+    document.getElementById('adminName').textContent = nombre;
+    loadAdminProducts();
+}
+
+// Enter en login
+document.getElementById('loginPass').addEventListener('keypress', e => {
+    if (e.key === 'Enter') handleLogin();
+});
+
+// Auto-login si ya está en sesión
+window.addEventListener('load', () => {
+    if (sessionStorage.getItem('adminLogged') === 'true') {
+        showDashboard(sessionStorage.getItem('adminName') || 'Admin');
+    }
+});
+
+// ============================================================
+// CARGAR PRODUCTOS
+// ============================================================
+async function loadAdminProducts() {
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/productos?order=id.asc`,
+            { headers: HEADERS }
+        );
+        allAdminProducts = await res.json();
+        updateStats();
+        renderTable(allAdminProducts);
+    } catch (err) {
+        document.getElementById('productsTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar productos.</p>';
+    }
+}
+
+function updateStats() {
+    const activos = allAdminProducts.filter(p => p.activo).length;
+    const stock = allAdminProducts.reduce((s, p) => s + (p.stock || 0), 0);
+    const cats = [...new Set(allAdminProducts.map(p => p.categoria))].length;
+
+    document.getElementById('statTotal').textContent = allAdminProducts.length;
+    document.getElementById('statActivos').textContent = activos;
+    document.getElementById('statStock').textContent = stock;
+    document.getElementById('statCategorias').textContent = cats;
+}
+
+function renderTable(products) {
+    if (products.length === 0) {
+        document.getElementById('productsTableContainer').innerHTML =
+            '<p style="padding:2rem; text-align:center; color:#999;">No se encontraron productos.</p>';
+        return;
+    }
+
+    const catNames = {
+        'shampoo':'Shampoo','acondicionador':'Acondicionador',
+        'tratamiento':'Tratamiento','serum':'Suero',
+        'combo':'Combo','cuidado-personal':'Cuidado Personal'
+    };
+
+    document.getElementById('productsTableContainer').innerHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Categoría</th>
+                    <th>Precio</th>
+                    <th>Stock</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${products.map(p => `
+                    <tr>
+                        <td>#${p.id}</td>
+                        <td>
+                            <img class="product-thumb" 
+                                 src="${p.imagen_url || ''}" 
+                                 onerror="handleImgError(this, ${p.id})"
+                                 alt="${p.nombre}">
+                        </td>
+                        <td><strong>${p.nombre}</strong>${p.badge ? `<br><small style="color:#652C83">${p.badge}</small>` : ''}</td>
+                        <td><span class="badge badge-categoria">${catNames[p.categoria] || p.categoria}</span></td>
+                        <td><strong>RD$ ${Number(p.precio).toLocaleString()}</strong></td>
+                        <td>${p.stock}</td>
+                        <td>
+                            <span class="badge ${p.activo ? 'badge-active' : 'badge-inactive'}">
+                                ${p.activo ? 'Activo' : 'Inactivo'}
+                            </span>
+                        </td>
+                        <td style="display:flex; gap:0.5rem; flex-wrap:wrap;">
+                            <button class="btn btn-primary btn-sm" onclick="openEdit(${p.id})">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-sm ${p.activo ? 'btn-warning' : 'btn-success'}" 
+                                    onclick="toggleActive(${p.id}, ${p.activo})">
+                                <i class="fas fa-${p.activo ? 'eye-slash' : 'eye'}"></i>
+                            </button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+// ============================================================
+// FILTRAR
+// ============================================================
+function filterAdminProducts() {
+    const search = document.getElementById('adminSearch').value.toLowerCase();
+    const cat = document.getElementById('adminCatFilter').value;
+
+    const filtered = allAdminProducts.filter(p => {
+        const matchSearch = p.nombre.toLowerCase().includes(search) ||
+                           (p.descripcion || '').toLowerCase().includes(search);
+        const matchCat = cat === 'all' || p.categoria === cat;
+        return matchSearch && matchCat;
+    });
+
+    renderTable(filtered);
+}
+
+// ============================================================
+// EDITAR PRODUCTO
+// ============================================================
+function openEdit(id) {
+    const p = allAdminProducts.find(p => p.id === id);
+    if (!p) return;
+
+    document.getElementById('editId').value = p.id;
+    document.getElementById('editNombre').value = p.nombre;
+    document.getElementById('editCategoria').value = p.categoria;
+    document.getElementById('editDescripcion').value = p.descripcion || '';
+    document.getElementById('editPrecio').value = p.precio;
+    document.getElementById('editStock').value = p.stock;
+    document.getElementById('editBadge').value = p.badge || '';
+    document.getElementById('editUso').value = p.uso || '';
+
+    const preview = document.getElementById('editImagePreview');
+    const placeholder = document.getElementById('editImagePlaceholder');
+    if (p.imagen_url) {
+        preview.src = p.imagen_url;
+        preview.style.display = 'block';
+        placeholder.style.display = 'none';
+    } else {
+        preview.style.display = 'none';
+        placeholder.style.display = 'block';
+    }
+
+    currentEditFile = null;
+    document.getElementById('editModal').classList.add('open');
+}
+
+function closeModal() {
+    document.getElementById('editModal').classList.remove('open');
+    currentEditFile = null;
+}
+
+function previewEditImage(input) {
+    if (input.files && input.files[0]) {
+        currentEditFile = input.files[0];
+        const reader = new FileReader();
+        reader.onload = e => {
+            const preview = document.getElementById('editImagePreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            document.getElementById('editImagePlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+async function saveEdit() {
+    const id = parseInt(document.getElementById('editId').value);
+    let imagen_url = allAdminProducts.find(p => p.id == id)?.imagen_url || null;
+
+    // Subir imagen si hay una nueva
+    if (currentEditFile) {
+        imagen_url = await uploadImage(currentEditFile, id);
+        if (!imagen_url) return;
+    }
+
+    const updates = {
+        nombre: document.getElementById('editNombre').value.trim(),
+        categoria: document.getElementById('editCategoria').value,
+        descripcion: document.getElementById('editDescripcion').value.trim(),
+        precio: parseFloat(document.getElementById('editPrecio').value),
+        stock: parseInt(document.getElementById('editStock').value),
+        badge: document.getElementById('editBadge').value.trim() || null,
+        uso: document.getElementById('editUso').value.trim() || null,
+        imagen_url
+    };
+
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`,
+            { method: 'PATCH', headers: HEADERS, body: JSON.stringify(updates) }
+        );
+
+        const resText = await res.text();
+        console.log('PATCH status:', res.status, 'Response:', resText);
+        if (res.ok) {
+            showToast('Producto actualizado correctamente', 'success');
+            closeModal();
+            loadAdminProducts();
+        } else {
+            showToast('Error al actualizar producto', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+// ============================================================
+// NUEVO PRODUCTO
+// ============================================================
+function previewNewImage(input) {
+    if (input.files && input.files[0]) {
+        newImageFile = input.files[0];
+        const reader = new FileReader();
+        reader.onload = e => {
+            const preview = document.getElementById('newImagePreview');
+            preview.src = e.target.result;
+            preview.style.display = 'block';
+            document.getElementById('newImagePlaceholder').style.display = 'none';
+        };
+        reader.readAsDataURL(input.files[0]);
+    }
+}
+
+async function saveNewProduct() {
+    const nombre = document.getElementById('newNombre').value.trim();
+    const precio = parseFloat(document.getElementById('newPrecio').value);
+    const stock = parseInt(document.getElementById('newStock').value) || 0;
+
+    if (!nombre || !precio) {
+        showToast('Nombre y precio son obligatorios', 'error');
+        return;
+    }
+
+    const newProduct = {
+        nombre,
+        categoria: document.getElementById('newCategoria').value,
+        descripcion: document.getElementById('newDescripcion').value.trim(),
+        precio,
+        stock,
+        badge: document.getElementById('newBadge').value.trim() || null,
+        uso: document.getElementById('newUso').value.trim() || null,
+        activo: true,
+        imagen_url: null
+    };
+
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/productos`,
+            { method: 'POST', headers: HEADERS, body: JSON.stringify(newProduct) }
+        );
+        const data = await res.json();
+
+        if (res.ok && data[0]) {
+            // Subir imagen si hay
+            if (newImageFile) {
+                const url = await uploadImage(newImageFile, data[0].id);
+                if (url) {
+                    await fetch(`${SUPABASE_URL}/rest/v1/productos?id=eq.${data[0].id}`,
+                        { method: 'PATCH', headers: HEADERS, body: JSON.stringify({ imagen_url: url }) });
+                }
+            }
+            showToast('Producto creado correctamente', 'success');
+            resetNewForm();
+            showPanel('productos');
+            loadAdminProducts();
+        } else {
+            showToast('Error al crear producto', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+function resetNewForm() {
+    ['newNombre','newDescripcion','newPrecio','newStock','newBadge','newUso'].forEach(id => {
+        document.getElementById(id).value = '';
+    });
+    document.getElementById('newCategoria').value = 'shampoo';
+    document.getElementById('newImagePreview').style.display = 'none';
+    document.getElementById('newImagePlaceholder').style.display = 'block';
+    newImageFile = null;
+}
+
+// ============================================================
+// TOGGLE ACTIVO / ELIMINAR
+// ============================================================
+async function toggleActive(id, currentState) {
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`,
+            { method: 'PATCH', headers: HEADERS, body: JSON.stringify({ activo: !currentState }) }
+        );
+        if (res.ok) {
+            showToast(`Producto ${!currentState ? 'activado' : 'desactivado'}`, 'success');
+            loadAdminProducts();
+        }
+    } catch (err) {
+        showToast('Error al cambiar estado', 'error');
+    }
+}
+
+async function deleteProduct(id) {
+    if (!confirm('¿Eliminar este producto? Esta acción no se puede deshacer.')) return;
+
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/productos?id=eq.${id}`,
+            { method: 'DELETE', headers: HEADERS }
+        );
+        if (res.ok) {
+            showToast('Producto eliminado', 'success');
+            loadAdminProducts();
+        }
+    } catch (err) {
+        showToast('Error al eliminar', 'error');
+    }
+}
+
+// ============================================================
+// SUBIR IMAGEN A SUPABASE STORAGE
+// ============================================================
+
+async function uploadImage(file, productId) {
+    const ext = file.name.split('.').pop();
+    const fileName = `producto-${productId}-${Date.now()}.${ext}`;
+
+    console.log('Subiendo imagen:', fileName);
+
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/storage/v1/object/productos/${fileName}`,
+            {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': file.type
+                },
+                body: file
+            }
+        );
+
+        console.log('Storage response status:', res.status);
+
+        if (res.ok) {
+            const url = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
+            console.log('URL generada:', url);
+            return url;
+        } else {
+            const errorData = await res.json();
+            console.error('Storage error:', errorData);
+            showToast(`Error: ${errorData.message}`, 'error');
+            return null;
+        }
+    } catch (err) {
+        console.error('Error de red:', err);
+        showToast('Error de conexión', 'error');
+        return null;
+    }
+}
+// ============================================================
+// NAVEGACIÓN
+// ============================================================
+function showPanel(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
+    document.getElementById(`panel-${name}`).classList.add('active');
+
+    const titles = { productos: 'Productos', nuevo: 'Nuevo Producto' };
+    document.getElementById('pageTitle').textContent = titles[name] || name;
+
+    const menuItems = document.querySelectorAll('.menu-item');
+    if (name === 'productos') menuItems[0].classList.add('active');
+    if (name === 'nuevo') menuItems[1].classList.add('active');
+}
+
+
+// ============================================================
+// TOAST
+// ============================================================
+
+function handleImgError(img, id) {
+    img.onerror = null;
+    const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">
+        <rect width="50" height="50" fill="#652C83" rx="5"/>
+        <text x="25" y="32" font-size="14" text-anchor="middle" 
+              fill="white" font-family="sans-serif">${id}</text>
+    </svg>`;
+    img.src = 'data:image/svg+xml;base64,' + btoa(svg);
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.className = `toast toast-${type} show`;
+    toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'times-circle'}"></i> ${message}`;
+    setTimeout(() => toast.classList.remove('show'), 3000);
+}
+</script>
+</body>
+</html>

@@ -5,14 +5,13 @@ let allProducts = [];
 let filteredProducts = [];
 
 // Inicializar cuando cargue la página
-document.addEventListener('DOMContentLoaded', function() {
-    // Cargar productos
-    if (typeof PRODUCTS !== 'undefined') {
-        allProducts = [...PRODUCTS];
-        filteredProducts = [...PRODUCTS];
-        displayProducts(filteredProducts);
-        updateProductCount();
-    }
+document.addEventListener('DOMContentLoaded', async function() {
+    // Cargar productos desde Supabase
+    const products = await getProductsFromSupabase();
+    allProducts = [...products];
+    filteredProducts = [...products];
+    displayProducts(filteredProducts);
+    updateProductCount();
     
     // Event listeners para filtros
     const searchInput = document.getElementById('searchInput');
@@ -163,7 +162,7 @@ function viewProduct(id) {
             <div class="modal-body">
                 <div class="modal-image">
                     <img src="${product.image}" alt="${product.name}" 
-                         onerror="this.src='https://via.placeholder.com/400x400/652C83/FFFFFF?text=${encodeURIComponent(product.name)}'">
+                         onerror="this.onerror=null; const s=document.createElementNS('http://www.w3.org/2000/svg','svg'); s.setAttribute('width','400'); s.setAttribute('height','400'); s.setAttribute('viewBox','0 0 400 400'); s.innerHTML='<rect width=\'400\' height=\'400\' fill=\'%23652C83\' rx=\'10\'/>'; this.style.background='#652C83'; this.style.display='block';">
                     ${product.badge ? `<div class="product-badge">${product.badge}</div>` : ''}
                 </div>
                 <div class="modal-info">

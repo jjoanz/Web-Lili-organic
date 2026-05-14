@@ -250,15 +250,14 @@
     </a>
 
     <!-- JavaScript -->
-    <script src="asents/JS/"></script>
-    <script src="asents/JS/"></script>
-    <script src="asents/JS/main.js"></script>
-    <script>
-        // Cargar productos destacados en la página principal
-        document.addEventListener('DOMContentLoaded', () => {
-            const featuredProducts = PRODUCTS.slice(0, 6);
-            displayProducts(featuredProducts, 'featuredProducts');
-        });
+   <script src="asents/JS/supabase-api.js"></script>
+        <script src="asents/JS/cart.js"></script>
+        <script src="asents/JS/main.js"></script>
+        <script>
+            document.addEventListener('DOMContentLoaded', async () => {
+                const products = await getProductsFromSupabase();
+                displayProducts(products.slice(0, 6), 'featuredProducts');
+            });
     </script>
 </body>
 </html>
