@@ -331,6 +331,9 @@
             <div class="menu-item" onclick="showPanel('nuevo')">
                 <i class="fas fa-plus-circle"></i> Nuevo Producto
             </div>
+            <div class="menu-item" onclick="showPanel('pedidos')">
+                <i class="fas fa-clipboard-list"></i> Pedidos
+            </div>
             <div class="menu-item" onclick="window.open('tienda.html', '_blank')">
                 <i class="fas fa-store"></i> Ver Tienda
             </div>
@@ -395,6 +398,48 @@
                 </div>
             </div>
         </div>
+
+        <!-- PANEL PEDIDOS -->
+<div class="panel" id="panel-pedidos">
+    <div class="panel-header">
+        <h2>Todos los Pedidos</h2>
+    </div>
+
+    <div class="stats-grid" style="margin-bottom: 1.5rem;">
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#652C83"><i class="fas fa-clipboard-list"></i></div>
+            <div class="stat-info"><h3 id="statPedidosTotal">-</h3><p>Total Pedidos</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#d69e2e"><i class="fas fa-clock"></i></div>
+            <div class="stat-info"><h3 id="statPedidosPendientes">-</h3><p>Pendientes</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#3182ce"><i class="fas fa-check"></i></div>
+            <div class="stat-info"><h3 id="statPedidosConfirmados">-</h3><p>Confirmados</p></div>
+        </div>
+        <div class="stat-card">
+            <div class="stat-icon" style="background:#38a169"><i class="fas fa-truck"></i></div>
+            <div class="stat-info"><h3 id="statPedidosDespachados">-</h3><p>Despachados</p></div>
+        </div>
+    </div>
+
+    <div class="search-bar">
+        <input type="text" id="pedidosSearch" placeholder="Buscar por nombre, email o teléfono..." oninput="filterPedidos()">
+        <select id="pedidosEstadoFilter" onchange="filterPedidos()">
+            <option value="all">Todos los estados</option>
+            <option value="pendiente">Pendiente</option>
+            <option value="confirmado">Confirmado</option>
+            <option value="despachado">Despachado</option>
+        </select>
+    </div>
+
+    <div class="table-wrapper">
+        <div id="pedidosTableContainer">
+            <div class="loading"><div class="spinner"></div><p>Cargando pedidos...</p></div>
+        </div>
+    </div>
+</div>
 
         <!-- PANEL NUEVO PRODUCTO -->
         <div class="panel" id="panel-nuevo">
@@ -535,6 +580,20 @@
             <button class="btn btn-primary" onclick="saveEdit()">
                 <i class="fas fa-save"></i> Guardar Cambios
             </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL DETALLE PEDIDO -->
+<div class="modal-overlay" id="pedidoModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-receipt"></i> Detalle del Pedido</h3>
+            <button class="modal-close" onclick="closePedidoModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="pedidoModalBody"></div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closePedidoModal()">Cerrar</button>
         </div>
     </div>
 </div>
@@ -982,14 +1041,167 @@ function showPanel(name) {
     document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
     document.getElementById(`panel-${name}`).classList.add('active');
 
-    const titles = { productos: 'Productos', nuevo: 'Nuevo Producto' };
+    const titles = { productos: 'Productos', nuevo: 'Nuevo Producto', pedidos: 'Pedidos' };
     document.getElementById('pageTitle').textContent = titles[name] || name;
 
     const menuItems = document.querySelectorAll('.menu-item');
     if (name === 'productos') menuItems[0].classList.add('active');
     if (name === 'nuevo') menuItems[1].classList.add('active');
+    if (name === 'pedidos') menuItems[2].classList.add('active');
+
+    if (name === 'pedidos') loadPedidos();
 }
 
+// ============================================================
+// PEDIDOS
+// ============================================================
+let allPedidos = [];
+
+async function loadPedidos() {
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/pedidos?order=created_at.desc`,
+            { headers: HEADERS }
+        );
+        allPedidos = await res.json();
+        updatePedidosStats();
+        renderPedidosTable(allPedidos);
+    } catch (err) {
+        document.getElementById('pedidosTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar pedidos.</p>';
+    }
+}
+
+function updatePedidosStats() {
+    document.getElementById('statPedidosTotal').textContent = allPedidos.length;
+    document.getElementById('statPedidosPendientes').textContent =
+        allPedidos.filter(p => p.estado === 'pendiente').length;
+    document.getElementById('statPedidosConfirmados').textContent =
+        allPedidos.filter(p => p.estado === 'confirmado').length;
+    document.getElementById('statPedidosDespachados').textContent =
+        allPedidos.filter(p => p.estado === 'despachado').length;
+}
+
+function renderPedidosTable(pedidos) {
+    if (pedidos.length === 0) {
+        document.getElementById('pedidosTableContainer').innerHTML =
+            '<p style="padding:2rem; text-align:center; color:#999;">No se encontraron pedidos.</p>';
+        return;
+    }
+
+    const pagoNames = { transfer: 'Transferencia', link: 'Link de Pago', delivery: 'Contra Entrega' };
+    const estadoBadge = { pendiente: 'badge-inactive', confirmado: 'badge-categoria', despachado: 'badge-active' };
+
+    document.getElementById('pedidosTableContainer').innerHTML = `
+        <table>
+            <thead>
+                <tr>
+                    <th>Fecha</th>
+                    <th>Cliente</th>
+                    <th>Contacto</th>
+                    <th>Método Pago</th>
+                    <th>Total</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${pedidos.map(p => `
+                    <tr>
+                        <td>${new Date(p.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}</td>
+                        <td><strong>${p.nombre}</strong><br><small style="color:#999">${p.ciudad}, ${p.provincia}</small></td>
+                        <td>${p.telefono}<br><small style="color:#999">${p.email}</small></td>
+                        <td><span class="badge badge-categoria">${pagoNames[p.metodo_pago] || p.metodo_pago}</span></td>
+                        <td><strong>RD$ ${Number(p.total).toLocaleString()}</strong></td>
+                        <td>
+                            <select onchange="updateEstadoPedido(${p.id}, this.value)" style="padding:0.4rem 0.6rem; border-radius:0.5rem; border:2px solid #e0e0e0; font-family:inherit; font-size:0.8rem;">
+                                <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                <option value="confirmado" ${p.estado === 'confirmado' ? 'selected' : ''}>Confirmado</option>
+                                <option value="despachado" ${p.estado === 'despachado' ? 'selected' : ''}>Despachado</option>
+                            </select>
+                        </td>
+                        <td>
+                            <button class="btn btn-primary btn-sm" onclick="viewPedido(${p.id})">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+function filterPedidos() {
+    const search = document.getElementById('pedidosSearch').value.toLowerCase();
+    const estado = document.getElementById('pedidosEstadoFilter').value;
+
+    const filtered = allPedidos.filter(p => {
+        const matchSearch = p.nombre.toLowerCase().includes(search) ||
+                           p.email.toLowerCase().includes(search) ||
+                           p.telefono.includes(search);
+        const matchEstado = estado === 'all' || p.estado === estado;
+        return matchSearch && matchEstado;
+    });
+
+    renderPedidosTable(filtered);
+}
+
+async function updateEstadoPedido(id, nuevoEstado) {
+    try {
+        const res = await fetch(
+            `${SUPABASE_URL}/rest/v1/pedidos?id=eq.${id}`,
+            { method: 'PATCH', headers: HEADERS, body: JSON.stringify({ estado: nuevoEstado }) }
+        );
+        if (res.ok) {
+            showToast(`Pedido marcado como ${nuevoEstado}`, 'success');
+            const pedido = allPedidos.find(p => p.id === id);
+            if (pedido) pedido.estado = nuevoEstado;
+            updatePedidosStats();
+        } else {
+            showToast('Error al actualizar el pedido', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+function viewPedido(id) {
+    const p = allPedidos.find(p => p.id === id);
+    if (!p) return;
+
+    const productos = typeof p.productos === 'string' ? JSON.parse(p.productos) : p.productos;
+    const pagoNames = { transfer: 'Transferencia Bancaria', link: 'Link de Pago', delivery: 'Contra Entrega' };
+
+    document.getElementById('pedidoModalBody').innerHTML = `
+        <div class="form-group"><label>Cliente</label><p>${p.nombre}</p></div>
+        <div class="form-row">
+            <div class="form-group"><label>Teléfono</label><p>${p.telefono}</p></div>
+            <div class="form-group"><label>Email</label><p>${p.email}</p></div>
+        </div>
+        <div class="form-group"><label>Dirección</label><p>${p.direccion}, ${p.ciudad}, ${p.provincia}</p></div>
+        <div class="form-group"><label>Método de Pago</label><p>${pagoNames[p.metodo_pago] || p.metodo_pago}</p></div>
+        <div class="form-group">
+            <label>Productos</label>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr><th>Producto</th><th>Cant.</th><th>Precio</th></tr></thead>
+                    <tbody>
+                        ${productos.map(prod => `
+                            <tr><td>${prod.nombre}</td><td>${prod.cantidad}</td><td>RD$ ${Number(prod.precio).toLocaleString()}</td></tr>
+                        `).join('')}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="form-group"><label>Total</label><p style="font-size:1.25rem; font-weight:700; color:#652C83;">RD$ ${Number(p.total).toLocaleString()}</p></div>
+    `;
+    document.getElementById('pedidoModal').classList.add('open');
+}
+
+function closePedidoModal() {
+    document.getElementById('pedidoModal').classList.remove('open');
+}
 
 // ============================================================
 // TOAST

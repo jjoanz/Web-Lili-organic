@@ -44,76 +44,76 @@
         </div>
         
         <div class="checkout-form">
-            <form id="checkoutForm">
-                <h3 style="margin-bottom: 1.5rem;">Información de Contacto</h3>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Nombre Completo *</label>
-                        <input type="text" required placeholder="Tu nombre">
-                    </div>
-                    <div class="form-group">
-                        <label>Teléfono *</label>
-                        <input type="tel" required placeholder="809-xxx-xxxx">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Email *</label>
-                    <input type="email" required placeholder="tu@email.com">
-                </div>
-
-                <h3 style="margin: 2rem 0 1.5rem;">Dirección de Envío</h3>
-                <div class="form-group">
-                    <label>Dirección Completa *</label>
-                    <input type="text" required placeholder="Calle, número, edificio, apartamento">
-                </div>
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label>Ciudad *</label>
-                        <input type="text" required>
-                    </div>
-                    <div class="form-group">
-                        <label>Provincia *</label>
-                        <select required>
-                            <option value="">Seleccionar</option>
-                            <option>Santo Domingo</option>
-                            <option>Santiago</option>
-                            <option>La Romana</option>
-                            <option>San Cristóbal</option>
-                            <option>Otra</option>
-                        </select>
-                    </div>
-                </div>
-
-                <h3 style="margin: 2rem 0 1.5rem;">Método de Pago</h3>
-                <div class="payment-methods">
-                    <label class="payment-method">
-                        <input type="radio" name="payment" value="transfer" checked>
-                        <div>
-                            <strong><i class="fas fa-university"></i> Transferencia Bancaria</strong>
-                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Recibirás los datos bancarios por email</p>
-                        </div>
-                    </label>
-                    <label class="payment-method">
-                        <input type="radio" name="payment" value="link">
-                        <div>
-                            <strong><i class="fas fa-credit-card"></i> Link de Pago (Tarjeta)</strong>
-                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Te enviaremos un link seguro para pagar</p>
-                        </div>
-                    </label>
-                    <label class="payment-method">
-                        <input type="radio" name="payment" value="delivery">
-                        <div>
-                            <strong><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</strong>
-                            <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Paga en efectivo al recibir tu pedido</p>
-                        </div>
-                    </label>
-                </div>
-
-                <button type="submit" class="btn btn-primary btn-lg" style="width: 100%; margin-top: 2rem;">
-                    <i class="fas fa-check-circle"></i> Confirmar Pedido
-                </button>
-            </form>
+    <form id="checkoutForm">
+        <h3 style="margin-bottom: 1.5rem;">Información de Contacto</h3>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Nombre Completo *</label>
+                <input type="text" id="nombre" required placeholder="Tu nombre">
+            </div>
+            <div class="form-group">
+                <label>Teléfono *</label>
+                <input type="tel" id="telefono" required placeholder="809-xxx-xxxx">
+            </div>
         </div>
+        <div class="form-group">
+            <label>Email *</label>
+            <input type="email" id="email" required placeholder="tu@email.com">
+        </div>
+
+        <h3 style="margin: 2rem 0 1.5rem;">Dirección de Envío</h3>
+        <div class="form-group">
+            <label>Dirección Completa *</label>
+            <input type="text" id="direccion" required placeholder="Calle, número, edificio, apartamento">
+        </div>
+        <div class="form-grid">
+            <div class="form-group">
+                <label>Ciudad *</label>
+                <input type="text" id="ciudad" required>
+            </div>
+            <div class="form-group">
+                <label>Provincia *</label>
+                <select id="provincia" required>
+                    <option value="">Seleccionar</option>
+                    <option>Santo Domingo</option>
+                    <option>Santiago</option>
+                    <option>La Romana</option>
+                    <option>San Cristóbal</option>
+                    <option>Otra</option>
+                </select>
+            </div>
+        </div>
+
+        <h3 style="margin: 2rem 0 1.5rem;">Método de Pago</h3>
+        <div class="payment-methods">
+            <label class="payment-method">
+                <input type="radio" name="payment" value="transfer" checked>
+                <div>
+                    <strong><i class="fas fa-university"></i> Transferencia Bancaria</strong>
+                    <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Recibirás los datos bancarios por email</p>
+                </div>
+            </label>
+            <label class="payment-method">
+                <input type="radio" name="payment" value="link">
+                <div>
+                    <strong><i class="fas fa-credit-card"></i> Link de Pago (Tarjeta)</strong>
+                    <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Te enviaremos un link seguro para pagar</p>
+                </div>
+            </label>
+            <label class="payment-method">
+                <input type="radio" name="payment" value="delivery">
+                <div>
+                    <strong><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</strong>
+                    <p style="font-size: 0.875rem; color: var(--color-gray); margin-top: 0.5rem;">Paga en efectivo al recibir tu pedido</p>
+                </div>
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" id="btnConfirmarPedido" style="width: 100%; margin-top: 2rem;">
+            <i class="fas fa-check-circle"></i> Confirmar Pedido
+        </button>
+    </form>
+</div>
     </section>
 
     <footer class="footer">
@@ -147,27 +147,101 @@
 
     <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
     
-    <script src="asents/JS/supabase-api.js"></script>
-    <script src="asents/JS/cart.js"></script>
-    <script src="asents/JS/main.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', loadCartItems);
-        document.getElementById('checkoutForm')?.addEventListener('submit', (e) => {
-            e.preventDefault();
+   <script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+    
+
+    document.addEventListener('DOMContentLoaded', loadCartItems);
+
+    // Selección visual del método de pago
+    document.querySelectorAll('.payment-method').forEach(method => {
+        method.addEventListener('click', function() {
+            document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
+            this.classList.add('selected');
+            this.querySelector('input').checked = true;
+        });
+    });
+    document.querySelector('.payment-method').classList.add('selected');
+
+    document.getElementById('checkoutForm')?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const cart = getCart();
+        if (cart.length === 0) {
+            alert('Tu carrito está vacío.');
+            return;
+        }
+
+        const { total } = calculateTotals();
+        const metodoPago = document.querySelector('input[name="payment"]:checked').value;
+
+        const pedido = {
+            nombre: document.getElementById('nombre').value.trim(),
+            telefono: document.getElementById('telefono').value.trim(),
+            email: document.getElementById('email').value.trim(),
+            direccion: document.getElementById('direccion').value.trim(),
+            ciudad: document.getElementById('ciudad').value.trim(),
+            provincia: document.getElementById('provincia').value,
+            metodo_pago: metodoPago,
+            productos: cart.map(item => ({
+                id: item.id,
+                nombre: item.name,
+                precio: item.price,
+                cantidad: item.quantity
+            })),
+            total: total,
+            estado: 'pendiente'
+        };
+
+        const btn = document.getElementById('btnConfirmarPedido');
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+        try {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/pedidos`, {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': 'application/json',
+                    'Prefer': 'return=minimal'
+                },
+                body: JSON.stringify(pedido)
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Error al guardar el pedido');
+            }
+
+            // Intento de notificación por email (aún no configurado, no bloquea el flujo)
+            try {
+                await fetch(`${SUPABASE_URL}/functions/v1/enviar-notificacion`, {
+                    method: 'POST',
+                    headers: {
+                        'apikey': SUPABASE_KEY,
+                        'Authorization': `Bearer ${SUPABASE_KEY}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(pedido)
+                });
+            } catch (emailError) {
+                console.warn('No se pudo enviar la notificación por email:', emailError);
+            }
+
             alert('¡Pedido confirmado! Recibirás un email con los detalles de tu orden.');
             clearCart();
             window.location.href = 'index.html';
-        });
-        
-        // Hacer que los métodos de pago se vean seleccionados
-        document.querySelectorAll('.payment-method').forEach(method => {
-            method.addEventListener('click', function() {
-                document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('selected'));
-                this.classList.add('selected');
-                this.querySelector('input').checked = true;
-            });
-        });
-        document.querySelector('.payment-method').classList.add('selected');
-    </script>
+
+        } catch (error) {
+            console.error('Error al procesar el pedido:', error);
+            alert('Hubo un problema al procesar tu pedido. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar Pedido';
+        }
+    });
+</script>
 </body>
 </html>
