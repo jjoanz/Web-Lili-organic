@@ -1,163 +1,253 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacto - Lili Organic</title>
-    <link rel="stylesheet" href="asents/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contacto — Lili Organic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:var(--ivory); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:1.1rem 3rem; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(253,251,248,.94); backdrop-filter:blur(6px); z-index:50;}
+  .nav-logo img{height:42px; width:auto;}
+  .nav-links{display:flex; gap:2rem; font-size:.83rem; font-weight:600;}
+  .nav-links a{opacity:.7; transition:opacity .2s;}
+  .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
+  .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  .cart-dot{position:relative;}
+  .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
+
+  .page-header{max-width:1200px; margin:0 auto; padding:3rem 3rem 0; text-align:center;}
+  .eyebrow{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.5rem;}
+  .page-header h1{font-family:'Playfair Display',serif; font-weight:700; font-size:2.2rem;}
+  .page-header p{color:#5c5460; margin-top:.75rem; max-width:44ch; margin-left:auto; margin-right:auto;}
+
+  .contact-wrap{max-width:1200px; margin:0 auto; padding:3rem 3rem 5rem; display:grid; grid-template-columns:.85fr 1.15fr; gap:3rem;}
+
+  .info-card{background:#fff; border:1px solid var(--line); border-radius:1.2rem; padding:2rem;}
+  .info-item{display:flex; gap:1rem; align-items:flex-start; margin-bottom:1.5rem;}
+  .info-item:last-child{margin-bottom:0;}
+  .info-icon{width:44px; height:44px; border-radius:50%; background:#F5EEF7; color:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .info-item h4{font-size:.9rem; margin-bottom:.2rem;}
+  .info-item p{font-size:.85rem; color:#5c5460;}
+  .social-row{display:flex; gap:.75rem; margin-top:1.75rem;}
+  .social-link{width:40px; height:40px; border-radius:50%; background:var(--ink); color:#fff; display:flex; align-items:center; justify-content:center; transition:background .2s;}
+  .social-link:hover{background:var(--purple);}
+
+  .form-card{background:#fff; border:1px solid var(--line); border-radius:1.2rem; padding:2rem;}
+  .form-card h3{font-family:'Playfair Display',serif; font-size:1.3rem; margin-bottom:1.5rem;}
+  .form-group{margin-bottom:1.1rem;}
+  .form-group label{display:block; font-size:.8rem; font-weight:600; margin-bottom:.4rem;}
+  .form-group input, .form-group textarea{width:100%; padding:.75rem 1rem; border:2px solid var(--line); border-radius:.6rem; font-family:inherit; font-size:.85rem; transition:border .2s;}
+  .form-group input:focus, .form-group textarea:focus{outline:none; border-color:var(--purple);}
+  .form-group textarea{resize:vertical; min-height:110px;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  .btn-submit{width:100%; padding:.9rem; border-radius:.7rem; background:var(--purple); color:#fff; border:none; font-weight:600; font-size:.9rem; cursor:pointer; transition:background .2s; margin-top:.5rem;}
+  .btn-submit:hover{background:var(--purple-deep);}
+  .btn-submit:disabled{opacity:.6; cursor:not-allowed;}
+  .form-msg{font-size:.82rem; margin-top:.9rem; min-height:1.2em;}
+
+  .faq-section{max-width:900px; margin:0 auto; padding:0 3rem 5rem;}
+  .faq-section h2{font-family:'Playfair Display',serif; font-weight:700; font-size:1.6rem; text-align:center; margin-bottom:2rem;}
+  .faq-item{border-bottom:1px solid var(--line); padding:1.2rem 0;}
+  .faq-q{display:flex; justify-content:space-between; align-items:center; cursor:pointer; font-weight:600; font-size:.92rem;}
+  .faq-q i{transition:transform .2s; color:var(--purple);}
+  .faq-item.open .faq-q i{transform:rotate(45deg);}
+  .faq-a{max-height:0; overflow:hidden; transition:max-height .25s ease; font-size:.85rem; color:#5c5460; line-height:1.6;}
+  .faq-item.open .faq-a{max-height:200px; padding-top:.8rem;}
+
+  footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
+
+  .toast{position:fixed; bottom:2rem; right:2rem; padding:1rem 1.5rem; border-radius:.75rem; color:#fff; font-weight:600; font-size:.875rem; display:flex; align-items:center; gap:.75rem; box-shadow:0 4px 20px rgba(0,0,0,.2); transform:translateY(100px); opacity:0; transition:all .3s; z-index:9999;}
+  .toast.show{transform:translateY(0); opacity:1;}
+  .toast-success{background:#38a169;}
+  .toast-error{background:#e53e3e;}
+
+  @media(max-width:900px){
+    .contact-wrap{grid-template-columns:1fr;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+    .nav{padding:1rem 1.5rem;}
+    .page-header, .contact-wrap, .faq-section{padding-left:1.5rem; padding-right:1.5rem;}
+    .form-row{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo"><img src="asents/logo.svg.png" alt="Lili Organic"></a>
-            <nav class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="tienda.html" class="nav-link">Tienda</a>
-                <a href="nosotros.html" class="nav-link">Nosotros</a>
-                <a href="beneficios.html" class="nav-link">Beneficios</a>
-                <a href="contacto.html" class="nav-link active">Contacto</a>
-                
-            </nav>
-            <div class="nav-actions">
-                <a href="carrito.html" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
-            </div>
-        </div>
-    </header>
 
-    <section class="section" style="margin-top: calc(var(--header-height) + 2rem);">
-        <div class="container">
-            <h1 class="section-title">Contáctanos</h1>
-            <p class="section-subtitle">¿Tienes preguntas? Estamos aquí para ayudarte</p>
-            
-            <div class="contact-grid">
-                <div class="contact-info">
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-phone"></i></div>
-                        <div>
-                            <h3>Teléfono</h3>
-                            <p>829-210-1162</p>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">Lun - Vie: 9:00 AM - 6:00 PM</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-envelope"></i></div>
-                        <div>
-                            <h3>Email</h3>
-                            <p>info@liliorganic.com</p>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">Respuesta en 24 horas</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fas fa-map-marker-alt"></i></div>
-                        <div>
-                            <h3>Ubicación</h3>
-                            <p>Santo Domingo</p>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">República Dominicana</p>
-                        </div>
-                    </div>
-                    
-                    <div class="contact-item">
-                        <div class="contact-icon"><i class="fab fa-instagram"></i></div>
-                        <div>
-                            <h3>Redes Sociales</h3>
-                            <p>@liliorganic</p>
-                            <div style="display: flex; gap: 1rem; margin-top: 1rem;">
-                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-instagram" style="font-size: 1.5rem;"></i></a>
-                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-facebook-f" style="font-size: 1.5rem;"></i></a>
-                                <a href="#" style="color: var(--color-primary);"><i class="fab fa-whatsapp" style="font-size: 1.5rem;"></i></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div>
-                    <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md);">
-                        <h2 style="margin-bottom: 1.5rem;">Envíanos un Mensaje</h2>
-                        <form id="contactForm">
-                            <div class="form-group">
-                                <label>Nombre Completo *</label>
-                                <input type="text" required placeholder="Tu nombre">
-                            </div>
-                            <div class="form-group">
-                                <label>Email *</label>
-                                <input type="email" required placeholder="tu@email.com">
-                            </div>
-                            <div class="form-group">
-                                <label>Teléfono</label>
-                                <input type="tel" placeholder="809-xxx-xxxx">
-                            </div>
-                            <div class="form-group">
-                                <label>Asunto *</label>
-                                <select required>
-                                    <option value="">Seleccionar</option>
-                                    <option>Consulta de Producto</option>
-                                    <option>Problema con Pedido</option>
-                                    <option>Sugerencia</option>
-                                    <option>Otro</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Mensaje *</label>
-                                <textarea required rows="5" placeholder="Escribe tu mensaje aquí..."></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary btn-lg" style="width: 100%;">
-                                <i class="fas fa-paper-plane"></i> Enviar Mensaje
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Inicio</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="beneficios.html">Beneficios</a>
+    <a href="contacto.html" class="on">Contacto</a>
+  </div>
+  <div class="nav-icons">
+    <a href="carrito.html" class="cart-dot">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="badge-count" id="cartCount">0</span>
+    </a>
+    <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+  </div>
+</nav>
 
-    <section class="section" style="background: var(--color-gray-light);">
-        <div class="container">
-            <h2 class="section-title">Preguntas Frecuentes</h2>
-            <div style="max-width: 800px; margin: 0 auto;">
-                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
-                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Los productos son 100% naturales?</h3>
-                    <p style="color: var(--color-gray-dark);">Sí, todos nuestros productos están formulados con ingredientes naturales y orgánicos, sin parabenos, sulfatos ni químicos dañinos.</p>
-                </div>
-                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
-                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Hacen envíos a todo el país?</h3>
-                    <p style="color: var(--color-gray-dark);">Sí, enviamos a toda la República Dominicana. Envío gratis en compras mayores a RD$ 2,000.</p>
-                </div>
-                <div style="margin-bottom: 1.5rem; background: white; padding: 1.5rem; border-radius: 0.5rem; box-shadow: var(--shadow-sm);">
-                    <h3 style="color: var(--color-primary); margin-bottom: 0.5rem;">¿Cuánto tiempo tarda en verse resultados?</h3>
-                    <p style="color: var(--color-gray-dark);">La mayoría de nuestras clientas reportan cambios visibles en 2-4 semanas de uso constante.</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="page-header">
+  <div class="eyebrow">Hablemos</div>
+  <h1>Contáctanos</h1>
+  <p>¿Tienes dudas sobre un producto o tu pedido? Escríbenos, con gusto te ayudamos.</p>
+</div>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section"><h3>Lili Organic</h3><p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p></div>
-                <div class="footer-section"><h3>Enlaces</h3><div class="footer-links"><a href="index.html">Inicio</a><a href="tienda.html">Tienda</a></div></div>
-                <div class="footer-section"><h3>Contacto</h3><p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2025 Lili Organic.</p></div>
-        </div>
-    </footer>
+<section class="contact-wrap">
+  <div class="info-card">
+    <div class="info-item">
+      <div class="info-icon"><i class="fas fa-phone"></i></div>
+      <div><h4>Teléfono</h4><p>829-210-1162</p></div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon"><i class="fas fa-envelope"></i></div>
+      <div><h4>Email</h4><p>info@liliorganic.com</p></div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+      <div><h4>Ubicación</h4><p>Santo Domingo, República Dominicana</p></div>
+    </div>
+    <div class="info-item">
+      <div class="info-icon"><i class="fas fa-clock"></i></div>
+      <div><h4>Horario</h4><p>Lunes a Sábado, 9:00 AM - 6:00 PM</p></div>
+    </div>
+    <div class="social-row">
+      <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+      <a href="#" class="social-link"><i class="fab fa-whatsapp"></i></a>
+    </div>
+  </div>
 
-    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-    <script src="js/cart.js"></script>
-    <script src="js/main.js"></script>
-    <script>
-        document.getElementById('contactForm').addEventListener('submit', (e) => {
-            e.preventDefault();
-            showNotification('¡Mensaje enviado! Te contactaremos pronto.', 'success');
-            e.target.reset();
-        });
-    </script>
+  <div class="form-card">
+    <h3>Envíanos un mensaje</h3>
+    <form id="contactForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre *</label>
+          <input type="text" id="cNombre" required placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Teléfono</label>
+          <input type="tel" id="cTelefono" placeholder="809-xxx-xxxx">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email *</label>
+        <input type="email" id="cEmail" required placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>Mensaje *</label>
+        <textarea id="cMensaje" required placeholder="¿En qué te podemos ayudar?"></textarea>
+      </div>
+      <button type="submit" class="btn-submit" id="contactBtn">
+        <i class="fas fa-paper-plane"></i> Enviar Mensaje
+      </button>
+      <div class="form-msg" id="contactMsg"></div>
+    </form>
+  </div>
+</section>
+
+<section class="faq-section">
+  <h2>Preguntas Frecuentes</h2>
+  <div id="faqList"></div>
+</section>
+
+<footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ============================================================
+// FORMULARIO DE CONTACTO
+// ============================================================
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('contactBtn');
+  const msg = document.getElementById('contactMsg');
+
+  const payload = {
+    nombre: document.getElementById('cNombre').value.trim(),
+    email: document.getElementById('cEmail').value.trim(),
+    telefono: document.getElementById('cTelefono').value.trim() || null,
+    mensaje: document.getElementById('cMensaje').value.trim()
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/mensajes_contacto`, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      msg.textContent = '¡Gracias! Te responderemos lo antes posible.';
+      msg.style.color = '#38a169';
+      document.getElementById('contactForm').reset();
+    } else {
+      msg.textContent = 'Hubo un problema, intenta de nuevo o escríbenos por WhatsApp.';
+      msg.style.color = '#e53e3e';
+    }
+  } catch (err) {
+    msg.textContent = 'Error de conexión.';
+    msg.style.color = '#e53e3e';
+  }
+
+  btn.disabled = false;
+  btn.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar Mensaje';
+});
+
+// ============================================================
+// FAQ (genérico, editable aquí mismo en el array)
+// ============================================================
+const faqs = [
+  { q: '¿Cuáles son los métodos de pago disponibles?', a: 'Aceptamos transferencia bancaria, link de pago con tarjeta, y pago contra entrega dentro de República Dominicana.' },
+  { q: '¿Cuánto tiempo tarda mi pedido en llegar?', a: 'Los pedidos dentro de Santo Domingo suelen entregarse en 1-3 días laborables. Para el interior del país, de 3-5 días laborables.' },
+  { q: '¿Tienen envío gratis?', a: 'Sí, el envío es gratis en compras mayores a RD$2,000. Compras menores tienen un costo de envío fijo.' },
+  { q: '¿Puedo cambiar o devolver un producto?', a: 'Aceptamos cambios dentro de los primeros 7 días si el producto está sellado y sin usar. Escríbenos para coordinar el cambio.' },
+  { q: '¿Los productos son aptos para todo tipo de cabello?', a: 'Tenemos línea para distintas necesidades: anticaída, hidratación, control de grasa, reparación y más — revisa la descripción de cada producto en la tienda.' }
+];
+
+document.getElementById('faqList').innerHTML = faqs.map((f, i) => `
+  <div class="faq-item" data-idx="${i}">
+    <div class="faq-q">${f.q} <i class="fas fa-plus"></i></div>
+    <div class="faq-a">${f.a}</div>
+  </div>
+`).join('');
+
+document.querySelectorAll('.faq-item').forEach(item => {
+  item.querySelector('.faq-q').addEventListener('click', () => {
+    item.classList.toggle('open');
+  });
+});
+</script>
+
 </body>
 </html>

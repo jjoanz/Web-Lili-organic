@@ -1,131 +1,283 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - Lili Organic</title>
-    <link rel="stylesheet" href="asents/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tienda — Lili Organic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:var(--ivory); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+
+  /* NAV (igual a index.html) */
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:1.1rem 3rem; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(253,251,248,.94); backdrop-filter:blur(6px); z-index:50;}
+  .nav-logo img{height:42px; width:auto;}
+  .nav-links{display:flex; gap:2rem; font-size:.83rem; font-weight:600;}
+  .nav-links a{opacity:.7; transition:opacity .2s;}
+  .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
+  .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  .cart-dot{position:relative;}
+  .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
+
+  .page-header{max-width:1400px; margin:0 auto; padding:2.5rem 3rem 0;}
+  .eyebrow{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.5rem;}
+  .page-header h1{font-family:'Playfair Display',serif; font-weight:700; font-size:2rem;}
+
+  .shop{display:grid; grid-template-columns:240px 1fr; gap:2.5rem; max-width:1400px; margin:0 auto; padding:1.5rem 3rem 5rem;}
+
+  .filters h3{font-size:.7rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink); font-weight:700; margin:1.75rem 0 .9rem;}
+  .filters h3:first-child{margin-top:0;}
+  .filter-group{display:flex; flex-direction:column; gap:.6rem;}
+  .filter-item{display:flex; align-items:center; justify-content:space-between; font-size:.85rem; color:#5c5460; cursor:pointer; padding:.15rem 0; transition:color .15s; background:none; border:none; text-align:left; width:100%; font-family:inherit;}
+  .filter-item:hover, .filter-item.active{color:var(--purple); font-weight:600;}
+  .filter-item span.count{font-size:.7rem; color:#a99fb0; font-weight:500;}
+  .filter-item.active span.count{color:var(--purple);}
+  .filter-divider{height:1px; background:var(--line); margin:1.5rem 0 0;}
+
+  .grid-header{display:flex; justify-content:space-between; align-items:center; margin-bottom:1.5rem; flex-wrap:wrap; gap:1rem;}
+  .grid-header h2{font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:700;}
+  .grid-header p{font-size:.8rem; color:#8a8090;}
+  .sort-select, .search-input{padding:.55rem 1rem; border:1.5px solid var(--line); border-radius:.6rem; font-family:inherit; font-size:.8rem; font-weight:600; background:#fff; color:var(--ink);}
+  .search-input{width:100%; margin-bottom:1.5rem; font-weight:500;}
+
+  .product-grid{display:grid; grid-template-columns:repeat(3, 1fr); gap:1.5rem;}
+  .card{background:var(--card); border-radius:1.1rem; overflow:hidden; border:1px solid var(--line); transition:box-shadow .25s, transform .25s; display:flex; flex-direction:column;}
+  .card:hover{box-shadow:0 18px 40px rgba(101,44,131,.13); transform:translateY(-3px);}
+  .card-media{aspect-ratio:1/1; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.9rem; text-align:center; padding:1rem; background:#E8E2D8;}
+  .card-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .card-badge{position:absolute; top:.8rem; left:.8rem; z-index:2; background:var(--coral); color:#fff; font-size:.7rem; font-weight:800; letter-spacing:.03em; padding:.4rem .7rem; border-radius:.5rem; box-shadow:0 6px 16px rgba(192,79,76,.3);}
+  .card-body{padding:1.1rem 1.2rem 1.3rem; display:flex; flex-direction:column; gap:.5rem; flex:1;}
+  .card-cat{font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--sage); font-weight:700;}
+  .card-name{font-family:'Playfair Display',serif; font-weight:700; font-size:1.02rem; line-height:1.25;}
+  .card-footer{display:flex; align-items:center; justify-content:space-between; margin-top:auto; padding-top:.6rem;}
+  .price-wrap{display:flex; flex-direction:column;}
+  .card-price-old{font-size:.78rem; color:#a99fb0; text-decoration:line-through;}
+  .card-price{font-family:'Playfair Display',serif; font-weight:800; font-size:1.25rem; color:var(--coral);}
+  .card-price.no-discount{color:var(--purple);}
+  .add-btn{width:38px; height:38px; border-radius:50%; background:var(--ink); color:#fff; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:background .2s; flex-shrink:0;}
+  .add-btn:hover{background:var(--purple);}
+  .out-stock{font-size:.7rem; color:#e53e3e; font-weight:700; margin-top:.2rem;}
+
+  .empty-block{grid-column:1/-1; text-align:center; padding:3rem; color:#a99fb0; font-size:.9rem;}
+
+  footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
+
+  .toast{position:fixed; bottom:2rem; right:2rem; padding:1rem 1.5rem; border-radius:.75rem; color:#fff; font-weight:600; font-size:.875rem; display:flex; align-items:center; gap:.75rem; box-shadow:0 4px 20px rgba(0,0,0,.2); transform:translateY(100px); opacity:0; transition:all .3s; z-index:9999;}
+  .toast.show{transform:translateY(0); opacity:1;}
+  .toast-success{background:#38a169;}
+
+  @media(max-width:960px){
+    .shop{grid-template-columns:1fr;}
+    .filters{display:flex; flex-wrap:wrap; gap:1rem;}
+    .filters h3{width:100%; margin-top:1rem;}
+    .product-grid{grid-template-columns:repeat(2,1fr);}
+    .nav{padding:1rem 1.5rem;}
+    .page-header, .shop{padding-left:1.5rem; padding-right:1.5rem;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+    .product-grid{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo"><img src="asents/logo.svg.png" alt="Lili Organic"></a>
-            <nav class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="tienda.html" class="nav-link active">Tienda</a>
-                <a href="nosotros.html" class="nav-link">Nosotros</a>
-                <a href="beneficios.html" class="nav-link">Beneficios</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-            </nav>
-            <div class="nav-actions">
-                <i class="fas fa-search nav-icon" id="searchBtn"></i>
-                <a href="carrito.html" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
-            </div>
+
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Inicio</a>
+    <a href="tienda.html" class="on">Tienda</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="beneficios.html">Beneficios</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <div class="nav-icons">
+    <a href="carrito.html" class="cart-dot">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="badge-count" id="cartCount">0</span>
+    </a>
+    <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+  </div>
+</nav>
+
+<div class="page-header">
+  <div class="eyebrow">Cat&aacute;logo completo</div>
+  <h1>Nuestros Productos</h1>
+</div>
+
+<section class="shop">
+  <aside class="filters">
+    <h3>Categor&iacute;a</h3>
+    <div class="filter-group" id="catFilters">
+      <button class="filter-item active" data-cat="all">Todas <span class="count" id="count-all">-</span></button>
+    </div>
+
+    <div class="filter-divider"></div>
+    <h3>Ordenar</h3>
+    <select class="sort-select" id="sortSelect" style="width:100%;">
+      <option value="destacado">Destacados</option>
+      <option value="precio-asc">Precio: menor a mayor</option>
+      <option value="precio-desc">Precio: mayor a menor</option>
+      <option value="nombre">Nombre A-Z</option>
+    </select>
+  </aside>
+
+  <div>
+    <input type="text" class="search-input" id="searchInput" placeholder="Buscar producto...">
+    <div class="grid-header">
+      <div>
+        <h2 id="resultTitle">Todos los productos</h2>
+        <p id="resultCount">Cargando...</p>
+      </div>
+    </div>
+    <div class="product-grid" id="productGrid">
+      <div class="empty-block"><i class="fas fa-spinner fa-spin"></i> Cargando productos...</div>
+    </div>
+  </div>
+</section>
+
+<footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+function localToast(msg) {
+  const toast = document.getElementById('toast');
+  toast.className = 'toast toast-success show';
+  toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
+  setTimeout(() => toast.classList.remove('show'), 2500);
+}
+
+const catNames = {
+  'shampoo':'Shampoos','acondicionador':'Acondicionadores','tratamiento':'Tratamientos',
+  'serum':'Sueros & Aceites','combo':'Combos','cuidado-personal':'Cuidado Personal'
+};
+
+let allProducts = [];
+let currentCat = 'all';
+let currentSort = 'destacado';
+let currentSearch = '';
+
+// leer categoría desde la URL (para los links de "necesidades" del home)
+const urlParams = new URLSearchParams(window.location.search);
+if (urlParams.get('categoria')) currentCat = urlParams.get('categoria');
+
+async function loadTiendaProducts() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/productos?activo=eq.true&order=id.asc`,
+      { headers: HEADERS }
+    );
+    allProducts = await res.json();
+    buildCategoryFilters();
+    renderGrid();
+  } catch (err) {
+    document.getElementById('productGrid').innerHTML = '<div class="empty-block">Error al cargar los productos.</div>';
+  }
+}
+
+function buildCategoryFilters() {
+  const cats = [...new Set(allProducts.map(p => p.categoria))];
+  const container = document.getElementById('catFilters');
+
+  document.getElementById('count-all').textContent = allProducts.length;
+
+  container.innerHTML = `<button class="filter-item ${currentCat === 'all' ? 'active' : ''}" data-cat="all">Todas <span class="count">${allProducts.length}</span></button>` +
+    cats.map(c => {
+      const count = allProducts.filter(p => p.categoria === c).length;
+      return `<button class="filter-item ${currentCat === c ? 'active' : ''}" data-cat="${c}">${catNames[c] || c} <span class="count">${count}</span></button>`;
+    }).join('');
+
+  container.querySelectorAll('.filter-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      currentCat = btn.dataset.cat;
+      container.querySelectorAll('.filter-item').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderGrid();
+    });
+  });
+}
+
+function renderGrid() {
+  let filtered = allProducts.filter(p => currentCat === 'all' || p.categoria === currentCat);
+
+  if (currentSearch) {
+    const s = currentSearch.toLowerCase();
+    filtered = filtered.filter(p =>
+      p.nombre.toLowerCase().includes(s) || (p.descripcion || '').toLowerCase().includes(s)
+    );
+  }
+
+  if (currentSort === 'precio-asc') filtered.sort((a,b) => a.precio - b.precio);
+  if (currentSort === 'precio-desc') filtered.sort((a,b) => b.precio - a.precio);
+  if (currentSort === 'nombre') filtered.sort((a,b) => a.nombre.localeCompare(b.nombre));
+
+  document.getElementById('resultTitle').textContent = currentCat === 'all' ? 'Todos los productos' : (catNames[currentCat] || currentCat);
+  document.getElementById('resultCount').textContent = `${filtered.length} producto${filtered.length !== 1 ? 's' : ''}`;
+
+  const grid = document.getElementById('productGrid');
+
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-block">No se encontraron productos con estos filtros.</div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(p => {
+    const tieneDescuento = p.precio_normal && Number(p.precio_normal) > Number(p.precio);
+    return `
+    <div class="card">
+      <div class="card-media">
+        ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
+        ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" onerror="this.style.display='none'">` : p.nombre}
+      </div>
+      <div class="card-body">
+        <div class="card-cat">${catNames[p.categoria] || p.categoria}</div>
+        <div class="card-name">${p.nombre}</div>
+        ${p.stock <= 0 ? '<div class="out-stock">Agotado</div>' : ''}
+        <div class="card-footer">
+          <div class="price-wrap">
+            ${tieneDescuento ? `<span class="card-price-old">RD$ ${Number(p.precio_normal).toLocaleString('es-DO')}</span>` : ''}
+            <span class="card-price ${tieneDescuento ? '' : 'no-discount'}">RD$ ${Number(p.precio).toLocaleString('es-DO')}</span>
+          </div>
+          <button class="add-btn" onclick="addToCart('${p.id}')" ${p.stock <= 0 ? 'disabled style="opacity:.4;cursor:not-allowed;"' : ''}>
+            <i class="fas fa-plus"></i>
+          </button>
         </div>
-    </header>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-    <section class="section" style="margin-top: calc(var(--header-height) + 2rem);">
-        <div class="container">
-            <h1 class="section-title">Nuestra Tienda</h1>
-            <p class="section-subtitle">Explora nuestra colección completa de productos naturales para el cuidado capilar</p>
-            
-            <div class="shop-filters">
-                <div class="filters-row">
-                    <div class="filter-group">
-                        <label>Buscar</label>
-                        <div class="search-box">
-                            <input type="text" id="searchInput" placeholder="Buscar productos...">
-                            <button><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-                    <div class="filter-group">
-                        <label>Categoría</label>
-                        <select id="categoryFilter">
-                            <option value="all">Todas las categorías</option>
-                            <option value="shampoo">Shampoos</option>
-                            <option value="acondicionador">Acondicionadores</option>
-                            <option value="tratamiento">Tratamientos</option>
-                            <option value="serum">Sueros</option>
-                            <option value="combo">Combos</option>
-                            <option value="cuidado-personal">Cuidado Personal</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Precio</label>
-                        <select id="priceFilter">
-                            <option value="all">Todos los precios</option>
-                            <option value="0-500">RD$ 0 - 500</option>
-                            <option value="500-800">RD$ 500 - 800</option>
-                            <option value="800-1000">RD$ 800 - 1,000</option>
-                            <option value="1000-2000">RD$ 1,000 - 2,000</option>
-                            <option value="2000+">RD$ 2,000+</option>
-                        </select>
-                    </div>
-                    <div class="filter-group">
-                        <label>Ordenar por</label>
-                        <select id="sortFilter">
-                            <option value="default">Destacados</option>
-                            <option value="price-low">Precio: Bajo a Alto</option>
-                            <option value="price-high">Precio: Alto a Bajo</option>
-                            <option value="name">Nombre A-Z</option>
-                            <option value="popular">Más Populares</option>
-                        </select>
-                    </div>
-                </div>
-            </div>
+document.getElementById('sortSelect').addEventListener('change', (e) => {
+  currentSort = e.target.value;
+  renderGrid();
+});
 
-            <div class="products-count" id="productsCount"></div>
-            <div class="products-grid" id="productsGrid"></div>
-        </div>
-    </section>
+document.getElementById('searchInput').addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  renderGrid();
+});
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Lili Organic</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad para el cuidado capilar</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Enlaces</h3>
-                    <div class="footer-links">
-                        <a href="index.html">Inicio</a>
-                        <a href="tienda.html">Tienda</a>
-                        <a href="nosotros.html">Nosotros</a>
-                        <a href="beneficios.html">Beneficios</a>
-                        <a href="contacto.html">Contacto</a>
-                    </div>
-                </div>
-                <div class="footer-section">
-                    <h3>Contacto</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com<br>📍 Santo Domingo, República Dominicana</p>
-                </div>
-                <div class="footer-section">
-                    <h3>Síguenos</h3>
-                    <div class="social-links">
-                        <a href="#" class="social-link" title="Instagram"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link" title="Facebook"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link" title="WhatsApp"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="footer-bottom">
-                <p>&copy; 2025 Lili Organic. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
+document.addEventListener('DOMContentLoaded', loadTiendaProducts);
+</script>
 
-    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-    
-   <script src="asents/JS/supabase-api.js"></script>
-    <script src="asents/JS/cart.js"></script>
-    <script src="asents/JS/main.js"></script>
-    <script src="asents/JS/shop.js"></script>
 </body>
 </html>

@@ -239,6 +239,13 @@
             outline: none; border-color: #652C83;
         }
         .form-group textarea { resize: vertical; min-height: 80px; }
+        .form-check {
+            display: flex; align-items: center; gap: 0.6rem;
+            padding: 0.75rem 1rem; border: 2px solid #e0e0e0; border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        .form-check input { width: auto; }
+        .form-hint { font-size: 0.75rem; color: #999; margin-top: 0.35rem; }
 
         /* IMAGEN UPLOAD */
         .image-upload-area {
@@ -282,6 +289,9 @@
             margin: 0 auto 1rem;
         }
         @keyframes spin { to { transform: rotate(360deg); } }
+
+        .stars-input { display: flex; gap: 0.4rem; font-size: 1.3rem; color: #d0d0d0; cursor: pointer; }
+        .stars-input i.active { color: #d69e2e; }
 
         @media (max-width: 768px) {
             .sidebar { width: 100%; height: auto; position: relative; }
@@ -333,6 +343,24 @@
             </div>
             <div class="menu-item" onclick="showPanel('pedidos')">
                 <i class="fas fa-clipboard-list"></i> Pedidos
+            </div>
+            <div class="menu-item" onclick="showPanel('valores')">
+                <i class="fas fa-medal"></i> Valores de Marca
+            </div>
+            <div class="menu-item" onclick="showPanel('testimonios')">
+                <i class="fas fa-comment-dots"></i> Testimonios
+            </div>
+            <div class="menu-item" onclick="showPanel('newsletter')">
+                <i class="fas fa-envelope"></i> Newsletter
+            </div>
+            <div class="menu-item" onclick="showPanel('imagenes')">
+                <i class="fas fa-images"></i> Imágenes del Sitio
+            </div>
+            <div class="menu-item" onclick="showPanel('mensajes')">
+                <i class="fas fa-inbox"></i> Mensajes de Contacto
+            </div>
+            <div class="menu-item" onclick="showPanel('bancario')">
+                <i class="fas fa-university"></i> Datos Bancarios
             </div>
             <div class="menu-item" onclick="window.open('tienda.html', '_blank')">
                 <i class="fas fa-store"></i> Ver Tienda
@@ -400,46 +428,200 @@
         </div>
 
         <!-- PANEL PEDIDOS -->
-<div class="panel" id="panel-pedidos">
-    <div class="panel-header">
-        <h2>Todos los Pedidos</h2>
-    </div>
+        <div class="panel" id="panel-pedidos">
+            <div class="panel-header">
+                <h2>Todos los Pedidos</h2>
+            </div>
 
-    <div class="stats-grid" style="margin-bottom: 1.5rem;">
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#652C83"><i class="fas fa-clipboard-list"></i></div>
-            <div class="stat-info"><h3 id="statPedidosTotal">-</h3><p>Total Pedidos</p></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#d69e2e"><i class="fas fa-clock"></i></div>
-            <div class="stat-info"><h3 id="statPedidosPendientes">-</h3><p>Pendientes</p></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#3182ce"><i class="fas fa-check"></i></div>
-            <div class="stat-info"><h3 id="statPedidosConfirmados">-</h3><p>Confirmados</p></div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon" style="background:#38a169"><i class="fas fa-truck"></i></div>
-            <div class="stat-info"><h3 id="statPedidosDespachados">-</h3><p>Despachados</p></div>
-        </div>
-    </div>
+            <div class="stats-grid" style="margin-bottom: 1.5rem;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#652C83"><i class="fas fa-clipboard-list"></i></div>
+                    <div class="stat-info"><h3 id="statPedidosTotal">-</h3><p>Total Pedidos</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#d69e2e"><i class="fas fa-clock"></i></div>
+                    <div class="stat-info"><h3 id="statPedidosPendientes">-</h3><p>Pendientes</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#3182ce"><i class="fas fa-check"></i></div>
+                    <div class="stat-info"><h3 id="statPedidosConfirmados">-</h3><p>Confirmados</p></div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#38a169"><i class="fas fa-truck"></i></div>
+                    <div class="stat-info"><h3 id="statPedidosDespachados">-</h3><p>Despachados</p></div>
+                </div>
+            </div>
 
-    <div class="search-bar">
-        <input type="text" id="pedidosSearch" placeholder="Buscar por nombre, email o teléfono..." oninput="filterPedidos()">
-        <select id="pedidosEstadoFilter" onchange="filterPedidos()">
-            <option value="all">Todos los estados</option>
-            <option value="pendiente">Pendiente</option>
-            <option value="confirmado">Confirmado</option>
-            <option value="despachado">Despachado</option>
-        </select>
-    </div>
+            <div class="search-bar">
+                <input type="text" id="pedidosSearch" placeholder="Buscar por nombre, email o teléfono..." oninput="filterPedidos()">
+                <select id="pedidosEstadoFilter" onchange="filterPedidos()">
+                    <option value="all">Todos los estados</option>
+                    <option value="pendiente">Pendiente</option>
+                    <option value="confirmado">Confirmado</option>
+                    <option value="despachado">Despachado</option>
+                </select>
+            </div>
 
-    <div class="table-wrapper">
-        <div id="pedidosTableContainer">
-            <div class="loading"><div class="spinner"></div><p>Cargando pedidos...</p></div>
+            <div class="table-wrapper">
+                <div id="pedidosTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando pedidos...</p></div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+        <!-- PANEL VALORES DE MARCA -->
+        <div class="panel" id="panel-valores">
+            <div class="panel-header">
+                <h2>Valores de Marca</h2>
+                <button class="btn btn-primary" onclick="openValorModal()">
+                    <i class="fas fa-plus"></i> Nuevo Valor
+                </button>
+            </div>
+            <p style="color:#999; font-size:0.85rem; margin-bottom:1.5rem;">
+                Estas son las insignias que aparecen en la sección "Lo que hay detrás de cada fórmula" de la página de inicio.
+            </p>
+            <div class="table-wrapper">
+                <div id="valoresTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando valores...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL TESTIMONIOS -->
+        <div class="panel" id="panel-testimonios">
+            <div class="panel-header">
+                <h2>Testimonios</h2>
+                <button class="btn btn-primary" onclick="openTestimonioModal()">
+                    <i class="fas fa-plus"></i> Nuevo Testimonio
+                </button>
+            </div>
+            <p style="color:#999; font-size:0.85rem; margin-bottom:1.5rem;">
+                Solo los testimonios marcados como "Activo" se muestran en la página de inicio.
+            </p>
+            <div class="table-wrapper">
+                <div id="testimoniosTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando testimonios...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL NEWSLETTER -->
+        <div class="panel" id="panel-newsletter">
+            <div class="panel-header">
+                <h2>Suscriptores del Newsletter</h2>
+                <button class="btn btn-outline" onclick="exportNewsletter()">
+                    <i class="fas fa-download"></i> Exportar CSV
+                </button>
+            </div>
+            <div class="stats-grid" style="grid-template-columns: 1fr; margin-bottom:1.5rem;">
+                <div class="stat-card">
+                    <div class="stat-icon" style="background:#652C83"><i class="fas fa-envelope"></i></div>
+                    <div class="stat-info"><h3 id="statNewsletterTotal">-</h3><p>Total Suscriptores</p></div>
+                </div>
+            </div>
+            <div class="table-wrapper">
+                <div id="newsletterTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando suscriptores...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL IMÁGENES DEL SITIO -->
+        <div class="panel" id="panel-imagenes">
+            <div class="panel-header">
+                <h2>Imágenes del Sitio</h2>
+            </div>
+            <p style="color:#999; font-size:0.85rem; margin-bottom:1.5rem;">
+                Sube aquí las fotos que aparecen en la página de inicio. Se reemplazan al instante en el sitio en vivo.
+            </p>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                <div style="background:white; padding:1.5rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="font-size:1rem; margin-bottom:1rem;">Foto del Hero (portada)</h3>
+                    <img id="previewHeroImg" src="" style="width:100%; max-height:220px; object-fit:cover; border-radius:0.5rem; margin-bottom:1rem; display:none;">
+                    <div class="image-upload-area">
+                        <input type="file" accept="image/*" onchange="uploadSiteImage(this, 'hero_image', 'previewHeroImg')">
+                        <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p class="image-upload-text">Haz clic o arrastra la foto del hero aquí</p>
+                    </div>
+                </div>
+                <div style="background:white; padding:1.5rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="font-size:1rem; margin-bottom:1rem;">Foto de Ingredientes</h3>
+                    <img id="previewIngredientesImg" src="" style="width:100%; max-height:220px; object-fit:cover; border-radius:0.5rem; margin-bottom:1rem; display:none;">
+                    <div class="image-upload-area">
+                        <input type="file" accept="image/*" onchange="uploadSiteImage(this, 'ingredientes_image', 'previewIngredientesImg')">
+                        <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p class="image-upload-text">Haz clic o arrastra la foto de ingredientes aquí</p>
+                    </div>
+                </div>
+                <div style="background:white; padding:1.5rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                    <h3 style="font-size:1rem; margin-bottom:1rem;">Foto de "Nosotros" (Por qué elegirnos)</h3>
+                    <img id="previewAboutImg" src="" style="width:100%; max-height:220px; object-fit:cover; border-radius:0.5rem; margin-bottom:1rem; display:none;">
+                    <div class="image-upload-area">
+                        <input type="file" accept="image/*" onchange="uploadSiteImage(this, 'about_image', 'previewAboutImg')">
+                        <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p class="image-upload-text">Haz clic o arrastra la foto de Nosotros aquí</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL MENSAJES DE CONTACTO -->
+        <div class="panel" id="panel-mensajes">
+            <div class="panel-header">
+                <h2>Mensajes de Contacto</h2>
+            </div>
+            <div class="table-wrapper">
+                <div id="mensajesTableContainer">
+                    <div class="loading"><div class="spinner"></div><p>Cargando mensajes...</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PANEL DATOS BANCARIOS -->
+        <div class="panel" id="panel-bancario">
+            <div class="panel-header">
+                <h2>Datos Bancarios (Transferencia)</h2>
+            </div>
+            <p style="color:#999; font-size:0.85rem; margin-bottom:1.5rem;">
+                Esta información se muestra al cliente en el checkout cuando elige "Transferencia Bancaria".
+            </p>
+            <div style="background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:600px;">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Banco *</label>
+                        <input type="text" id="bancoNombre" placeholder="Ej: Banco Popular">
+                    </div>
+                    <div class="form-group">
+                        <label>Tipo de Cuenta</label>
+                        <select id="bancoTipo">
+                            <option value="Ahorros">Ahorros</option>
+                            <option value="Corriente">Corriente</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Titular de la Cuenta *</label>
+                    <input type="text" id="bancoTitular" placeholder="Ej: Industria Garli SRL">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Número de Cuenta *</label>
+                        <input type="text" id="bancoCuenta" placeholder="000-000000-0">
+                    </div>
+                    <div class="form-group">
+                        <label>RNC / Cédula</label>
+                        <input type="text" id="bancoCedula" placeholder="000-0000000-0">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Nota adicional (opcional)</label>
+                    <textarea id="bancoNota" placeholder="Ej: Envía tu comprobante por WhatsApp también al 829-210-1162"></textarea>
+                </div>
+                <button class="btn btn-success" onclick="saveDatosBancarios()">
+                    <i class="fas fa-save"></i> Guardar Datos Bancarios
+                </button>
+            </div>
+        </div>
 
         <!-- PANEL NUEVO PRODUCTO -->
         <div class="panel" id="panel-nuevo">
@@ -471,25 +653,46 @@
                     <label>Descripción</label>
                     <textarea id="newDescripcion" placeholder="Describe el producto..."></textarea>
                 </div>
+                <div class="form-group">
+                    <label>Ingredientes</label>
+                    <textarea id="newIngredientes" placeholder="Ej: Aloe vera, keratina, aceite de coco..."></textarea>
+                </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Precio (RD$) *</label>
+                        <label>Precio de Oferta (RD$) *</label>
                         <input type="number" id="newPrecio" placeholder="900">
+                        <p class="form-hint">Es el precio que paga el cliente hoy.</p>
                     </div>
                     <div class="form-group">
-                        <label>Stock *</label>
-                        <input type="number" id="newStock" placeholder="0">
+                        <label>Precio Normal (RD$)</label>
+                        <input type="number" id="newPrecioNormal" placeholder="Opcional">
+                        <p class="form-hint">Déjalo vacío si no hay descuento. Si lo llenas, se muestra tachado.</p>
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
+                        <label>Stock *</label>
+                        <input type="number" id="newStock" placeholder="0">
+                    </div>
+                    <div class="form-group">
                         <label>Badge (opcional)</label>
                         <input type="text" id="newBadge" placeholder="Ej: Más Vendido, Nuevo">
                     </div>
-                    <div class="form-group">
-                        <label>Modo de Uso (opcional)</label>
-                        <input type="text" id="newUso" placeholder="Instrucciones de uso">
-                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Modo de Uso (opcional)</label>
+                    <input type="text" id="newUso" placeholder="Instrucciones de uso">
+                </div>
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox" id="newEsKit" onchange="toggleKitField('new')">
+                        Este producto es un Kit / Combo
+                    </label>
+                </div>
+                <div class="form-group" id="newKitIncluyeWrap" style="display:none;">
+                    <label>¿Qué incluye el kit?</label>
+                    <textarea id="newKitIncluye" placeholder="Ej: Shampoo + Mascarilla + Gotero anticaída"></textarea>
+                    <p class="form-hint">Texto libre, se muestra tal cual en la tarjeta del kit.</p>
                 </div>
                 <div class="form-group">
                     <label>Imagen del Producto</label>
@@ -513,7 +716,7 @@
     </div>
 </div>
 
-<!-- MODAL EDITAR -->
+<!-- MODAL EDITAR PRODUCTO -->
 <div class="modal-overlay" id="editModal">
     <div class="modal">
         <div class="modal-header">
@@ -543,25 +746,43 @@
                 <label>Descripción</label>
                 <textarea id="editDescripcion"></textarea>
             </div>
+            <div class="form-group">
+                <label>Ingredientes</label>
+                <textarea id="editIngredientes" placeholder="Ej: Aloe vera, keratina, aceite de coco..."></textarea>
+            </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Precio (RD$)</label>
+                    <label>Precio de Oferta (RD$)</label>
                     <input type="number" id="editPrecio">
                 </div>
                 <div class="form-group">
-                    <label>Stock</label>
-                    <input type="number" id="editStock">
+                    <label>Precio Normal (RD$)</label>
+                    <input type="number" id="editPrecioNormal" placeholder="Opcional">
                 </div>
             </div>
             <div class="form-row">
                 <div class="form-group">
+                    <label>Stock</label>
+                    <input type="number" id="editStock">
+                </div>
+                <div class="form-group">
                     <label>Badge</label>
                     <input type="text" id="editBadge">
                 </div>
-                <div class="form-group">
-                    <label>Modo de Uso</label>
-                    <input type="text" id="editUso">
-                </div>
+            </div>
+            <div class="form-group">
+                <label>Modo de Uso</label>
+                <input type="text" id="editUso">
+            </div>
+            <div class="form-group">
+                <label class="form-check">
+                    <input type="checkbox" id="editEsKit" onchange="toggleKitField('edit')">
+                    Este producto es un Kit / Combo
+                </label>
+            </div>
+            <div class="form-group" id="editKitIncluyeWrap" style="display:none;">
+                <label>¿Qué incluye el kit?</label>
+                <textarea id="editKitIncluye" placeholder="Ej: Shampoo + Mascarilla + Gotero anticaída"></textarea>
             </div>
             <div class="form-group">
                 <label>Imagen del Producto</label>
@@ -594,6 +815,88 @@
         <div class="modal-body" id="pedidoModalBody"></div>
         <div class="modal-footer">
             <button class="btn btn-outline" onclick="closePedidoModal()">Cerrar</button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL VALOR DE MARCA -->
+<div class="modal-overlay" id="valorModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-medal"></i> <span id="valorModalTitle">Nuevo Valor de Marca</span></h3>
+            <button class="modal-close" onclick="closeValorModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="valorId">
+            <div class="form-group">
+                <label>Nombre *</label>
+                <input type="text" id="valorNombre" placeholder="Ej: Ingredientes Naturales">
+            </div>
+            <div class="form-group">
+                <label>Ícono (Font Awesome) *</label>
+                <input type="text" id="valorIcono" placeholder="Ej: fa-leaf">
+                <p class="form-hint">Usa nombres de <a href="https://fontawesome.com/search?o=r&m=free" target="_blank" style="color:#652C83;">Font Awesome</a> tipo "fa-leaf", "fa-flag", "fa-heart".</p>
+            </div>
+            <div class="form-group">
+                <label>Orden</label>
+                <input type="number" id="valorOrden" placeholder="1">
+            </div>
+            <div class="form-group">
+                <label class="form-check">
+                    <input type="checkbox" id="valorActivo" checked>
+                    Activo (visible en la página de inicio)
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeValorModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="saveValor()">
+                <i class="fas fa-save"></i> Guardar
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL TESTIMONIO -->
+<div class="modal-overlay" id="testimonioModal">
+    <div class="modal">
+        <div class="modal-header">
+            <h3><i class="fas fa-comment-dots"></i> <span id="testimonioModalTitle">Nuevo Testimonio</span></h3>
+            <button class="modal-close" onclick="closeTestimonioModal()">&times;</button>
+        </div>
+        <div class="modal-body">
+            <input type="hidden" id="testimonioId">
+            <div class="form-group">
+                <label>Nombre de la clienta *</label>
+                <input type="text" id="testimonioNombre" placeholder="Ej: María Pérez">
+            </div>
+            <div class="form-group">
+                <label>Testimonio *</label>
+                <textarea id="testimonioTexto" placeholder="Escribe la reseña tal como la envió la clienta..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Calificación</label>
+                <div class="stars-input" id="testimonioStars">
+                    <i class="fas fa-star" data-val="1"></i>
+                    <i class="fas fa-star" data-val="2"></i>
+                    <i class="fas fa-star" data-val="3"></i>
+                    <i class="fas fa-star" data-val="4"></i>
+                    <i class="fas fa-star" data-val="5"></i>
+                </div>
+                <input type="hidden" id="testimonioRating" value="5">
+            </div>
+            <div class="form-group">
+                <label class="form-check">
+                    <input type="checkbox" id="testimonioActivo" checked>
+                    Activo (visible en la página de inicio)
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-outline" onclick="closeTestimonioModal()">Cancelar</button>
+            <button class="btn btn-primary" onclick="saveTestimonio()">
+                <i class="fas fa-save"></i> Guardar
+            </button>
         </div>
     </div>
 </div>
@@ -665,12 +968,10 @@ function showDashboard(nombre) {
     loadAdminProducts();
 }
 
-// Enter en login
 document.getElementById('loginPass').addEventListener('keypress', e => {
     if (e.key === 'Enter') handleLogin();
 });
 
-// Auto-login si ya está en sesión
 window.addEventListener('load', () => {
     if (sessionStorage.getItem('adminLogged') === 'true') {
         showDashboard(sessionStorage.getItem('adminName') || 'Admin');
@@ -743,9 +1044,16 @@ function renderTable(products) {
                                  onerror="handleImgError(this, ${p.id})"
                                  alt="${p.nombre}">
                         </td>
-                        <td><strong>${p.nombre}</strong>${p.badge ? `<br><small style="color:#652C83">${p.badge}</small>` : ''}</td>
+                        <td>
+                            <strong>${p.nombre}</strong>
+                            ${p.badge ? `<br><small style="color:#652C83">${p.badge}</small>` : ''}
+                            ${p.es_kit ? `<br><small style="color:#38a169"><i class="fas fa-gift"></i> Kit</small>` : ''}
+                        </td>
                         <td><span class="badge badge-categoria">${catNames[p.categoria] || p.categoria}</span></td>
-                        <td><strong>RD$ ${Number(p.precio).toLocaleString()}</strong></td>
+                        <td>
+                            <strong>RD$ ${Number(p.precio).toLocaleString()}</strong>
+                            ${p.precio_normal ? `<br><small style="color:#999; text-decoration:line-through;">RD$ ${Number(p.precio_normal).toLocaleString()}</small>` : ''}
+                        </td>
                         <td>${p.stock}</td>
                         <td>
                             <span class="badge ${p.activo ? 'badge-active' : 'badge-inactive'}">
@@ -789,6 +1097,14 @@ function filterAdminProducts() {
 }
 
 // ============================================================
+// TOGGLE CAMPO KIT (mostrar/ocultar textarea de "incluye")
+// ============================================================
+function toggleKitField(prefix) {
+    const checked = document.getElementById(`${prefix}EsKit`).checked;
+    document.getElementById(`${prefix}KitIncluyeWrap`).style.display = checked ? 'block' : 'none';
+}
+
+// ============================================================
 // EDITAR PRODUCTO
 // ============================================================
 function openEdit(id) {
@@ -799,10 +1115,15 @@ function openEdit(id) {
     document.getElementById('editNombre').value = p.nombre;
     document.getElementById('editCategoria').value = p.categoria;
     document.getElementById('editDescripcion').value = p.descripcion || '';
+    document.getElementById('editIngredientes').value = p.ingredientes || '';
     document.getElementById('editPrecio').value = p.precio;
+    document.getElementById('editPrecioNormal').value = p.precio_normal || '';
     document.getElementById('editStock').value = p.stock;
     document.getElementById('editBadge').value = p.badge || '';
     document.getElementById('editUso').value = p.uso || '';
+    document.getElementById('editEsKit').checked = !!p.es_kit;
+    document.getElementById('editKitIncluye').value = p.kit_incluye || '';
+    document.getElementById('editKitIncluyeWrap').style.display = p.es_kit ? 'block' : 'none';
 
     const preview = document.getElementById('editImagePreview');
     const placeholder = document.getElementById('editImagePlaceholder');
@@ -842,20 +1163,27 @@ async function saveEdit() {
     const id = parseInt(document.getElementById('editId').value);
     let imagen_url = allAdminProducts.find(p => p.id == id)?.imagen_url || null;
 
-    // Subir imagen si hay una nueva
     if (currentEditFile) {
         imagen_url = await uploadImage(currentEditFile, id);
         if (!imagen_url) return;
     }
 
+    const precioNormalVal = document.getElementById('editPrecioNormal').value;
+
     const updates = {
         nombre: document.getElementById('editNombre').value.trim(),
         categoria: document.getElementById('editCategoria').value,
         descripcion: document.getElementById('editDescripcion').value.trim(),
+        ingredientes: document.getElementById('editIngredientes').value.trim() || null,
         precio: parseFloat(document.getElementById('editPrecio').value),
+        precio_normal: precioNormalVal ? parseFloat(precioNormalVal) : null,
         stock: parseInt(document.getElementById('editStock').value),
         badge: document.getElementById('editBadge').value.trim() || null,
         uso: document.getElementById('editUso').value.trim() || null,
+        es_kit: document.getElementById('editEsKit').checked,
+        kit_incluye: document.getElementById('editEsKit').checked
+            ? document.getElementById('editKitIncluye').value.trim()
+            : null,
         imagen_url
     };
 
@@ -865,8 +1193,6 @@ async function saveEdit() {
             { method: 'PATCH', headers: HEADERS, body: JSON.stringify(updates) }
         );
 
-        const resText = await res.text();
-        console.log('PATCH status:', res.status, 'Response:', resText);
         if (res.ok) {
             showToast('Producto actualizado correctamente', 'success');
             closeModal();
@@ -900,6 +1226,7 @@ async function saveNewProduct() {
     const nombre = document.getElementById('newNombre').value.trim();
     const precio = parseFloat(document.getElementById('newPrecio').value);
     const stock = parseInt(document.getElementById('newStock').value) || 0;
+    const precioNormalVal = document.getElementById('newPrecioNormal').value;
 
     if (!nombre || !precio) {
         showToast('Nombre y precio son obligatorios', 'error');
@@ -910,10 +1237,16 @@ async function saveNewProduct() {
         nombre,
         categoria: document.getElementById('newCategoria').value,
         descripcion: document.getElementById('newDescripcion').value.trim(),
+        ingredientes: document.getElementById('newIngredientes').value.trim() || null,
         precio,
+        precio_normal: precioNormalVal ? parseFloat(precioNormalVal) : null,
         stock,
         badge: document.getElementById('newBadge').value.trim() || null,
         uso: document.getElementById('newUso').value.trim() || null,
+        es_kit: document.getElementById('newEsKit').checked,
+        kit_incluye: document.getElementById('newEsKit').checked
+            ? document.getElementById('newKitIncluye').value.trim()
+            : null,
         activo: true,
         imagen_url: null
     };
@@ -926,7 +1259,6 @@ async function saveNewProduct() {
         const data = await res.json();
 
         if (res.ok && data[0]) {
-            // Subir imagen si hay
             if (newImageFile) {
                 const url = await uploadImage(newImageFile, data[0].id);
                 if (url) {
@@ -947,10 +1279,12 @@ async function saveNewProduct() {
 }
 
 function resetNewForm() {
-    ['newNombre','newDescripcion','newPrecio','newStock','newBadge','newUso'].forEach(id => {
+    ['newNombre','newDescripcion','newIngredientes','newPrecio','newPrecioNormal','newStock','newBadge','newUso','newKitIncluye'].forEach(id => {
         document.getElementById(id).value = '';
     });
     document.getElementById('newCategoria').value = 'shampoo';
+    document.getElementById('newEsKit').checked = false;
+    document.getElementById('newKitIncluyeWrap').style.display = 'none';
     document.getElementById('newImagePreview').style.display = 'none';
     document.getElementById('newImagePlaceholder').style.display = 'block';
     newImageFile = null;
@@ -994,12 +1328,9 @@ async function deleteProduct(id) {
 // ============================================================
 // SUBIR IMAGEN A SUPABASE STORAGE
 // ============================================================
-
 async function uploadImage(file, productId) {
     const ext = file.name.split('.').pop();
     const fileName = `producto-${productId}-${Date.now()}.${ext}`;
-
-    console.log('Subiendo imagen:', fileName);
 
     try {
         const res = await fetch(
@@ -1015,24 +1346,19 @@ async function uploadImage(file, productId) {
             }
         );
 
-        console.log('Storage response status:', res.status);
-
         if (res.ok) {
-            const url = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
-            console.log('URL generada:', url);
-            return url;
+            return `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
         } else {
             const errorData = await res.json();
-            console.error('Storage error:', errorData);
             showToast(`Error: ${errorData.message}`, 'error');
             return null;
         }
     } catch (err) {
-        console.error('Error de red:', err);
         showToast('Error de conexión', 'error');
         return null;
     }
 }
+
 // ============================================================
 // NAVEGACIÓN
 // ============================================================
@@ -1041,15 +1367,222 @@ function showPanel(name) {
     document.querySelectorAll('.menu-item').forEach(m => m.classList.remove('active'));
     document.getElementById(`panel-${name}`).classList.add('active');
 
-    const titles = { productos: 'Productos', nuevo: 'Nuevo Producto', pedidos: 'Pedidos' };
+    const titles = {
+        productos: 'Productos', nuevo: 'Nuevo Producto', pedidos: 'Pedidos',
+        valores: 'Valores de Marca', testimonios: 'Testimonios', newsletter: 'Newsletter',
+        imagenes: 'Imágenes del Sitio', mensajes: 'Mensajes de Contacto', bancario: 'Datos Bancarios'
+    };
     document.getElementById('pageTitle').textContent = titles[name] || name;
 
     const menuItems = document.querySelectorAll('.menu-item');
     if (name === 'productos') menuItems[0].classList.add('active');
     if (name === 'nuevo') menuItems[1].classList.add('active');
     if (name === 'pedidos') menuItems[2].classList.add('active');
+    if (name === 'valores') menuItems[3].classList.add('active');
+    if (name === 'testimonios') menuItems[4].classList.add('active');
+    if (name === 'newsletter') menuItems[5].classList.add('active');
+    if (name === 'imagenes') menuItems[6].classList.add('active');
+    if (name === 'mensajes') menuItems[7].classList.add('active');
+    if (name === 'bancario') menuItems[8].classList.add('active');
 
     if (name === 'pedidos') loadPedidos();
+    if (name === 'valores') loadValores();
+    if (name === 'testimonios') loadTestimonios();
+    if (name === 'newsletter') loadNewsletter();
+    if (name === 'imagenes') loadSiteImages();
+    if (name === 'mensajes') loadMensajes();
+    if (name === 'bancario') loadDatosBancarios();
+}
+
+// ============================================================
+// DATOS BANCARIOS
+// ============================================================
+async function loadDatosBancarios() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_bancarios`, { headers: HEADERS });
+        const rows = await res.json();
+        if (rows.length > 0 && rows[0].valor) {
+            const data = JSON.parse(rows[0].valor);
+            document.getElementById('bancoNombre').value = data.banco || '';
+            document.getElementById('bancoTipo').value = data.tipo || 'Ahorros';
+            document.getElementById('bancoTitular').value = data.titular || '';
+            document.getElementById('bancoCuenta').value = data.cuenta || '';
+            document.getElementById('bancoCedula').value = data.cedula || '';
+            document.getElementById('bancoNota').value = data.nota || '';
+        }
+    } catch (err) {
+        console.error('Error al cargar datos bancarios:', err);
+    }
+}
+
+async function saveDatosBancarios() {
+    const data = {
+        banco: document.getElementById('bancoNombre').value.trim(),
+        tipo: document.getElementById('bancoTipo').value,
+        titular: document.getElementById('bancoTitular').value.trim(),
+        cuenta: document.getElementById('bancoCuenta').value.trim(),
+        cedula: document.getElementById('bancoCedula').value.trim(),
+        nota: document.getElementById('bancoNota').value.trim()
+    };
+
+    if (!data.banco || !data.titular || !data.cuenta) {
+        showToast('Banco, titular y número de cuenta son obligatorios', 'error');
+        return;
+    }
+
+    try {
+        const existing = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_bancarios`, { headers: HEADERS });
+        const existingData = await existing.json();
+
+        const res = existingData.length > 0
+            ? await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_bancarios`, {
+                method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: JSON.stringify(data), updated_at: new Date().toISOString() })
+              })
+            : await fetch(`${SUPABASE_URL}/rest/v1/site_config`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify({ clave: 'datos_bancarios', valor: JSON.stringify(data) })
+              });
+
+        if (res.ok) {
+            showToast('Datos bancarios guardados correctamente', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+// ============================================================
+// MENSAJES DE CONTACTO
+// ============================================================
+async function loadMensajes() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/mensajes_contacto?order=created_at.desc`, { headers: HEADERS });
+        const mensajes = await res.json();
+
+        if (mensajes.length === 0) {
+            document.getElementById('mensajesTableContainer').innerHTML =
+                '<p style="padding:2rem; text-align:center; color:#999;">Aún no hay mensajes.</p>';
+            return;
+        }
+
+        document.getElementById('mensajesTableContainer').innerHTML = `
+            <table>
+                <thead><tr><th>Fecha</th><th>Nombre</th><th>Contacto</th><th>Mensaje</th><th>Estado</th><th>Acciones</th></tr></thead>
+                <tbody>
+                    ${mensajes.map(m => `
+                        <tr>
+                            <td>${new Date(m.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}</td>
+                            <td><strong>${m.nombre}</strong></td>
+                            <td>${m.email}${m.telefono ? '<br><small style="color:#999">' + m.telefono + '</small>' : ''}</td>
+                            <td style="max-width:280px;">${m.mensaje}</td>
+                            <td><span class="badge ${m.leido ? 'badge-active' : 'badge-inactive'}">${m.leido ? 'Leído' : 'Nuevo'}</span></td>
+                            <td>
+                                ${!m.leido ? `<button class="btn btn-primary btn-sm" onclick="marcarLeido(${m.id})"><i class="fas fa-check"></i></button>` : ''}
+                            </td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+    } catch (err) {
+        document.getElementById('mensajesTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar mensajes.</p>';
+    }
+}
+
+async function marcarLeido(id) {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/mensajes_contacto?id=eq.${id}`, {
+            method: 'PATCH', headers: HEADERS, body: JSON.stringify({ leido: true })
+        });
+        if (res.ok) {
+            showToast('Mensaje marcado como leído', 'success');
+            loadMensajes();
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+// ============================================================
+// IMÁGENES DEL SITIO
+// ============================================================
+async function loadSiteImages() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?select=*`, { headers: HEADERS });
+        const rows = await res.json();
+
+        const hero = rows.find(r => r.clave === 'hero_image');
+        const ingredientes = rows.find(r => r.clave === 'ingredientes_image');
+        const about = rows.find(r => r.clave === 'about_image');
+
+        if (hero && hero.valor) {
+            document.getElementById('previewHeroImg').src = hero.valor;
+            document.getElementById('previewHeroImg').style.display = 'block';
+        }
+        if (ingredientes && ingredientes.valor) {
+            document.getElementById('previewIngredientesImg').src = ingredientes.valor;
+            document.getElementById('previewIngredientesImg').style.display = 'block';
+        }
+        if (about && about.valor) {
+            document.getElementById('previewAboutImg').src = about.valor;
+            document.getElementById('previewAboutImg').style.display = 'block';
+        }
+    } catch (err) {
+        console.error('Error al cargar imágenes del sitio:', err);
+    }
+}
+
+async function uploadSiteImage(input, clave, previewId) {
+    if (!input.files || !input.files[0]) return;
+    const file = input.files[0];
+    const ext = file.name.split('.').pop();
+    const fileName = `site-${clave}-${Date.now()}.${ext}`;
+
+    try {
+        const uploadRes = await fetch(
+            `${SUPABASE_URL}/storage/v1/object/productos/${fileName}`,
+            {
+                method: 'POST',
+                headers: {
+                    'apikey': SUPABASE_KEY,
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'Content-Type': file.type
+                },
+                body: file
+            }
+        );
+
+        if (!uploadRes.ok) {
+            showToast('Error al subir la imagen', 'error');
+            return;
+        }
+
+        const url = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
+
+        // Upsert en site_config
+        const existing = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.${clave}`, { headers: HEADERS });
+        const existingData = await existing.json();
+
+        const saveRes = existingData.length > 0
+            ? await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.${clave}`, {
+                method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: url, updated_at: new Date().toISOString() })
+              })
+            : await fetch(`${SUPABASE_URL}/rest/v1/site_config`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify({ clave, valor: url })
+              });
+
+        if (saveRes.ok) {
+            document.getElementById(previewId).src = url;
+            document.getElementById(previewId).style.display = 'block';
+            showToast('Imagen actualizada correctamente', 'success');
+        } else {
+            showToast('Error al guardar la imagen', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
 }
 
 // ============================================================
@@ -1090,7 +1623,6 @@ function renderPedidosTable(pedidos) {
     }
 
     const pagoNames = { transfer: 'Transferencia', link: 'Link de Pago', delivery: 'Contra Entrega' };
-    const estadoBadge = { pendiente: 'badge-inactive', confirmado: 'badge-categoria', despachado: 'badge-active' };
 
     document.getElementById('pedidosTableContainer').innerHTML = `
         <table>
@@ -1111,7 +1643,7 @@ function renderPedidosTable(pedidos) {
                         <td>${new Date(p.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}</td>
                         <td><strong>${p.nombre}</strong><br><small style="color:#999">${p.ciudad}, ${p.provincia}</small></td>
                         <td>${p.telefono}<br><small style="color:#999">${p.email}</small></td>
-                        <td><span class="badge badge-categoria">${pagoNames[p.metodo_pago] || p.metodo_pago}</span></td>
+                        <td><span class="badge badge-categoria">${pagoNames[p.metodo_pago] || p.metodo_pago}</span>${p.comprobante_url ? ' <i class="fas fa-paperclip" style="color:#38a169;" title="Comprobante adjunto"></i>' : ''}</td>
                         <td><strong>RD$ ${Number(p.total).toLocaleString()}</strong></td>
                         <td>
                             <select onchange="updateEstadoPedido(${p.id}, this.value)" style="padding:0.4rem 0.6rem; border-radius:0.5rem; border:2px solid #e0e0e0; font-family:inherit; font-size:0.8rem;">
@@ -1181,6 +1713,15 @@ function viewPedido(id) {
         </div>
         <div class="form-group"><label>Dirección</label><p>${p.direccion}, ${p.ciudad}, ${p.provincia}</p></div>
         <div class="form-group"><label>Método de Pago</label><p>${pagoNames[p.metodo_pago] || p.metodo_pago}</p></div>
+        ${p.comprobante_url ? `
+        <div class="form-group">
+            <label>Comprobante de Pago</label>
+            <a href="${p.comprobante_url}" target="_blank">
+                <img src="${p.comprobante_url}" style="max-width:100%; max-height:300px; border-radius:0.5rem; border:2px solid #e0e0e0; cursor:pointer;" alt="Comprobante">
+            </a>
+            <p style="margin-top:0.4rem;"><a href="${p.comprobante_url}" target="_blank" style="color:#652C83; font-size:0.8rem;"><i class="fas fa-external-link-alt"></i> Ver en tamaño completo</a></p>
+        </div>
+        ` : p.metodo_pago === 'transfer' ? '<div class="form-group"><label>Comprobante de Pago</label><p style="color:#e53e3e; font-size:0.85rem;">El cliente no adjuntó comprobante todavía.</p></div>' : ''}
         <div class="form-group">
             <label>Productos</label>
             <div class="table-wrapper">
@@ -1204,9 +1745,296 @@ function closePedidoModal() {
 }
 
 // ============================================================
-// TOAST
+// VALORES DE MARCA
 // ============================================================
+let allValores = [];
 
+async function loadValores() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/valores_marca?order=orden.asc`, { headers: HEADERS });
+        allValores = await res.json();
+        renderValoresTable();
+    } catch (err) {
+        document.getElementById('valoresTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar valores.</p>';
+    }
+}
+
+function renderValoresTable() {
+    if (allValores.length === 0) {
+        document.getElementById('valoresTableContainer').innerHTML =
+            '<p style="padding:2rem; text-align:center; color:#999;">Aún no hay valores de marca. Agrega el primero.</p>';
+        return;
+    }
+
+    document.getElementById('valoresTableContainer').innerHTML = `
+        <table>
+            <thead><tr><th>Orden</th><th>Ícono</th><th>Nombre</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody>
+                ${allValores.map(v => `
+                    <tr>
+                        <td>${v.orden}</td>
+                        <td><i class="fas ${v.icono}" style="color:#652C83; font-size:1.1rem;"></i></td>
+                        <td><strong>${v.nombre}</strong></td>
+                        <td><span class="badge ${v.activo ? 'badge-active' : 'badge-inactive'}">${v.activo ? 'Activo' : 'Inactivo'}</span></td>
+                        <td style="display:flex; gap:0.5rem;">
+                            <button class="btn btn-primary btn-sm" onclick="openValorModal(${v.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteValor(${v.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+function openValorModal(id = null) {
+    const modal = document.getElementById('valorModal');
+    if (id) {
+        const v = allValores.find(x => x.id === id);
+        document.getElementById('valorModalTitle').textContent = 'Editar Valor de Marca';
+        document.getElementById('valorId').value = v.id;
+        document.getElementById('valorNombre').value = v.nombre;
+        document.getElementById('valorIcono').value = v.icono;
+        document.getElementById('valorOrden').value = v.orden;
+        document.getElementById('valorActivo').checked = v.activo;
+    } else {
+        document.getElementById('valorModalTitle').textContent = 'Nuevo Valor de Marca';
+        document.getElementById('valorId').value = '';
+        document.getElementById('valorNombre').value = '';
+        document.getElementById('valorIcono').value = '';
+        document.getElementById('valorOrden').value = allValores.length + 1;
+        document.getElementById('valorActivo').checked = true;
+    }
+    modal.classList.add('open');
+}
+
+function closeValorModal() {
+    document.getElementById('valorModal').classList.remove('open');
+}
+
+async function saveValor() {
+    const id = document.getElementById('valorId').value;
+    const payload = {
+        nombre: document.getElementById('valorNombre').value.trim(),
+        icono: document.getElementById('valorIcono').value.trim(),
+        orden: parseInt(document.getElementById('valorOrden').value) || 0,
+        activo: document.getElementById('valorActivo').checked
+    };
+
+    if (!payload.nombre || !payload.icono) {
+        showToast('Nombre e ícono son obligatorios', 'error');
+        return;
+    }
+
+    try {
+        const res = id
+            ? await fetch(`${SUPABASE_URL}/rest/v1/valores_marca?id=eq.${id}`, { method: 'PATCH', headers: HEADERS, body: JSON.stringify(payload) })
+            : await fetch(`${SUPABASE_URL}/rest/v1/valores_marca`, { method: 'POST', headers: HEADERS, body: JSON.stringify(payload) });
+
+        if (res.ok) {
+            showToast('Valor de marca guardado', 'success');
+            closeValorModal();
+            loadValores();
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+async function deleteValor(id) {
+    if (!confirm('¿Eliminar este valor de marca?')) return;
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/valores_marca?id=eq.${id}`, { method: 'DELETE', headers: HEADERS });
+        if (res.ok) {
+            showToast('Valor eliminado', 'success');
+            loadValores();
+        }
+    } catch (err) {
+        showToast('Error al eliminar', 'error');
+    }
+}
+
+// ============================================================
+// TESTIMONIOS
+// ============================================================
+let allTestimonios = [];
+
+async function loadTestimonios() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?order=created_at.desc`, { headers: HEADERS });
+        allTestimonios = await res.json();
+        renderTestimoniosTable();
+    } catch (err) {
+        document.getElementById('testimoniosTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar testimonios.</p>';
+    }
+}
+
+function renderTestimoniosTable() {
+    if (allTestimonios.length === 0) {
+        document.getElementById('testimoniosTableContainer').innerHTML =
+            '<p style="padding:2rem; text-align:center; color:#999;">Aún no hay testimonios. Agrega el primero.</p>';
+        return;
+    }
+
+    document.getElementById('testimoniosTableContainer').innerHTML = `
+        <table>
+            <thead><tr><th>Cliente</th><th>Testimonio</th><th>Rating</th><th>Estado</th><th>Acciones</th></tr></thead>
+            <tbody>
+                ${allTestimonios.map(t => `
+                    <tr>
+                        <td><strong>${t.nombre}</strong></td>
+                        <td style="max-width:300px;">${t.texto.length > 80 ? t.texto.slice(0,80) + '…' : t.texto}</td>
+                        <td>${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</td>
+                        <td><span class="badge ${t.activo ? 'badge-active' : 'badge-inactive'}">${t.activo ? 'Activo' : 'Inactivo'}</span></td>
+                        <td style="display:flex; gap:0.5rem;">
+                            <button class="btn btn-primary btn-sm" onclick="openTestimonioModal(${t.id})"><i class="fas fa-edit"></i></button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteTestimonio(${t.id})"><i class="fas fa-trash"></i></button>
+                        </td>
+                    </tr>
+                `).join('')}
+            </tbody>
+        </table>
+    `;
+}
+
+function setStars(val) {
+    document.getElementById('testimonioRating').value = val;
+    document.querySelectorAll('#testimonioStars i').forEach(star => {
+        star.classList.toggle('active', parseInt(star.dataset.val) <= val);
+    });
+}
+
+document.querySelectorAll('#testimonioStars i').forEach(star => {
+    star.addEventListener('click', () => setStars(parseInt(star.dataset.val)));
+});
+
+function openTestimonioModal(id = null) {
+    const modal = document.getElementById('testimonioModal');
+    if (id) {
+        const t = allTestimonios.find(x => x.id === id);
+        document.getElementById('testimonioModalTitle').textContent = 'Editar Testimonio';
+        document.getElementById('testimonioId').value = t.id;
+        document.getElementById('testimonioNombre').value = t.nombre;
+        document.getElementById('testimonioTexto').value = t.texto;
+        document.getElementById('testimonioActivo').checked = t.activo;
+        setStars(t.rating);
+    } else {
+        document.getElementById('testimonioModalTitle').textContent = 'Nuevo Testimonio';
+        document.getElementById('testimonioId').value = '';
+        document.getElementById('testimonioNombre').value = '';
+        document.getElementById('testimonioTexto').value = '';
+        document.getElementById('testimonioActivo').checked = true;
+        setStars(5);
+    }
+    modal.classList.add('open');
+}
+
+function closeTestimonioModal() {
+    document.getElementById('testimonioModal').classList.remove('open');
+}
+
+async function saveTestimonio() {
+    const id = document.getElementById('testimonioId').value;
+    const payload = {
+        nombre: document.getElementById('testimonioNombre').value.trim(),
+        texto: document.getElementById('testimonioTexto').value.trim(),
+        rating: parseInt(document.getElementById('testimonioRating').value) || 5,
+        activo: document.getElementById('testimonioActivo').checked
+    };
+
+    if (!payload.nombre || !payload.texto) {
+        showToast('Nombre y testimonio son obligatorios', 'error');
+        return;
+    }
+
+    try {
+        const res = id
+            ? await fetch(`${SUPABASE_URL}/rest/v1/testimonios?id=eq.${id}`, { method: 'PATCH', headers: HEADERS, body: JSON.stringify(payload) })
+            : await fetch(`${SUPABASE_URL}/rest/v1/testimonios`, { method: 'POST', headers: HEADERS, body: JSON.stringify(payload) });
+
+        if (res.ok) {
+            showToast('Testimonio guardado', 'success');
+            closeTestimonioModal();
+            loadTestimonios();
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+async function deleteTestimonio(id) {
+    if (!confirm('¿Eliminar este testimonio?')) return;
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/testimonios?id=eq.${id}`, { method: 'DELETE', headers: HEADERS });
+        if (res.ok) {
+            showToast('Testimonio eliminado', 'success');
+            loadTestimonios();
+        }
+    } catch (err) {
+        showToast('Error al eliminar', 'error');
+    }
+}
+
+// ============================================================
+// NEWSLETTER
+// ============================================================
+async function loadNewsletter() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers?order=created_at.desc`, { headers: HEADERS });
+        const subs = await res.json();
+        document.getElementById('statNewsletterTotal').textContent = subs.length;
+
+        if (subs.length === 0) {
+            document.getElementById('newsletterTableContainer').innerHTML =
+                '<p style="padding:2rem; text-align:center; color:#999;">Aún no hay suscriptores.</p>';
+            return;
+        }
+
+        document.getElementById('newsletterTableContainer').innerHTML = `
+            <table>
+                <thead><tr><th>Email</th><th>Fecha de suscripción</th></tr></thead>
+                <tbody>
+                    ${subs.map(s => `
+                        <tr>
+                            <td>${s.email}</td>
+                            <td>${new Date(s.created_at).toLocaleDateString('es-DO')}</td>
+                        </tr>
+                    `).join('')}
+                </tbody>
+            </table>
+        `;
+        window._newsletterData = subs;
+    } catch (err) {
+        document.getElementById('newsletterTableContainer').innerHTML =
+            '<p style="padding:2rem; color:red;">Error al cargar suscriptores.</p>';
+    }
+}
+
+function exportNewsletter() {
+    const subs = window._newsletterData || [];
+    if (subs.length === 0) {
+        showToast('No hay suscriptores para exportar', 'error');
+        return;
+    }
+    const csv = 'email,fecha\n' + subs.map(s => `${s.email},${s.created_at}`).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'newsletter_lili_organic.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+}
+
+// ============================================================
+// UTILIDADES
+// ============================================================
 function handleImgError(img, id) {
     img.onerror = null;
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="50" height="50">

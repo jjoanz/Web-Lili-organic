@@ -1,119 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Beneficios - Lili Organic</title>
-    <link rel="stylesheet" href="asents/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Beneficios — Lili Organic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:var(--ivory); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:1.1rem 3rem; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(253,251,248,.94); backdrop-filter:blur(6px); z-index:50;}
+  .nav-logo img{height:42px; width:auto;}
+  .nav-links{display:flex; gap:2rem; font-size:.83rem; font-weight:600;}
+  .nav-links a{opacity:.7; transition:opacity .2s;}
+  .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
+  .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  .cart-dot{position:relative;}
+  .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
+
+  section{max-width:1200px; margin:0 auto; padding:4rem 3rem;}
+  .eyebrow{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.6rem;}
+
+  .page-header{text-align:center; padding-bottom:1rem;}
+  .page-header h1{font-family:'Playfair Display',serif; font-weight:700; font-size:2.2rem;}
+  .page-header p{color:#5c5460; margin-top:.75rem; max-width:52ch; margin-left:auto; margin-right:auto;}
+
+  .benefits-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:1rem;}
+  .benefit-card{background:#fff; border:1px solid var(--line); border-radius:1.2rem; padding:2rem 1.75rem;}
+  .benefit-icon{width:52px; height:52px; border-radius:50%; background:#F5EEF7; color:var(--purple); display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1.1rem;}
+  .benefit-card h3{font-family:'Playfair Display',serif; font-size:1.05rem; margin-bottom:.6rem;}
+  .benefit-card p{font-size:.85rem; color:#5c5460; line-height:1.6;}
+
+  .split{display:grid; grid-template-columns:.9fr 1.1fr; gap:3rem; align-items:center;}
+  .split-visual{aspect-ratio:1/1; border-radius:1.5rem; background:#E8E2D8;}
+  .split h2{font-family:'Playfair Display',serif; font-weight:700; font-size:1.7rem; margin-bottom:1rem;}
+  .split p{color:#5c5460; line-height:1.75; margin-bottom:1rem; font-size:.95rem;}
+  .split ul{list-style:none; margin-top:1rem;}
+  .split ul li{display:flex; align-items:flex-start; gap:.7rem; margin-bottom:.8rem; font-size:.88rem; color:#5c5460;}
+  .split ul li i{color:var(--sage); margin-top:.2rem;}
+
+  .cta-block{background:var(--ink); color:#fff; border-radius:1.75rem; padding:3.5rem; text-align:center;}
+  .cta-block h2{font-family:'Playfair Display',serif; font-size:1.8rem; margin-bottom:.7rem;}
+  .cta-block p{opacity:.8; margin-bottom:1.75rem; font-size:.9rem;}
+  .btn{padding:.9rem 1.8rem; border-radius:2rem; font-weight:600; font-size:.85rem; border:2px solid transparent; cursor:pointer; display:inline-flex; align-items:center; gap:.5rem; background:var(--coral); color:#fff; transition:background .2s;}
+  .btn:hover{background:#a83f3c;}
+
+  footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
+
+  @media(max-width:960px){
+    .benefits-grid{grid-template-columns:repeat(2,1fr);}
+    .split{grid-template-columns:1fr;}
+    section{padding:3rem 1.5rem;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+    .nav{padding:1rem 1.5rem;}
+    .benefits-grid{grid-template-columns:1fr;}
+  }
+</style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo"><img src="asents/logo.svg.png" alt="Lili Organic"></a>
-            <nav class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="tienda.html" class="nav-link">Tienda</a>
-                <a href="nosotros.html" class="nav-link">Nosotros</a>
-                <a href="beneficios.html" class="nav-link active">Beneficios</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-               
-            </nav>
-            <div class="nav-actions">
-                <a href="carrito.html" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
-            </div>
-        </div>
-    </header>
 
-    <section class="about-hero">
-        <div class="container">
-            <h1 class="section-title">Beneficios de Nuestros Productos</h1>
-            <p style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; color: var(--color-gray-dark);">
-                Descubre cómo nuestros productos naturales pueden transformar tu cabello
-            </p>
-        </div>
-    </section>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Inicio</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="beneficios.html" class="on">Beneficios</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <div class="nav-icons">
+    <a href="carrito.html" class="cart-dot">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="badge-count" id="cartCount">0</span>
+    </a>
+    <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+  </div>
+</nav>
 
-    <section class="section">
-        <div class="container">
-            <div class="grid grid-3">
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-seedling"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Ingredientes Naturales</h3>
-                    <p style="color: var(--color-gray-dark);">Formulados con extractos botánicos orgánicos sin químicos dañinos ni parabenos</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-secondary), #D65F5C); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Reduce la Caída</h3>
-                    <p style="color: var(--color-gray-dark);">Fortalece desde la raíz y reduce la caída hasta en un 80% en 3 meses</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Estimula el Crecimiento</h3>
-                    <p style="color: var(--color-gray-dark);">Activa los folículos pilosos y acelera el crecimiento capilar naturalmente</p>
-                </div>
+<section class="page-header">
+  <div class="eyebrow">Cuidado capilar natural</div>
+  <h1>Beneficios de lo natural</h1>
+  <p>Por qué elegir fórmulas naturales marca la diferencia en la salud de tu cabello a largo plazo.</p>
+</section>
 
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-secondary), #D65F5C); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-tint"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Hidratación Profunda</h3>
-                    <p style="color: var(--color-gray-dark);">Nutre e hidrata intensamente desde la raíz hasta las puntas</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Brillo y Suavidad</h3>
-                    <p style="color: var(--color-gray-dark);">Devuelve el brillo natural y la sedosidad a tu cabello</p>
-                </div>
-                
-                <div style="background: white; padding: 2rem; border-radius: 1rem; box-shadow: var(--shadow-md); text-align: center;">
-                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, var(--color-secondary), #D65F5C); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; font-size: 2rem; color: white;">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3 style="margin-bottom: 1rem;">Protección Total</h3>
-                    <p style="color: var(--color-gray-dark);">Protege contra el daño ambiental, sol y herramientas de calor</p>
-                </div>
-            </div>
-        </div>
-    </section>
+<section style="padding-top:0;">
+  <div class="benefits-grid">
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-leaf"></i></div>
+      <h3>Nutrición profunda</h3>
+      <p>Los ingredientes naturales aportan vitaminas y nutrientes que penetran la fibra capilar, fortaleciendo el cabello desde la raíz.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+      <h3>Menos agresión al cuero cabelludo</h3>
+      <p>Fórmulas suaves que respetan el equilibrio natural del cuero cabelludo, reduciendo irritación y resequedad.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-sun"></i></div>
+      <h3>Adaptadas al clima dominicano</h3>
+      <p>Pensadas para la humedad y el calor del Caribe: controlan el frizz y mantienen el cabello manejable todo el día.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-seedling"></i></div>
+      <h3>Fortalece y previene la caída</h3>
+      <p>Activos que estimulan el folículo capilar, ayudando a reducir la caída y favorecer un crecimiento más saludable.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-tint"></i></div>
+      <h3>Hidratación duradera</h3>
+      <p>Sella la humedad en la fibra capilar, dejando el cabello suave, brillante y con menos frizz por más tiempo.</p>
+    </div>
+    <div class="benefit-card">
+      <div class="benefit-icon"><i class="fas fa-heart"></i></div>
+      <h3>Para todo tipo de cabello</h3>
+      <p>Ya sea rizado, liso, ondulado o con tratamientos químicos, hay una fórmula Lili Organic pensada para ti.</p>
+    </div>
+  </div>
+</section>
 
-    <section class="section" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: white; text-align: center;">
-        <div class="container">
-            <h2 style="font-family: var(--font-secondary); font-size: 2.5rem; margin-bottom: 1.5rem;">¿Lista para Ver Resultados?</h2>
-            <p style="font-size: 1.125rem; margin-bottom: 2rem; opacity: 0.9;">Prueba nuestros productos naturales y transforma tu cabello en 30 días</p>
-            <a href="tienda.html" class="btn btn-secondary btn-lg">Comprar Ahora</a>
-        </div>
-    </section>
+<section>
+  <div class="split">
+    <div class="split-visual"></div>
+    <div>
+      <div class="eyebrow">Rutina recomendada</div>
+      <h2>Cómo sacarle el máximo provecho</h2>
+      <p>Una rutina capilar constante marca la diferencia. Te recomendamos:</p>
+      <ul>
+        <li><i class="fas fa-check-circle"></i> Shampoo según tu necesidad principal (anticaída, hidratación, control de grasa)</li>
+        <li><i class="fas fa-check-circle"></i> Mascarilla 1-2 veces por semana para nutrición profunda</li>
+        <li><i class="fas fa-check-circle"></i> Sueros o tratamientos leave-in para protección diaria</li>
+        <li><i class="fas fa-check-circle"></i> Protector térmico antes de usar plancha o secadora</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section"><h3>Lili Organic</h3><p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p></div>
-                <div class="footer-section"><h3>Enlaces</h3><div class="footer-links"><a href="index.html">Inicio</a><a href="tienda.html">Tienda</a></div></div>
-                <div class="footer-section"><h3>Contacto</h3><p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2025 Lili Organic.</p></div>
-        </div>
-    </footer>
+<section>
+  <div class="cta-block">
+    <h2>Encuentra tu ritual ideal</h2>
+    <p>Explora nuestra tienda y descubre los productos pensados para tu tipo de cabello.</p>
+    <a href="tienda.html" class="btn">Ver tienda <i class="fas fa-arrow-right"></i></a>
+  </div>
+</section>
 
-    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-    <script src="js/cart.js"></script>
-    <script src="asents/JS/main.js"></script>
+<footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
+
+<script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+</script>
+
 </body>
 </html>

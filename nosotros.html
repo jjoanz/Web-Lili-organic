@@ -1,158 +1,205 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Nosotros - Lili Organic</title>
-    <link rel="stylesheet" href="asents/styles.css">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosotros — Lili Organic</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:var(--ivory); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:1.1rem 3rem; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(253,251,248,.94); backdrop-filter:blur(6px); z-index:50;}
+  .nav-logo img{height:42px; width:auto;}
+  .nav-links{display:flex; gap:2rem; font-size:.83rem; font-weight:600;}
+  .nav-links a{opacity:.7; transition:opacity .2s;}
+  .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
+  .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  .cart-dot{position:relative;}
+  .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
+
+  section{max-width:1200px; margin:0 auto; padding:4rem 3rem;}
+  .eyebrow{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.6rem;}
+
+  .page-header{text-align:center; padding-bottom:1rem;}
+  .page-header h1{font-family:'Playfair Display',serif; font-weight:700; font-size:2.3rem;}
+  .page-header p{color:#5c5460; margin-top:1rem; max-width:60ch; margin-left:auto; margin-right:auto; font-size:1rem; line-height:1.7;}
+
+  .mvv-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:1rem;}
+  .mvv-card{background:#fff; border:1px solid var(--line); border-radius:1.2rem; padding:2rem;}
+  .mvv-icon{width:52px; height:52px; border-radius:50%; background:#F5EEF7; color:var(--purple); display:flex; align-items:center; justify-content:center; font-size:1.2rem; margin-bottom:1.1rem;}
+  .mvv-card h3{font-family:'Playfair Display',serif; font-size:1.15rem; margin-bottom:.7rem;}
+  .mvv-card p{font-size:.88rem; color:#5c5460; line-height:1.65;}
+  .mvv-card ul{list-style:none; margin-top:.3rem;}
+  .mvv-card ul li{font-size:.88rem; color:#5c5460; padding:.35rem 0; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:.5rem;}
+  .mvv-card ul li:last-child{border-bottom:none;}
+  .mvv-card ul li i{color:var(--sage); font-size:.7rem;}
+
+  .split{display:grid; grid-template-columns:1fr 1fr; gap:3rem; align-items:center;}
+  .split-visual{aspect-ratio:4/3; border-radius:1.5rem; background:#E8E2D8;}
+  .split h2{font-family:'Playfair Display',serif; font-weight:700; font-size:1.8rem; margin-bottom:1.5rem;}
+  .why-item{display:flex; gap:1rem; margin-bottom:1.4rem;}
+  .why-item:last-child{margin-bottom:0;}
+  .why-icon{width:48px; height:48px; border-radius:50%; background:var(--purple); color:#fff; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:1.1rem;}
+  .why-item h4{font-size:.92rem; margin-bottom:.25rem;}
+  .why-item p{font-size:.85rem; color:#5c5460;}
+
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; text-align:center;}
+  .stat-box{background:#fff; border:1px solid var(--line); border-radius:1.2rem; padding:2rem 1rem;}
+  .stat-box h3{font-family:'Playfair Display',serif; font-size:2.2rem; color:var(--coral); font-weight:800;}
+  .stat-box p{font-size:.82rem; color:#5c5460; margin-top:.4rem;}
+
+  footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
+
+  @media(max-width:960px){
+    .mvv-grid{grid-template-columns:1fr;}
+    .split{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);}
+    section{padding:3rem 1.5rem;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+    .nav{padding:1rem 1.5rem;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+  }
+</style>
 </head>
 <body>
-    <header class="header" id="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo"><img src="asents/logo.svg.png" alt="Lili Organic"></a>
-            <nav class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link">Inicio</a>
-                <a href="tienda.html" class="nav-link">Tienda</a>
-                <a href="nosotros.html" class="nav-link active">Nosotros</a>
-                <a href="beneficios.html" class="nav-link">Beneficios</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-                
-            </nav>
-            <div class="nav-actions">
-                <a href="carrito.html" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
-            </div>
-        </div>
-    </header>
 
-    <section class="about-hero">
-        <div class="container">
-            <h1 class="section-title">Nuestra Historia</h1>
-            <p style="max-width: 800px; margin: 0 auto; font-size: 1.125rem; color: var(--color-gray-dark);">
-                Lili Organic nace en febrero de 2021 de la pasión de Liliana García García por el cuidado natural del cabello. 
-                Somos una empresa dominicana comprometida con ofrecer productos 100% naturales y orgánicos de la más alta calidad.
-            </p>
-        </div>
-    </section>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html">Inicio</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="nosotros.html" class="on">Nosotros</a>
+    <a href="beneficios.html">Beneficios</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <div class="nav-icons">
+    <a href="carrito.html" class="cart-dot">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="badge-count" id="cartCount">0</span>
+    </a>
+    <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+  </div>
+</nav>
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Misión, Visión y Valores</h2>
-            <div class="mvv-cards">
-            
-            <div class="mvv-card">
-                <div class="mvv-icon"><i class="fas fa-bullseye"></i></div>
-                <h3>Misión</h3>
-                <p>Promover la belleza natural y el cuidado responsable del cabello a través de productos orgánicos de calidad, contribuyendo al bienestar de nuestras clientas y al medio ambiente.</p>
-            </div>
+<section class="page-header">
+  <div class="eyebrow">Nuestra historia</div>
+  <h1>Lili Organic</h1>
+  <p>Lili Organic nace en febrero de 2021 de la pasión de Liliana García García por el cuidado natural del cabello. Somos una empresa dominicana comprometida con ofrecer productos naturales y orgánicos de la más alta calidad.</p>
+</section>
 
-            <div class="mvv-card">
-                <div class="mvv-icon"><i class="fas fa-eye"></i></div>
-                <h3>Visión</h3>
-                <p>Ser la marca líder en República Dominicana en productos naturales para el cuidado capilar, reconocida por nuestra calidad, innovación y compromiso con la naturaleza.</p>
-            </div>
+<section style="padding-top:0;">
+  <div class="mvv-grid">
+    <div class="mvv-card">
+      <div class="mvv-icon"><i class="fas fa-bullseye"></i></div>
+      <h3>Misión</h3>
+      <p>Promover la belleza natural y el cuidado responsable del cabello a través de productos orgánicos de calidad, contribuyendo al bienestar de nuestras clientas y al medio ambiente.</p>
+    </div>
+    <div class="mvv-card">
+      <div class="mvv-icon"><i class="fas fa-eye"></i></div>
+      <h3>Visión</h3>
+      <p>Ser la marca líder en República Dominicana en productos naturales para el cuidado capilar, reconocida por nuestra calidad, innovación y compromiso con la naturaleza.</p>
+    </div>
+    <div class="mvv-card">
+      <div class="mvv-icon"><i class="fas fa-heart"></i></div>
+      <h3>Valores</h3>
+      <ul>
+        <li><i class="fas fa-circle"></i> Calidad</li>
+        <li><i class="fas fa-circle"></i> Transparencia</li>
+        <li><i class="fas fa-circle"></i> Sostenibilidad</li>
+        <li><i class="fas fa-circle"></i> Innovación</li>
+        <li><i class="fas fa-circle"></i> Pasión por el cuidado natural del cabello</li>
+      </ul>
+    </div>
+  </div>
+</section>
 
-            <div class="mvv-card">
-                <div class="mvv-icon"><i class="fas fa-heart"></i></div>
-                <h3>Valores</h3>
-                <ul class="values-list">
-                <li>Calidad</li>
-                <li>Transparencia</li>
-                <li>Sostenibilidad</li>
-                <li>Innovación</li>
-                <li>Pasión por el cuidado natural del cabello y la satisfacción de nuestras clientas</li>
-                </ul>
-            </div>
+<section>
+  <div class="split">
+    <div>
+      <div class="eyebrow">Por qué elegirnos</div>
+      <h2>Lo que nos distingue</h2>
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-leaf"></i></div>
+        <div><h4>Ingredientes Naturales</h4><p>Formulados con extractos botánicos, pensados para el cabello dominicano.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-microscope"></i></div>
+        <div><h4>Formulación Experta</h4><p>Desarrollados con investigación y respaldo profesional en cada fórmula.</p></div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon"><i class="fas fa-hand-holding-heart"></i></div>
+        <div><h4>Hecho con Pasión</h4><p>Cada producto refleja el compromiso de Lili Organic con sus clientas.</p></div>
+      </div>
+    </div>
+    <div class="split-visual" id="aboutVisual"></div>
+  </div>
+</section>
 
-            </div>
-        </div>
-    </section>
+<section>
+  <div class="eyebrow" style="text-align:center;">Nuestros logros</div>
+  <h2 style="font-family:'Playfair Display',serif; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:2rem;">En números</h2>
+  <div class="stats-grid">
+    <div class="stat-box"><h3>5+</h3><p>Años de experiencia</p></div>
+    <div class="stat-box"><h3 id="statProductos">31+</h3><p>Productos desarrollados</p></div>
+    <div class="stat-box"><h3>1000+</h3><p>Clientas satisfechas</p></div>
+    <div class="stat-box"><h3>100%</h3><p>Natural y orgánico</p></div>
+  </div>
+</section>
 
+<footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
-    <section class="section" style="background: var(--color-gray-light);">
-        <div class="container">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center;">
-                <div>
-                    <h2 style="font-family: var(--font-secondary); font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--color-dark);">¿Por Qué Elegirnos?</h2>
-                    <div style="display: flex; flex-direction: column; gap: 1.5rem;">
-                        <div style="display: flex; gap: 1rem;">
-                            <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-leaf" style="font-size: 1.5rem;"></i>
-                            </div>
-                            <div>
-                                <h4>Ingredientes Naturales</h4>
-                                <p style="color: var(--color-gray-dark);">100% orgánicos, sin químicos dañinos ni parabenos</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem;">
-                            <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--color-secondary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-microscope" style="font-size: 1.5rem;"></i>
-                            </div>
-                            <div>
-                                <h4>Formulación Experta</h4>
-                                <p style="color: var(--color-gray-dark);">Desarrollados con investigación científica y respaldo profesional</p>
-                            </div>
-                        </div>
-                        <div style="display: flex; gap: 1rem;">
-                            <div style="flex-shrink: 0; width: 50px; height: 50px; background: var(--color-primary); color: white; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-                                <i class="fas fa-award" style="font-size: 1.5rem;"></i>
-                            </div>
-                            <div>
-                                <h4>Calidad Certificada</h4>
-                                <p style="color: var(--color-gray-dark);">Productos certificados que cumplen los más altos estándares</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <img src="asents/image.png" alt="Sobre Nosotros" style="border-radius: 1rem; box-shadow: var(--shadow-lg);">
-                </div>
-            </div>
-        </div>
-    </section>
+<script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
 
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Nuestros Logros</h2>
-            <div class="grid grid-4">
-                <div style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: 1rem;">
-                    <h3 style="font-size: 3rem; color: var(--color-primary); font-weight: 700; margin-bottom: 0.5rem;">5+</h3>
-                    <p style="color: var(--color-gray-dark);">Años de Experiencia</p>
-                </div>
-                <div style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: 1rem;">
-                    <h3 style="font-size: 3rem; color: var(--color-primary); font-weight: 700; margin-bottom: 0.5rem;">40+</h3>
-                    <p style="color: var(--color-gray-dark);">Productos Desarrollados</p>
-                </div>
-                <div style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: 1rem;">
-                    <h3 style="font-size: 3rem; color: var(--color-primary); font-weight: 700; margin-bottom: 0.5rem;">1000+</h3>
-                    <p style="color: var(--color-gray-dark);">Clientas Satisfechas</p>
-                </div>
-                <div style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: 1rem;">
-                    <h3 style="font-size: 3rem; color: var(--color-primary); font-weight: 700; margin-bottom: 0.5rem;">100%</h3>
-                    <p style="color: var(--color-gray-dark);">Natural y Orgánico</p>
-                </div>
-            </div>
-        </div>
-    </section>
+// Foto real de "Por qué elegirnos" desde site_config (clave: about_image)
+async function loadAboutImage() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.about_image`, { headers: HEADERS });
+    const rows = await res.json();
+    if (rows.length > 0 && rows[0].valor) {
+      const visual = document.getElementById('aboutVisual');
+      visual.style.backgroundImage = `url('${rows[0].valor}')`;
+      visual.style.backgroundSize = 'cover';
+      visual.style.backgroundPosition = 'center';
+    }
+  } catch (err) {
+    console.error('Error al cargar imagen de Nosotros:', err);
+  }
+}
 
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section"><h3>Lili Organic</h3><p style="color: rgba(255, 255, 255, 0.8);">Productos naturales de alta calidad</p></div>
-                <div class="footer-section"><h3>Enlaces</h3><div class="footer-links"><a href="index.html">Inicio</a><a href="tienda.html">Tienda</a></div></div>
-                <div class="footer-section"><h3>Contacto</h3><p style="color: rgba(255, 255, 255, 0.8);">📞 829-210-1162<br>📧 info@liliorganic.com</p></div>
-            </div>
-            <div class="footer-bottom"><p>&copy; 2025 Lili Organic.</p></div>
-        </div>
-    </footer>
+// Contador real de productos activos
+async function loadProductCountAbout() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/productos?activo=eq.true&select=id`, { headers: HEADERS });
+    const data = await res.json();
+    if (data.length > 0) document.getElementById('statProductos').textContent = data.length + '+';
+  } catch (err) {}
+}
 
-    <button id="scrollTop"><i class="fas fa-arrow-up"></i></button>
-    <script src="asents/JS/"></script>
-    <script src="asents/JS/main.js"></script>
+document.addEventListener('DOMContentLoaded', () => {
+  loadAboutImage();
+  loadProductCountAbout();
+});
+</script>
+
 </body>
 </html>

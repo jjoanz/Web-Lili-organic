@@ -1,263 +1,447 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Lili Organic - Productos naturales y orgánicos para el cuidado capilar. Shampoos, acondicionadores y tratamientos con ingredientes 100% naturales.">
-    <meta name="keywords" content="productos naturales, cuidado capilar, shampoo orgánico, acondicionador natural, República Dominicana">
-    <title>Lili Organic - Productos Naturales para el Cuidado Capilar</title>
-    
-    <!-- CSS -->
-    <link rel="stylesheet" href="asents/styles.css">
-    
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lili Organic — Cuidado Capilar Natural</title>
+<meta name="description" content="Lili Organic — productos de cuidado capilar natural hechos en República Dominicana.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC; --card:#FFFFFF;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:var(--ivory); color:var(--ink); -webkit-font-smoothing:antialiased;}
+  a{color:inherit; text-decoration:none;}
+  section{max-width:1300px; margin:0 auto; padding:5rem 3rem;}
+  .eyebrow{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.9rem;}
+  h2.title{font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(1.8rem,3vw,2.6rem); line-height:1.15;}
+
+  /* NAV */
+  .nav{display:flex; align-items:center; justify-content:space-between; padding:1.1rem 3rem; border-bottom:1px solid var(--line); position:sticky; top:0; background:rgba(253,251,248,.94); backdrop-filter:blur(6px); z-index:50;}
+  .nav-logo{display:flex; align-items:center; gap:.6rem;}
+  .nav-logo img{height:42px; width:auto;}
+  .nav-links{display:flex; gap:2rem; font-size:.83rem; font-weight:600;}
+  .nav-links a{opacity:.7; transition:opacity .2s;}
+  .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
+  .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  .cart-dot{position:relative;}
+  .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
+  .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
+
+  /* HERO */
+  .hero{display:grid; grid-template-columns:1.05fr .95fr; align-items:center; gap:3rem; padding-top:3.5rem; padding-bottom:3.5rem;}
+  .hero h1{font-family:'Playfair Display',serif; font-weight:700; font-size:clamp(2.2rem,4vw,3.3rem); line-height:1.08; margin-bottom:1.1rem;}
+  .hero h1 em{font-style:italic; color:var(--purple);}
+  .hero p{font-size:1rem; line-height:1.7; color:#5c5460; max-width:34ch; margin-bottom:1.75rem;}
+  .btn{padding:.9rem 1.8rem; border-radius:2rem; font-weight:600; font-size:.85rem; border:2px solid transparent; cursor:pointer; display:inline-flex; align-items:center; gap:.5rem; transition:all .2s;}
+  .btn-solid{background:var(--purple); color:#fff;}
+  .btn-solid:hover{background:var(--purple-deep);}
+  .btn-line{border-color:var(--ink); color:var(--ink);}
+  .btn-line:hover{background:var(--ink); color:#fff;}
+  .hero-ctas{display:flex; gap:1rem; flex-wrap:wrap;}
+  .hero-visual{position:relative; aspect-ratio:4/5; border-radius:1.5rem; background:#E8E2D8; display:flex; align-items:flex-end; overflow:hidden; color:#8a8090; font-size:.85rem;}
+  .hero-visual img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .hero-visual .ph-label{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:2rem; font-weight:600;}
+  .hero-tag{position:relative; margin:1.5rem; padding:1rem 1.25rem; background:rgba(255,255,255,.94); border-radius:1rem; font-size:.8rem; font-weight:600; max-width:220px;}
+  .hero-tag b{display:block; font-family:'Playfair Display',serif; font-size:1.35rem; color:var(--purple);}
+
+  .need-tags{display:flex; flex-wrap:wrap; gap:.8rem; margin-top:2rem;}
+  .need-tag{padding:.85rem 1.4rem; border-radius:.9rem; border:1.5px solid var(--line); font-size:.85rem; font-weight:600; color:var(--ink); background:#fff; cursor:pointer; transition:all .2s; display:flex; align-items:center; gap:.6rem;}
+  .need-tag i{color:var(--sage);}
+  .need-tag:hover{border-color:var(--purple); color:var(--purple);}
+
+  /* KITS */
+  .kits-section{background:#FBF3EC;}
+  .kits-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem;}
+  .kit-card{background:#fff; border-radius:1.2rem; overflow:hidden; border:1px solid var(--line); display:flex; flex-direction:column;}
+  .kit-media{aspect-ratio:16/11; background:#E8E2D8; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.85rem; text-align:center; padding:1.5rem; position:relative; overflow:hidden;}
+  .kit-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .kit-save{position:relative; z-index:2; background:var(--coral); color:#fff; font-size:.85rem; font-weight:800; padding:.5rem .9rem; border-radius:.6rem; box-shadow:0 6px 16px rgba(192,79,76,.35); align-self:flex-start; margin-right:auto;}
+  .kit-media .kit-save{position:absolute; top:.8rem; left:.8rem;}
+  .kit-body{padding:1.3rem 1.4rem 1.5rem; display:flex; flex-direction:column; gap:.6rem; flex:1;}
+  .kit-name{font-family:'Playfair Display',serif; font-weight:700; font-size:1.1rem; line-height:1.3;}
+  .kit-includes{font-size:.78rem; color:#8a8090; line-height:1.5;}
+  .kit-price-row{display:flex; align-items:baseline; gap:.7rem; margin-top:auto; padding-top:.7rem;}
+  .kit-price-old{font-size:.85rem; color:#a99fb0; text-decoration:line-through;}
+  .kit-price-new{font-family:'Playfair Display',serif; font-weight:800; font-size:1.65rem; color:var(--coral);}
+  .kit-btn{margin-top:.9rem; width:100%; padding:.8rem; border-radius:.7rem; background:var(--ink); color:#fff; border:none; font-weight:600; font-size:.85rem; cursor:pointer; transition:background .2s;}
+  .kit-btn:hover{background:var(--purple);}
+  .empty-block{grid-column:1/-1; text-align:center; padding:2.5rem; border:1.5px dashed var(--line); border-radius:1.1rem; color:#a99fb0; font-size:.85rem;}
+
+  /* VALORES */
+  .valores-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1.5rem; margin-top:2.5rem;}
+  .valor-card{text-align:center; padding:1.5rem 1rem;}
+  .valor-icon{width:56px; height:56px; border-radius:50%; background:#F5EEF7; color:var(--purple); display:flex; align-items:center; justify-content:center; font-size:1.3rem; margin:0 auto .9rem;}
+  .valor-name{font-size:.85rem; font-weight:700;}
+
+  /* INGREDIENTES */
+  .story{display:grid; grid-template-columns:.9fr 1.1fr; gap:3.5rem; align-items:center;}
+  .story-visual{aspect-ratio:1/1; border-radius:1.5rem; background:#E8E2D8; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.9rem; text-align:center; padding:2rem;}
+  .story p{color:#5c5460; line-height:1.75; margin-bottom:1rem; font-size:.95rem;}
+
+  /* TESTIMONIOS */
+  .testi-section{background:var(--ink); color:#fff;}
+  .testi-section .eyebrow{color:#B49AC4;}
+  .testi-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem;}
+  .testi-card{background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.12); border-radius:1.1rem; padding:1.6rem;}
+  .testi-stars{color:#E8C9C8; font-size:.85rem; margin-bottom:.8rem;}
+  .testi-text{font-size:.88rem; line-height:1.65; color:#D8D0DC; margin-bottom:1rem; font-style:italic;}
+  .testi-name{font-weight:700; font-size:.85rem;}
+  .testi-empty{grid-column:1/-1; text-align:center; padding:2.5rem; border:1.5px dashed rgba(255,255,255,.25); border-radius:1.1rem; color:#B49AC4; font-size:.85rem;}
+
+  /* NEWSLETTER */
+  .news{background:var(--ink); border-radius:1.75rem; padding:3.5rem; text-align:center; color:#fff; margin:2rem 3rem 5rem; max-width:1300px; margin-left:auto; margin-right:auto;}
+  .news h2{font-family:'Playfair Display',serif; font-size:1.9rem; margin-bottom:.6rem;}
+  .news p{opacity:.85; margin-bottom:1.75rem; font-size:.9rem;}
+  .news-form{display:flex; gap:.7rem; max-width:420px; margin:0 auto;}
+  .news-form input{flex:1; padding:.85rem 1.1rem; border-radius:.7rem; border:none; font-family:inherit; font-size:.85rem;}
+  .news-form button{padding:.85rem 1.4rem; border-radius:.7rem; background:var(--coral); color:#fff; border:none; font-weight:600; font-size:.85rem; cursor:pointer;}
+  .news-msg{font-size:.8rem; margin-top:.8rem; min-height:1.2em;}
+
+  footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
+
+  .toast{position:fixed; bottom:2rem; right:2rem; padding:1rem 1.5rem; border-radius:.75rem; color:#fff; font-weight:600; font-size:.875rem; display:flex; align-items:center; gap:.75rem; box-shadow:0 4px 20px rgba(0,0,0,.2); transform:translateY(100px); opacity:0; transition:all .3s; z-index:9999;}
+  .toast.show{transform:translateY(0); opacity:1;}
+  .toast-success{background:#38a169;}
+  .toast-error{background:#e53e3e;}
+  .toast-info{background:#3182ce;}
+
+  @media(max-width:960px){
+    .hero, .story{grid-template-columns:1fr;}
+    .kits-grid, .valores-grid, .testi-grid{grid-template-columns:repeat(2,1fr);}
+    section{padding:3.5rem 1.5rem;}
+    .nav{padding:1rem 1.5rem;}
+  }
+  @media(max-width:600px){
+    .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+    .kits-grid, .valores-grid, .testi-grid{grid-template-columns:1fr;}
+    .news{margin:2rem 1rem; padding:2.5rem 1.5rem;}
+    .news-form{flex-direction:column;}
+    .hero-ctas{flex-direction:column; align-items:stretch;}
+  }
+</style>
 </head>
 <body>
-    <!-- HEADER -->
-    <header class="header" id="header">
-        <div class="container header-container">
-            <a href="index.html" class="logo">
-                <img src="asents/logo.svg.png" alt="Lili Organic Logo">
-            </a>
-            
-            <nav class="nav-menu" id="nav-menu">
-                <a href="index.html" class="nav-link active">Inicio</a>
-                <a href="tienda.html" class="nav-link">Tienda</a>
-                <a href="nosotros.html" class="nav-link">Nosotros</a>
-                <a href="beneficios.html" class="nav-link">Beneficios</a>
-                <a href="contacto.html" class="nav-link">Contacto</a>
-               <!-- <i class="fas fa-times nav-close" id="nav-close"></i> -->
-            </nav>
-            
-            <div class="nav-actions">
-                <i class="fas fa-search nav-icon" id="searchBtn"></i>
-                <a href="carrito.html" class="nav-icon">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span class="cart-badge" id="cartCount">0</span>
-                </a>
-                <i class="fas fa-bars nav-toggle" id="nav-toggle"></i>
-            </div>
-        </div>
-    </header>
 
-    <!-- HERO SECTION -->
-    <section class="hero">
-        <div class="container hero-container">
-            <div class="hero-content">
-                <h1>Descubre el Poder de lo Natural</h1>
-                <p>Productos 100% orgánicos y naturales para el cuidado de tu cabello. Formulados con extractos botánicos de la más alta calidad para resultados visibles.</p>
-                <div class="hero-buttons">
-                    <a href="tienda.html" class="btn btn-primary">Ver Productos</a>
-                    <a href="nosotros.html" class="btn btn-outline">Nuestra Historia</a>
-                </div>
-            </div>
-            <div class="hero-image">
-                <img src="asents/Captura de pantalla 2025-10-30 113356.png" alt="Productos Lili Organic" style="max-width: 500px;">
-            </div>
-        </div>
-    </section>
-
-    <!-- CARACTERÍSTICAS -->
-    <section class="section">
-        <div class="container">
-            <div class="grid grid-4">
-                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
-                    <i class="fas fa-leaf" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
-                    <h3>100% Natural</h3>
-                    <p>Ingredientes orgánicos certificados sin químicos dañinos</p>
-                </div>
-                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
-                    <i class="fas fa-shield-alt" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: 1rem;"></i>
-                    <h3>Sin Crueldad</h3>
-                    <p>Productos no testados en animales, 100% cruelty-free</p>
-                </div>
-                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
-                    <i class="fas fa-award" style="font-size: 3rem; color: var(--color-primary); margin-bottom: 1rem;"></i>
-                    <h3>Certificados</h3>
-                    <p>Productos certificados y respaldados por expertos</p>
-                </div>
-                <div class="feature-card" style="text-align: center; padding: 2rem; background: var(--color-light); border-radius: var(--border-radius-lg);">
-                    <i class="fas fa-truck" style="font-size: 3rem; color: var(--color-secondary); margin-bottom: 1rem;"></i>
-                    <h3>Envío Gratis</h3>
-                    <p>En compras mayores a RD$ 2,000 en todo el país</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- PRODUCTOS DESTACADOS -->
-    <section class="section" style="background: var(--color-gray-light);">
-        <div class="container">
-            <h2 class="section-title">Productos Más Vendidos</h2>
-            <p class="section-subtitle">Los favoritos de nuestros clientes, formulados con ingredientes naturales de la más alta calidad</p>
-            
-            <div class="products-grid" id="featuredProducts">
-                <!-- Los productos se cargarán dinámicamente con JavaScript -->
-            </div>
-            
-            <div style="text-align: center; margin-top: 3rem;">
-                <a href="tienda.html" class="btn btn-primary btn-lg">Ver Todos los Productos</a>
-            </div>
-        </div>
-    </section>
-
-    <!-- TESTIMONIOS -->
-    <section class="section">
-        <div class="container">
-            <h2 class="section-title">Lo Que Dicen Nuestras Clientas</h2>
-            <p class="section-subtitle">Miles de personas confían en Lili Organic para el cuidado de su cabello</p>
-            
-            <div class="grid grid-3">
-                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
-                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"El shampoo fortalecedor cambió completamente mi cabello. Después de 2 meses de uso, mi cabello está más fuerte y con menos caída. ¡Lo recomiendo 100%!"</p>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <img src="images/testimonials/maria.jpg" alt="María" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
-                        <div>
-                            <h4 style="margin-bottom: 0.25rem;">María Rodríguez</h4>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">Santo Domingo</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
-                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"Me encanta que sean productos naturales. El suero capilar es increíble, mi cabello ahora tiene más brillo y se siente super suave. ¡Gracias Lili Organic!"</p>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <img src="images/testimonials/ana.jpg" alt="Ana" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
-                        <div>
-                            <h4 style="margin-bottom: 0.25rem;">Ana López</h4>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">Santiago</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="testimonial-card" style="background: var(--color-white); padding: 2rem; border-radius: var(--border-radius-lg); box-shadow: var(--shadow-md);">
-                    <div style="display: flex; gap: 0.25rem; margin-bottom: 1rem; color: #FFC107;">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p style="margin-bottom: 1.5rem; color: var(--color-gray-dark); font-style: italic;">"La mascarilla hidratante es lo máximo. Mi cabello estaba muy maltratado y ahora luce saludable. El servicio al cliente también es excelente. ¡5 estrellas!"</p>
-                    <div style="display: flex; align-items: center; gap: 1rem;">
-                        <img src="images/testimonials/carmen.jpg" alt="Carmen" style="width: 50px; height: 50px; border-radius: 50%; object-fit: cover; background: var(--color-gray-light);">
-                        <div>
-                            <h4 style="margin-bottom: 0.25rem;">Carmen Pérez</h4>
-                            <p style="font-size: 0.875rem; color: var(--color-gray);">La Romana</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CALL TO ACTION -->
-    <section class="section" style="background: linear-gradient(135deg, var(--color-primary), var(--color-accent)); color: var(--color-white); text-align: center;">
-        <div class="container">
-            <h2 style="font-family: var(--font-secondary); font-size: var(--font-size-4xl); margin-bottom: 1rem;">¿Lista para Transformar tu Cabello?</h2>
-            <p style="font-size: var(--font-size-lg); margin-bottom: 2rem; opacity: 0.9;">Únete a miles de mujeres que ya confiaron en nuestros productos naturales</p>
-            <a href="tienda.html" class="btn btn-secondary btn-lg">Comprar Ahora</a>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Lili Organic</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Productos naturales y orgánicos para el cuidado capilar de la más alta calidad.</p>
-                    <div class="social-links">
-                        <a href="https://instagram.com/liliorganic" class="social-link" target="_blank">
-                            <i class="fab fa-instagram"></i>
-                        </a>
-                        <a href="https://facebook.com/liliorganic" class="social-link" target="_blank">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                        <a href="https://wa.me/18292101162" class="social-link" target="_blank">
-                            <i class="fab fa-whatsapp"></i>
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Enlaces Rápidos</h3>
-                    <div class="footer-links">
-                        <a href="index.html">Inicio</a>
-                        <a href="tienda.html">Tienda</a>
-                        <a href="nosotros.html">Nosotros</a>
-                        <a href="beneficios.html">Beneficios</a>
-                        <a href="contacto.html">Contacto</a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Ayuda</h3>
-                    <div class="footer-links">
-                        <a href="#">Preguntas Frecuentes</a>
-                        <a href="#">Envíos y Devoluciones</a>
-                        <a href="#">Términos y Condiciones</a>
-                        <a href="#">Política de Privacidad</a>
-                    </div>
-                </div>
-                
-                <div class="footer-section">
-                    <h3>Newsletter</h3>
-                    <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 1rem;">Suscríbete para recibir ofertas exclusivas</p>
-                    <form class="newsletter-form">
-                        <input type="email" placeholder="Tu email" required>
-                        <button type="submit" class="btn btn-secondary">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </form>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Industria Garli SRL - Lili Organic. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- SCROLL TO TOP -->
-    <button id="scrollTop">
-        <i class="fas fa-arrow-up"></i>
-    </button>
-
-    <!-- WHATSAPP FLOTANTE -->
-    <a href="https://wa.me/18292101162" class="whatsapp-float" target="_blank" style="position: fixed; bottom: 80px; right: 20px; width: 60px; height: 60px; background: #25D366; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 12px rgba(0,0,0,0.3); z-index: 999; transition: 0.3s;">
-        <i class="fab fa-whatsapp" style="font-size: 2rem; color: white;"></i>
+<nav class="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
+  </a>
+  <div class="nav-links" id="navLinks">
+    <a href="index.html" class="on">Inicio</a>
+    <a href="tienda.html">Tienda</a>
+    <a href="nosotros.html">Nosotros</a>
+    <a href="beneficios.html">Beneficios</a>
+    <a href="contacto.html">Contacto</a>
+  </div>
+  <div class="nav-icons">
+    <a href="carrito.html" class="cart-dot">
+      <i class="fas fa-shopping-bag"></i>
+      <span class="badge-count" id="cartCount">0</span>
     </a>
+    <i class="fas fa-bars nav-toggle" id="navToggle"></i>
+  </div>
+</nav>
 
-    <!-- JavaScript -->
-   <script src="asents/JS/supabase-api.js"></script>
-        <script src="asents/JS/cart.js"></script>
-        <script src="asents/JS/main.js"></script>
-        <script>
-            document.addEventListener('DOMContentLoaded', async () => {
-                const products = await getProductsFromSupabase();
-                displayProducts(products.slice(0, 6), 'featuredProducts');
-            });
-    </script>
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="eyebrow">Cuidado capilar natural &middot; Rep&uacute;blica Dominicana</div>
+    <h1>Tu cabello, <em>tratado con la tierra</em> que lo vio crecer</h1>
+    <p>F&oacute;rmulas naturales para cada tipo de cabello: anticaida, hidrataci&oacute;n profunda y control de frizz, hechas para el clima dominicano.</p>
+    <div class="hero-ctas">
+      <a href="tienda.html" class="btn btn-solid">Ver colecci&oacute;n <i class="fas fa-arrow-right"></i></a>
+      <a href="beneficios.html" class="btn btn-line">Encuentra tu ritual</a>
+    </div>
+    <div class="need-tags">
+      <a href="tienda.html?categoria=tratamiento" class="need-tag"><i class="fas fa-seedling"></i> Anticaida</a>
+      <a href="tienda.html?categoria=acondicionador" class="need-tag"><i class="fas fa-tint"></i> Hidrataci&oacute;n</a>
+      <a href="tienda.html?categoria=tratamiento" class="need-tag"><i class="fas fa-magic"></i> Reparaci&oacute;n</a>
+      <a href="tienda.html?categoria=serum" class="need-tag"><i class="fas fa-wind"></i> Control de frizz</a>
+      <a href="tienda.html?categoria=shampoo" class="need-tag"><i class="fas fa-oil-can"></i> Control de grasa</a>
+    </div>
+  </div>
+  <div class="hero-visual" id="heroVisual">
+    <div class="ph-label" id="heroPlaceholder">Sube la foto del hero desde Admin &rarr; Im&aacute;genes del Sitio</div>
+    <div class="hero-tag"><b id="heroProductCount">—</b>productos formulados con activos bot&aacute;nicos</div>
+  </div>
+</section>
+
+<!-- KITS -->
+<section class="kits-section">
+  <div class="eyebrow">Ahorra m&aacute;s</div>
+  <h2 class="title">Kits y combos</h2>
+  <div class="kits-grid" id="kitsGrid">
+    <div class="empty-block"><i class="fas fa-spinner fa-spin"></i> Cargando kits...</div>
+  </div>
+</section>
+
+<!-- VALORES -->
+<section id="valoresSection" style="display:none;">
+  <div class="eyebrow">Nuestro compromiso</div>
+  <h2 class="title">Lo que hay detr&aacute;s de cada f&oacute;rmula</h2>
+  <div class="valores-grid" id="valoresGrid"></div>
+</section>
+
+<!-- INGREDIENTES -->
+<section class="story">
+  <div class="story-visual" id="ingredientesVisual">Sube la foto desde Admin &rarr; Im&aacute;genes del Sitio</div>
+  <div>
+    <div class="eyebrow">Ingredientes</div>
+    <h2 class="title" style="margin-bottom:1.25rem;">Formulados desde la ra&iacute;z</h2>
+    <p>Cada producto Lili Organic combina activos naturales pensados para el clima y tipo de cabello dominicano. Formulamos con ingredientes seleccionados para nutrir, fortalecer y devolverle la salud a tu cabello, sin comprometer la calidad.</p>
+  </div>
+</section>
+
+<!-- TESTIMONIOS -->
+<section class="testi-section">
+  <div class="eyebrow">Testimonios</div>
+  <h2 class="title">Lo que dicen quienes ya lo probaron</h2>
+  <div class="testi-grid" id="testiGrid">
+    <div class="testi-empty"><i class="fas fa-spinner fa-spin"></i> Cargando testimonios...</div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<div class="news">
+  <h2>Recibe ofertas y consejos capilares</h2>
+  <p>Sin spam, solo lo que te sirve para tu cabello.</p>
+  <form class="news-form" id="newsForm">
+    <input type="email" id="newsEmail" placeholder="Tu correo electr&oacute;nico" required>
+    <button type="submit" id="newsBtn">Suscribirme</button>
+  </form>
+  <div class="news-msg" id="newsMsg"></div>
+</div>
+
+<footer>
+  &copy; 2026 Lili Organic &mdash; Todos los derechos reservados &middot; 829-210-1162 &middot; info@liliorganic.com
+</footer>
+
+<div class="toast" id="toast"></div>
+
+<script src="asents/JS/supabase-api.js"></script>
+<script src="asents/JS/cart.js"></script>
+<script src="asents/JS/main.js"></script>
+<script>
+// ============================================================
+// MENU MOBILE
+// ============================================================
+document.getElementById('navToggle').addEventListener('click', () => {
+  document.getElementById('navLinks').classList.toggle('open');
+});
+
+// ============================================================
+// TOAST LOCAL (por si main.js no define showNotification)
+// ============================================================
+function localToast(msg, type = 'success') {
+  const toast = document.getElementById('toast');
+  toast.className = `toast toast-${type} show`;
+  toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'times-circle' : 'info-circle'}"></i> ${msg}`;
+  setTimeout(() => toast.classList.remove('show'), 3000);
+}
+
+// ============================================================
+// CARGAR KITS REALES (productos con es_kit = true)
+// ============================================================
+async function loadKits() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/productos?es_kit=eq.true&activo=eq.true&order=id.asc`,
+      { headers: HEADERS }
+    );
+    const kits = await res.json();
+    const grid = document.getElementById('kitsGrid');
+
+    if (kits.length === 0) {
+      grid.innerHTML = '<div class="empty-block">Aún no hay kits marcados. Se agregan desde el panel admin → Productos → marca "Es Kit / Combo".</div>';
+      return;
+    }
+
+    grid.innerHTML = kits.map(k => {
+      const tieneDescuento = k.precio_normal && Number(k.precio_normal) > Number(k.precio);
+      const ahorro = tieneDescuento ? Number(k.precio_normal) - Number(k.precio) : 0;
+      const pct = tieneDescuento ? Math.round((ahorro / Number(k.precio_normal)) * 100) : 0;
+
+      return `
+      <div class="kit-card">
+        <div class="kit-media">
+          ${k.imagen_url ? `<img src="${k.imagen_url}" alt="${k.nombre}">` : ''}
+          ${tieneDescuento ? `<span class="kit-save">-${pct}% &middot; Ahorra RD$ ${ahorro.toLocaleString('es-DO')}</span>` : ''}
+        </div>
+        <div class="kit-body">
+          <div class="kit-name">${k.nombre}</div>
+          ${k.kit_incluye ? `<div class="kit-includes">Incluye: ${k.kit_incluye}</div>` : ''}
+          <div class="kit-price-row">
+            ${tieneDescuento ? `<span class="kit-price-old">RD$ ${Number(k.precio_normal).toLocaleString('es-DO')}</span>` : ''}
+            <span class="kit-price-new">RD$ ${Number(k.precio).toLocaleString('es-DO')}</span>
+          </div>
+          <button class="kit-btn" onclick="addToCart('${k.id}')">Agregar kit al carrito</button>
+        </div>
+      </div>`;
+    }).join('');
+  } catch (err) {
+    document.getElementById('kitsGrid').innerHTML = '<div class="empty-block">Error al cargar los kits.</div>';
+  }
+}
+
+// ============================================================
+// CARGAR VALORES DE MARCA
+// ============================================================
+async function loadValoresHome() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/valores_marca?activo=eq.true&order=orden.asc`,
+      { headers: HEADERS }
+    );
+    const valores = await res.json();
+    if (valores.length === 0) return; // sección queda oculta
+
+    document.getElementById('valoresSection').style.display = 'block';
+    document.getElementById('valoresGrid').innerHTML = valores.map(v => `
+      <div class="valor-card">
+        <div class="valor-icon"><i class="fas ${v.icono}"></i></div>
+        <div class="valor-name">${v.nombre}</div>
+      </div>
+    `).join('');
+  } catch (err) {
+    console.error('Error cargando valores de marca:', err);
+  }
+}
+
+// ============================================================
+// CARGAR TESTIMONIOS
+// ============================================================
+async function loadTestimoniosHome() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/testimonios?activo=eq.true&order=created_at.desc&limit=6`,
+      { headers: HEADERS }
+    );
+    const testis = await res.json();
+    const grid = document.getElementById('testiGrid');
+
+    if (testis.length === 0) {
+      grid.innerHTML = '<div class="testi-empty"><i class="fas fa-comment-dots" style="font-size:1.4rem; display:block; margin-bottom:.6rem;"></i>Aún no hay testimonios — se agregan desde el panel admin.</div>';
+      return;
+    }
+
+    grid.innerHTML = testis.map(t => `
+      <div class="testi-card">
+        <div class="testi-stars">${'★'.repeat(t.rating)}${'☆'.repeat(5 - t.rating)}</div>
+        <div class="testi-text">"${t.texto}"</div>
+        <div class="testi-name">${t.nombre}</div>
+      </div>
+    `).join('');
+  } catch (err) {
+    document.getElementById('testiGrid').innerHTML = '<div class="testi-empty">Error al cargar testimonios.</div>';
+  }
+}
+
+// ============================================================
+// CONTADOR DE PRODUCTOS EN HERO
+// ============================================================
+async function loadProductCount() {
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/productos?activo=eq.true&select=id`,
+      { headers: HEADERS }
+    );
+    const data = await res.json();
+    document.getElementById('heroProductCount').textContent = data.length;
+  } catch (err) {
+    document.getElementById('heroProductCount').textContent = '31';
+  }
+}
+
+// ============================================================
+// NEWSLETTER
+// ============================================================
+document.getElementById('newsForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = document.getElementById('newsEmail').value.trim();
+  const btn = document.getElementById('newsBtn');
+  const msg = document.getElementById('newsMsg');
+
+  btn.disabled = true;
+  btn.textContent = 'Enviando...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers`, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify({ email })
+    });
+
+    if (res.ok) {
+      msg.textContent = '¡Gracias por suscribirte!';
+      msg.style.color = '#9AE6B4';
+      document.getElementById('newsEmail').value = '';
+    } else {
+      const err = await res.json();
+      if (err.code === '23505') {
+        msg.textContent = 'Ese correo ya está suscrito.';
+        msg.style.color = '#F6E05E';
+      } else {
+        msg.textContent = 'Hubo un problema, intenta de nuevo.';
+        msg.style.color = '#FEB2B2';
+      }
+    }
+  } catch (err) {
+    msg.textContent = 'Error de conexión.';
+    msg.style.color = '#FEB2B2';
+  }
+
+  btn.disabled = false;
+  btn.textContent = 'Suscribirme';
+});
+
+// ============================================================
+// CARGAR IMÁGENES DEL SITIO (hero, ingredientes)
+// ============================================================
+async function loadSiteImages() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?select=*`, { headers: HEADERS });
+    const rows = await res.json();
+
+    const hero = rows.find(r => r.clave === 'hero_image');
+    if (hero && hero.valor) {
+      const heroVisual = document.getElementById('heroVisual');
+      document.getElementById('heroPlaceholder').style.display = 'none';
+      const img = document.createElement('img');
+      img.src = hero.valor;
+      img.alt = 'Lili Organic';
+      heroVisual.insertBefore(img, heroVisual.firstChild);
+    }
+
+    const ingredientes = rows.find(r => r.clave === 'ingredientes_image');
+    if (ingredientes && ingredientes.valor) {
+      const visual = document.getElementById('ingredientesVisual');
+      visual.textContent = '';
+      visual.style.backgroundImage = `url('${ingredientes.valor}')`;
+      visual.style.backgroundSize = 'cover';
+      visual.style.backgroundPosition = 'center';
+    }
+  } catch (err) {
+    console.error('Error al cargar imágenes del sitio:', err);
+  }
+}
+
+// ============================================================
+// INICIALIZAR
+// ============================================================
+document.addEventListener('DOMContentLoaded', () => {
+  loadKits();
+  loadValoresHome();
+  loadTestimoniosHome();
+  loadProductCount();
+  loadSiteImages();
+});
+</script>
+
 </body>
 </html>
