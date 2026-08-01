@@ -21,6 +21,7 @@
   .nav-links a{opacity:.7; transition:opacity .2s;}
   .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
   .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  #marketSwitcherContainer{font-size:.8rem;}
   .cart-dot{position:relative;}
   .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
   .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
@@ -75,13 +76,14 @@
     <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
   </a>
   <div class="nav-links" id="navLinks">
-    <a href="index.html">Inicio</a>
-    <a href="tienda.html">Tienda</a>
-    <a href="nosotros.html">Nosotros</a>
-    <a href="beneficios.html" class="on">Beneficios</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="index.html" data-i18n="nav_inicio">Inicio</a>
+    <a href="tienda.html" data-i18n="nav_tienda">Tienda</a>
+    <a href="nosotros.html" data-i18n="nav_nosotros">Nosotros</a>
+    <a href="beneficios.html" class="on" data-i18n="nav_beneficios">Beneficios</a>
+    <a href="contacto.html" data-i18n="nav_contacto">Contacto</a>
   </div>
   <div class="nav-icons">
+    <div id="marketSwitcherContainer"></div>
     <a href="carrito.html" class="cart-dot">
       <i class="fas fa-shopping-bag"></i>
       <span class="badge-count" id="cartCount">0</span>
@@ -91,42 +93,42 @@
 </nav>
 
 <section class="page-header">
-  <div class="eyebrow">Cuidado capilar natural</div>
-  <h1>Beneficios de lo natural</h1>
-  <p>Por qué elegir fórmulas naturales marca la diferencia en la salud de tu cabello a largo plazo.</p>
+  <div class="eyebrow" data-i18n="ben_eyebrow">Cuidado capilar natural</div>
+  <h1 data-i18n="ben_title">Beneficios de lo natural</h1>
+  <p data-i18n="ben_subtitle">Por qué elegir fórmulas naturales marca la diferencia en la salud de tu cabello a largo plazo.</p>
 </section>
 
 <section style="padding-top:0;">
   <div class="benefits-grid">
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-leaf"></i></div>
-      <h3>Nutrición profunda</h3>
-      <p>Los ingredientes naturales aportan vitaminas y nutrientes que penetran la fibra capilar, fortaleciendo el cabello desde la raíz.</p>
+      <h3 data-i18n="ben_1_t">Nutrición profunda</h3>
+      <p data-i18n="ben_1_d">Los ingredientes naturales aportan vitaminas y nutrientes que penetran la fibra capilar, fortaleciendo el cabello desde la raíz.</p>
     </div>
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
-      <h3>Menos agresión al cuero cabelludo</h3>
-      <p>Fórmulas suaves que respetan el equilibrio natural del cuero cabelludo, reduciendo irritación y resequedad.</p>
+      <h3 data-i18n="ben_2_t">Menos agresión al cuero cabelludo</h3>
+      <p data-i18n="ben_2_d">Fórmulas suaves que respetan el equilibrio natural del cuero cabelludo, reduciendo irritación y resequedad.</p>
     </div>
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-sun"></i></div>
-      <h3>Adaptadas al clima dominicano</h3>
-      <p>Pensadas para la humedad y el calor del Caribe: controlan el frizz y mantienen el cabello manejable todo el día.</p>
+      <h3 data-i18n="ben_3_t">Adaptadas al clima dominicano</h3>
+      <p data-i18n="ben_3_d">Pensadas para la humedad y el calor del Caribe: controlan el frizz y mantienen el cabello manejable todo el día.</p>
     </div>
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-seedling"></i></div>
-      <h3>Fortalece y previene la caída</h3>
-      <p>Activos que estimulan el folículo capilar, ayudando a reducir la caída y favorecer un crecimiento más saludable.</p>
+      <h3 data-i18n="ben_4_t">Fortalece y previene la caída</h3>
+      <p data-i18n="ben_4_d">Activos que estimulan el folículo capilar, ayudando a reducir la caída y favorecer un crecimiento más saludable.</p>
     </div>
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-tint"></i></div>
-      <h3>Hidratación duradera</h3>
-      <p>Sella la humedad en la fibra capilar, dejando el cabello suave, brillante y con menos frizz por más tiempo.</p>
+      <h3 data-i18n="ben_5_t">Hidratación duradera</h3>
+      <p data-i18n="ben_5_d">Sella la humedad en la fibra capilar, dejando el cabello suave, brillante y con menos frizz por más tiempo.</p>
     </div>
     <div class="benefit-card">
       <div class="benefit-icon"><i class="fas fa-heart"></i></div>
-      <h3>Para todo tipo de cabello</h3>
-      <p>Ya sea rizado, liso, ondulado o con tratamientos químicos, hay una fórmula Lili Organic pensada para ti.</p>
+      <h3 data-i18n="ben_6_t">Para todo tipo de cabello</h3>
+      <p data-i18n="ben_6_d">Ya sea rizado, liso, ondulado o con tratamientos químicos, hay una fórmula Lili Organic pensada para ti.</p>
     </div>
   </div>
 </section>
@@ -135,14 +137,14 @@
   <div class="split">
     <div class="split-visual"></div>
     <div>
-      <div class="eyebrow">Rutina recomendada</div>
-      <h2>Cómo sacarle el máximo provecho</h2>
-      <p>Una rutina capilar constante marca la diferencia. Te recomendamos:</p>
+      <div class="eyebrow" data-i18n="ben_routine_eyebrow">Rutina recomendada</div>
+      <h2 data-i18n="ben_routine_title">Cómo sacarle el máximo provecho</h2>
+      <p data-i18n="ben_routine_desc">Una rutina capilar constante marca la diferencia. Te recomendamos:</p>
       <ul>
-        <li><i class="fas fa-check-circle"></i> Shampoo según tu necesidad principal (anticaída, hidratación, control de grasa)</li>
-        <li><i class="fas fa-check-circle"></i> Mascarilla 1-2 veces por semana para nutrición profunda</li>
-        <li><i class="fas fa-check-circle"></i> Sueros o tratamientos leave-in para protección diaria</li>
-        <li><i class="fas fa-check-circle"></i> Protector térmico antes de usar plancha o secadora</li>
+        <li><i class="fas fa-check-circle"></i> <span data-i18n="ben_routine_1">Shampoo según tu necesidad principal (anticaída, hidratación, control de grasa)</span></li>
+        <li><i class="fas fa-check-circle"></i> <span data-i18n="ben_routine_2">Mascarilla 1-2 veces por semana para nutrición profunda</span></li>
+        <li><i class="fas fa-check-circle"></i> <span data-i18n="ben_routine_3">Sueros o tratamientos leave-in para protección diaria</span></li>
+        <li><i class="fas fa-check-circle"></i> <span data-i18n="ben_routine_4">Protector térmico antes de usar plancha o secadora</span></li>
       </ul>
     </div>
   </div>
@@ -150,20 +152,25 @@
 
 <section>
   <div class="cta-block">
-    <h2>Encuentra tu ritual ideal</h2>
-    <p>Explora nuestra tienda y descubre los productos pensados para tu tipo de cabello.</p>
-    <a href="tienda.html" class="btn">Ver tienda <i class="fas fa-arrow-right"></i></a>
+    <h2 data-i18n="ben_cta_title">Encuentra tu ritual ideal</h2>
+    <p data-i18n="ben_cta_desc">Explora nuestra tienda y descubre los productos pensados para tu tipo de cabello.</p>
+    <a href="tienda.html" class="btn"><span data-i18n="ben_cta_btn">Ver tienda</span> <i class="fas fa-arrow-right"></i></a>
   </div>
 </section>
 
 <footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
+<script src="asents/JS/i18n.js"></script>
 <script src="asents/JS/supabase-api.js"></script>
 <script src="asents/JS/cart.js"></script>
 <script src="asents/JS/main.js"></script>
 <script>
 document.getElementById('navToggle').addEventListener('click', () => {
   document.getElementById('navLinks').classList.toggle('open');
+});
+document.addEventListener('DOMContentLoaded', () => {
+  renderMarketSwitcher('marketSwitcherContainer');
+  applyI18n();
 });
 </script>
 

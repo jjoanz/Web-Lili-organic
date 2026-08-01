@@ -34,7 +34,18 @@ async function getProductsFromSupabase() {
 
         if (!response.ok) throw new Error('Error al cargar productos');
 
-        const data = await response.json();
+        let data = await response.json();
+
+        // En mercado US, solo se listan productos con precio_usd definido
+        if (typeof getMarket === 'function' && getMarket() === 'US') {
+            data = data.filter(row => row.precio_usd !== null && row.precio_usd !== undefined);
+        }
+
+        // Traducción automática (si no hay texto en inglés cargado manualmente)
+        if (typeof autoTranslateFields === 'function') {
+            await autoTranslateFields(data, ['nombre', 'descripcion', 'uso']);
+        }
+
         const products = data.map(formatProduct);
 
         cache.products = products;
@@ -48,21 +59,38 @@ async function getProductsFromSupabase() {
 }
 
 // ============================================================================
-// FORMATO DE PRODUCTO (Supabase → tienda)
+// FORMATO DE PRODUCTO (Supabase → tienda) — respeta mercado RD/US
 // ============================================================================
 function formatProduct(row) {
+    const market = (typeof getMarket === 'function') ? getMarket() : 'RD';
+    const isUS = market === 'US';
+
+    const price = isUS && row.precio_usd !== null && row.precio_usd !== undefined
+        ? parseFloat(row.precio_usd)
+        : parseFloat(row.precio);
+
+    const priceNormal = isUS
+        ? (row.precio_normal_usd !== null && row.precio_normal_usd !== undefined ? parseFloat(row.precio_normal_usd) : null)
+        : (row.precio_normal !== null && row.precio_normal !== undefined ? parseFloat(row.precio_normal) : null);
+
+    const name = isUS && row.nombre_en ? row.nombre_en : row.nombre;
+    const description = isUS && row.descripcion_en ? row.descripcion_en : (row.descripcion || '');
+    const usage = isUS && row.uso_en ? row.uso_en : (row.uso || '');
+
     return {
         id: String(row.id),
-        name: row.nombre,
+        name: name,
         category: row.categoria,
-        description: row.descripcion || '',
-        price: parseFloat(row.precio),
+        description: description,
+        price: price,
+        priceNormal: priceNormal,
+        currency: isUS ? 'USD' : 'DOP',
         image: row.imagen_url || '',
         stock: parseInt(row.stock) || 0,
         rating: parseFloat(row.rating) || 5,
         reviews: parseInt(row.reviews) || 0,
         badge: row.badge || '',
-        usage: row.uso || '',
+        usage: usage,
         sizes: []
     };
 }
@@ -75,6 +103,7 @@ function getProductById(id) {
 }
 
 function getCategoryName(category) {
+    if (typeof catName === 'function') return catName(category);
     const categories = {
         'shampoo': 'Shampoos',
         'acondicionador': 'Acondicionadores',
@@ -86,11 +115,18 @@ function getCategoryName(category) {
     return categories[category] || category;
 }
 
+function formatCurrency(amount, currency) {
+    if (currency === 'USD') {
+        return '$ ' + Number(amount).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+    return 'RD$ ' + Number(amount).toLocaleString('es-DO');
+}
+
 function viewProduct(id) {
     const product = getProductById(id);
     if (!product) return;
     let usageInfo = product.usage ? `\n\nModo de uso:\n${product.usage}` : '';
-    alert(`${product.name}\n\nPrecio: RD$ ${product.price}\n\n${product.description}${usageInfo}\n\nStock disponible: ${product.stock} unidades`);
+    alert(`${product.name}\n\nPrecio: ${formatCurrency(product.price, product.currency)}\n\n${product.description}${usageInfo}\n\nStock disponible: ${product.stock} unidades`);
 }
 
 function displayProducts(products, containerId = 'productsGrid') {
@@ -123,7 +159,7 @@ function displayProducts(products, containerId = 'productsGrid') {
                     <span style="margin-left: 0.5rem; color: var(--color-gray); font-size: 0.875rem;">(${product.reviews})</span>
                 </div>
                 <div class="product-footer">
-                    <span class="product-price">RD$ ${product.price.toLocaleString()}</span>
+                    <span class="product-price">${formatCurrency(product.price, product.currency)}</span>
                     <button class="add-to-cart" onclick="addToCart('${product.id}')">
                         <i class="fas fa-shopping-cart"></i> Agregar
                     </button>

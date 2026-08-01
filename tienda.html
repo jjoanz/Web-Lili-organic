@@ -22,6 +22,7 @@
   .nav-links a{opacity:.7; transition:opacity .2s;}
   .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
   .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  #marketSwitcherContainer{font-size:.8rem;}
   .cart-dot{position:relative;}
   .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
   .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
@@ -67,6 +68,33 @@
 
   .empty-block{grid-column:1/-1; text-align:center; padding:3rem; color:#a99fb0; font-size:.9rem;}
 
+  /* MODAL DETALLE DE PRODUCTO */
+  .modal-overlay{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(43,31,51,.6); display:none; align-items:center; justify-content:center; z-index:1000; padding:1.5rem;}
+  .modal-overlay.open{display:flex;}
+  .product-modal{background:#fff; border-radius:1.3rem; width:100%; max-width:880px; max-height:90vh; overflow-y:auto; display:grid; grid-template-columns:1fr 1.1fr;}
+  .pm-media{background:#E8E2D8; min-height:320px; display:flex; align-items:center; justify-content:center; position:relative;}
+  .pm-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .pm-close{position:absolute; top:1rem; right:1rem; z-index:2; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.9); border:none; cursor:pointer; font-size:1rem; color:var(--ink);}
+  .pm-body{padding:2rem;}
+  .pm-cat{font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--sage); font-weight:700;}
+  .pm-name{font-family:'Playfair Display',serif; font-weight:700; font-size:1.5rem; margin:.5rem 0;}
+  .pm-desc{font-size:.88rem; color:#5c5460; line-height:1.65; margin-bottom:1.2rem;}
+  .pm-price-row{display:flex; align-items:baseline; gap:.8rem; margin-bottom:1.3rem;}
+  .pm-price-old{font-size:.95rem; color:#a99fb0; text-decoration:line-through;}
+  .pm-price{font-family:'Playfair Display',serif; font-weight:800; font-size:1.8rem; color:var(--coral);}
+  .pm-ing-title{font-size:.75rem; letter-spacing:.15em; text-transform:uppercase; color:var(--ink); font-weight:700; margin:1.5rem 0 .8rem;}
+  .pm-ing-list{display:flex; flex-direction:column; gap:.7rem; margin-bottom:1.3rem;}
+  .pm-ing-item{display:flex; gap:.8rem; align-items:flex-start;}
+  .pm-ing-icon{width:32px; height:32px; border-radius:50%; background:#F5EEF7; color:var(--purple); display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:.8rem;}
+  .pm-ing-item h5{font-size:.85rem; margin-bottom:.15rem;}
+  .pm-ing-item p{font-size:.78rem; color:#8a8090;}
+  .pm-add-row{display:flex; gap:.8rem; align-items:center; margin-top:1.5rem;}
+  .qty-box{display:flex; align-items:center; border:1.5px solid var(--line); border-radius:.7rem; overflow:hidden;}
+  .qty-box button{width:36px; height:42px; border:none; background:#fff; cursor:pointer; font-weight:700;}
+  .qty-box span{width:36px; text-align:center; font-size:.9rem; font-weight:600;}
+  .pm-add-btn{flex:1; padding:.9rem; border-radius:.7rem; background:var(--ink); color:#fff; border:none; font-weight:600; font-size:.9rem; cursor:pointer;}
+  .pm-add-btn:hover{background:var(--purple);}
+
   footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
 
   .toast{position:fixed; bottom:2rem; right:2rem; padding:1rem 1.5rem; border-radius:.75rem; color:#fff; font-weight:600; font-size:.875rem; display:flex; align-items:center; gap:.75rem; box-shadow:0 4px 20px rgba(0,0,0,.2); transform:translateY(100px); opacity:0; transition:all .3s; z-index:9999;}
@@ -96,13 +124,14 @@
     <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
   </a>
   <div class="nav-links" id="navLinks">
-    <a href="index.html">Inicio</a>
-    <a href="tienda.html" class="on">Tienda</a>
-    <a href="nosotros.html">Nosotros</a>
-    <a href="beneficios.html">Beneficios</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="index.html" data-i18n="nav_inicio">Inicio</a>
+    <a href="tienda.html" class="on" data-i18n="nav_tienda">Tienda</a>
+    <a href="nosotros.html" data-i18n="nav_nosotros">Nosotros</a>
+    <a href="beneficios.html" data-i18n="nav_beneficios">Beneficios</a>
+    <a href="contacto.html" data-i18n="nav_contacto">Contacto</a>
   </div>
   <div class="nav-icons">
+    <div id="marketSwitcherContainer"></div>
     <a href="carrito.html" class="cart-dot">
       <i class="fas fa-shopping-bag"></i>
       <span class="badge-count" id="cartCount">0</span>
@@ -112,29 +141,29 @@
 </nav>
 
 <div class="page-header">
-  <div class="eyebrow">Cat&aacute;logo completo</div>
-  <h1>Nuestros Productos</h1>
+  <div class="eyebrow" data-i18n="shop_eyebrow">Catálogo completo</div>
+  <h1 data-i18n="shop_title">Nuestros Productos</h1>
 </div>
 
 <section class="shop">
   <aside class="filters">
-    <h3>Categor&iacute;a</h3>
+    <h3 data-i18n="shop_filter_categoria">Categoría</h3>
     <div class="filter-group" id="catFilters">
-      <button class="filter-item active" data-cat="all">Todas <span class="count" id="count-all">-</span></button>
+      <button class="filter-item active" data-cat="all"><span data-i18n="shop_all">Todas</span> <span class="count" id="count-all">-</span></button>
     </div>
 
     <div class="filter-divider"></div>
-    <h3>Ordenar</h3>
+    <h3 data-i18n="shop_sort">Ordenar</h3>
     <select class="sort-select" id="sortSelect" style="width:100%;">
-      <option value="destacado">Destacados</option>
-      <option value="precio-asc">Precio: menor a mayor</option>
-      <option value="precio-desc">Precio: mayor a menor</option>
-      <option value="nombre">Nombre A-Z</option>
+      <option value="destacado" data-i18n="shop_sort_featured">Destacados</option>
+      <option value="precio-asc" data-i18n="shop_sort_price_asc">Precio: menor a mayor</option>
+      <option value="precio-desc" data-i18n="shop_sort_price_desc">Precio: mayor a menor</option>
+      <option value="nombre" data-i18n="shop_sort_name">Nombre A-Z</option>
     </select>
   </aside>
 
   <div>
-    <input type="text" class="search-input" id="searchInput" placeholder="Buscar producto...">
+    <input type="text" class="search-input" id="searchInput" data-i18n-placeholder="shop_search" placeholder="Buscar producto...">
     <div class="grid-header">
       <div>
         <h2 id="resultTitle">Todos los productos</h2>
@@ -149,8 +178,18 @@
 
 <footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
+<div class="modal-overlay" id="productModal">
+  <div class="product-modal">
+    <div class="pm-media" id="pmMedia">
+      <button class="pm-close" onclick="closeProductModal()">&times;</button>
+    </div>
+    <div class="pm-body" id="pmBody"></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
+<script src="asents/JS/i18n.js"></script>
 <script src="asents/JS/supabase-api.js"></script>
 <script src="asents/JS/cart.js"></script>
 <script src="asents/JS/main.js"></script>
@@ -165,11 +204,6 @@ function localToast(msg) {
   toast.innerHTML = `<i class="fas fa-check-circle"></i> ${msg}`;
   setTimeout(() => toast.classList.remove('show'), 2500);
 }
-
-const catNames = {
-  'shampoo':'Shampoos','acondicionador':'Acondicionadores','tratamiento':'Tratamientos',
-  'serum':'Sueros & Aceites','combo':'Combos','cuidado-personal':'Cuidado Personal'
-};
 
 let allProducts = [];
 let currentCat = 'all';
@@ -186,7 +220,15 @@ async function loadTiendaProducts() {
       `${SUPABASE_URL}/rest/v1/productos?activo=eq.true&order=id.asc`,
       { headers: HEADERS }
     );
-    allProducts = await res.json();
+    let data = await res.json();
+
+    // En mercado US, solo mostramos productos con precio_usd definido
+    if (getMarket() === 'US') {
+      data = data.filter(p => p.precio_usd !== null && p.precio_usd !== undefined);
+      await autoTranslateFields(data, ['nombre', 'descripcion', 'uso']);
+    }
+
+    allProducts = data;
     buildCategoryFilters();
     renderGrid();
   } catch (err) {
@@ -200,10 +242,10 @@ function buildCategoryFilters() {
 
   document.getElementById('count-all').textContent = allProducts.length;
 
-  container.innerHTML = `<button class="filter-item ${currentCat === 'all' ? 'active' : ''}" data-cat="all">Todas <span class="count">${allProducts.length}</span></button>` +
+  container.innerHTML = `<button class="filter-item ${currentCat === 'all' ? 'active' : ''}" data-cat="all">${t('shop_all')} <span class="count">${allProducts.length}</span></button>` +
     cats.map(c => {
       const count = allProducts.filter(p => p.categoria === c).length;
-      return `<button class="filter-item ${currentCat === c ? 'active' : ''}" data-cat="${c}">${catNames[c] || c} <span class="count">${count}</span></button>`;
+      return `<button class="filter-item ${currentCat === c ? 'active' : ''}" data-cat="${c}">${catName(c)} <span class="count">${count}</span></button>`;
     }).join('');
 
   container.querySelectorAll('.filter-item').forEach(btn => {
@@ -222,42 +264,44 @@ function renderGrid() {
   if (currentSearch) {
     const s = currentSearch.toLowerCase();
     filtered = filtered.filter(p =>
-      p.nombre.toLowerCase().includes(s) || (p.descripcion || '').toLowerCase().includes(s)
+      productText(p, 'nombre').toLowerCase().includes(s) || productText(p, 'descripcion').toLowerCase().includes(s)
     );
   }
 
-  if (currentSort === 'precio-asc') filtered.sort((a,b) => a.precio - b.precio);
-  if (currentSort === 'precio-desc') filtered.sort((a,b) => b.precio - a.precio);
-  if (currentSort === 'nombre') filtered.sort((a,b) => a.nombre.localeCompare(b.nombre));
+  const priceOf = (p) => getMarket() === 'US' ? Number(p.precio_usd) : Number(p.precio);
+  if (currentSort === 'precio-asc') filtered.sort((a,b) => priceOf(a) - priceOf(b));
+  if (currentSort === 'precio-desc') filtered.sort((a,b) => priceOf(b) - priceOf(a));
+  if (currentSort === 'nombre') filtered.sort((a,b) => productText(a,'nombre').localeCompare(productText(b,'nombre')));
 
-  document.getElementById('resultTitle').textContent = currentCat === 'all' ? 'Todos los productos' : (catNames[currentCat] || currentCat);
-  document.getElementById('resultCount').textContent = `${filtered.length} producto${filtered.length !== 1 ? 's' : ''}`;
+  document.getElementById('resultTitle').textContent = currentCat === 'all' ? t('shop_all') : catName(currentCat);
+  document.getElementById('resultCount').textContent = `${filtered.length} ${getLang() === 'en' ? 'product' + (filtered.length !== 1 ? 's' : '') : 'producto' + (filtered.length !== 1 ? 's' : '')}`;
 
   const grid = document.getElementById('productGrid');
 
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-block">No se encontraron productos con estos filtros.</div>';
+    grid.innerHTML = `<div class="empty-block">${t('pm_no_results')}</div>`;
     return;
   }
 
   grid.innerHTML = filtered.map(p => {
-    const tieneDescuento = p.precio_normal && Number(p.precio_normal) > Number(p.precio);
+    const pricing = getMarketPricing(p);
+    const nombre = productText(p, 'nombre');
     return `
-    <div class="card">
+    <div class="card" onclick="openProductModal('${p.id}')" style="cursor:pointer;">
       <div class="card-media">
         ${p.badge ? `<span class="card-badge">${p.badge}</span>` : ''}
-        ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${p.nombre}" onerror="this.style.display='none'">` : p.nombre}
+        ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${nombre}" onerror="this.style.display='none'">` : nombre}
       </div>
       <div class="card-body">
-        <div class="card-cat">${catNames[p.categoria] || p.categoria}</div>
-        <div class="card-name">${p.nombre}</div>
-        ${p.stock <= 0 ? '<div class="out-stock">Agotado</div>' : ''}
+        <div class="card-cat">${catName(p.categoria)}</div>
+        <div class="card-name">${nombre}</div>
+        ${p.stock <= 0 ? `<div class="out-stock">${t('shop_out_stock')}</div>` : ''}
         <div class="card-footer">
           <div class="price-wrap">
-            ${tieneDescuento ? `<span class="card-price-old">RD$ ${Number(p.precio_normal).toLocaleString('es-DO')}</span>` : ''}
-            <span class="card-price ${tieneDescuento ? '' : 'no-discount'}">RD$ ${Number(p.precio).toLocaleString('es-DO')}</span>
+            ${pricing.precioNormal ? `<span class="card-price-old">${pricing.precioNormal}</span>` : ''}
+            <span class="card-price ${pricing.tieneDescuento ? '' : 'no-discount'}">${pricing.precio}</span>
           </div>
-          <button class="add-btn" onclick="addToCart('${p.id}')" ${p.stock <= 0 ? 'disabled style="opacity:.4;cursor:not-allowed;"' : ''}>
+          <button class="add-btn" onclick="event.stopPropagation(); addToCart('${p.id}')" ${p.stock <= 0 ? 'disabled style="opacity:.4;cursor:not-allowed;"' : ''}>
             <i class="fas fa-plus"></i>
           </button>
         </div>
@@ -276,7 +320,103 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
   renderGrid();
 });
 
-document.addEventListener('DOMContentLoaded', loadTiendaProducts);
+// ============================================================
+// MODAL DE DETALLE DE PRODUCTO
+// ============================================================
+let modalQty = 1;
+
+async function openProductModal(id) {
+  const p = allProducts.find(x => String(x.id) === String(id));
+  if (!p) return;
+
+  modalQty = 1;
+  const pricing = getMarketPricing(p);
+  const nombre = productText(p, 'nombre');
+  const descripcion = productText(p, 'descripcion');
+  const uso = productText(p, 'uso');
+
+  document.getElementById('pmMedia').innerHTML = `
+    <button class="pm-close" onclick="closeProductModal()">&times;</button>
+    ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${nombre}">` : ''}
+  `;
+
+  document.getElementById('pmBody').innerHTML = `
+    <div class="pm-cat">${catName(p.categoria)}</div>
+    <div class="pm-name">${nombre}</div>
+    <div class="pm-desc">${descripcion}</div>
+    <div class="pm-price-row">
+      ${pricing.precioNormal ? `<span class="pm-price-old">${pricing.precioNormal}</span>` : ''}
+      <span class="pm-price">${pricing.precio}</span>
+    </div>
+    ${uso ? `<p style="font-size:.82rem; color:#8a8090;"><strong>${t('pm_usage')}:</strong> ${uso}</p>` : ''}
+    <div id="pmIngredientes"></div>
+    <div class="pm-add-row">
+      <div class="qty-box">
+        <button onclick="changeModalQty(-1)">-</button>
+        <span id="modalQtyDisplay">1</span>
+        <button onclick="changeModalQty(1)">+</button>
+      </div>
+      <button class="pm-add-btn" onclick="addFromModal('${p.id}')" ${p.stock <= 0 ? 'disabled style="opacity:.5;"' : ''}>
+        ${p.stock <= 0 ? t('shop_out_stock') : `<i class="fas fa-shopping-bag"></i> ${t('shop_add_cart')}`}
+      </button>
+    </div>
+  `;
+
+  document.getElementById('productModal').classList.add('open');
+  loadProductIngredients(p.id);
+}
+
+function changeModalQty(delta) {
+  modalQty = Math.max(1, modalQty + delta);
+  document.getElementById('modalQtyDisplay').textContent = modalQty;
+}
+
+function addFromModal(id) {
+  for (let i = 0; i < modalQty; i++) addToCart(id);
+  closeProductModal();
+}
+
+function closeProductModal() {
+  document.getElementById('productModal').classList.remove('open');
+}
+
+async function loadProductIngredients(productoId) {
+  const container = document.getElementById('pmIngredientes');
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/producto_ingredientes?producto_id=eq.${productoId}&order=orden.asc`,
+      { headers: HEADERS }
+    );
+    const ingredientes = await res.json();
+
+    if (ingredientes.length === 0) {
+      container.innerHTML = '';
+      return;
+    }
+
+    await autoTranslateFields(ingredientes, ['ingrediente', 'beneficio']);
+
+    container.innerHTML = `
+      <div class="pm-ing-title">${t('pm_ingredients_title')}</div>
+      <div class="pm-ing-list">
+        ${ingredientes.map(ing => `
+          <div class="pm-ing-item">
+            <div class="pm-ing-icon"><i class="fas fa-leaf"></i></div>
+            <div><h5>${productText(ing, 'ingrediente')}</h5><p>${productText(ing, 'beneficio')}</p></div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  } catch (err) {
+    container.innerHTML = '';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  renderMarketSwitcher('marketSwitcherContainer');
+  applyI18n();
+  loadTiendaProducts();
+});
 </script>
 
 </body>

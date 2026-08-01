@@ -362,6 +362,12 @@
             <div class="menu-item" onclick="showPanel('bancario')">
                 <i class="fas fa-university"></i> Datos Bancarios
             </div>
+            <div class="menu-item" onclick="showPanel('landing')">
+                <i class="fas fa-bullhorn"></i> Landing de Suscripción
+            </div>
+            <div class="menu-item" onclick="showPanel('config')">
+                <i class="fas fa-cog"></i> Configuración General
+            </div>
             <div class="menu-item" onclick="window.open('tienda.html', '_blank')">
                 <i class="fas fa-store"></i> Ver Tienda
             </div>
@@ -623,6 +629,70 @@
             </div>
         </div>
 
+        <!-- PANEL LANDING DE SUSCRIPCIÓN -->
+        <div class="panel" id="panel-landing">
+            <div class="panel-header">
+                <h2>Landing de Suscripción</h2>
+            </div>
+            <p style="color:#999; font-size:0.85rem; margin-bottom:1.5rem;">
+                Esta es la página que compartes por WhatsApp/redes (<code>suscribete.html</code>) para captar nuevos contactos.
+            </p>
+            <div style="background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:600px;">
+                <div class="form-group">
+                    <label>Título principal *</label>
+                    <input type="text" id="landingTitulo" placeholder="Ej: Únete a la familia Lili Organic">
+                </div>
+                <div class="form-group">
+                    <label>Subtítulo</label>
+                    <input type="text" id="landingSubtitulo" placeholder="Ej: Ofertas exclusivas y consejos para tu cabello">
+                </div>
+                <div class="form-group">
+                    <label class="form-check">
+                        <input type="checkbox" id="landingTieneIncentivo" onchange="toggleLandingIncentivo()">
+                        Ofrecer un incentivo (cupón de descuento)
+                    </label>
+                </div>
+                <div id="landingIncentivoWrap" style="display:none;">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Texto del incentivo</label>
+                            <input type="text" id="landingIncentivoTexto" placeholder="Ej: 10% OFF en tu primera compra">
+                        </div>
+                        <div class="form-group">
+                            <label>Código de cupón</label>
+                            <input type="text" id="landingCupon" placeholder="Ej: BIENVENIDA10">
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-success" onclick="saveLandingConfig()">
+                    <i class="fas fa-save"></i> Guardar Configuración
+                </button>
+                <p class="form-hint" style="margin-top:1rem;">
+                    Link para compartir: <strong>tudominio.com/suscribete.html</strong>
+                </p>
+            </div>
+        </div>
+
+        <!-- PANEL CONFIGURACIÓN GENERAL -->
+        <div class="panel" id="panel-config">
+            <div class="panel-header">
+                <h2>Configuración General</h2>
+            </div>
+            <div style="background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:500px;">
+                <div class="form-group">
+                    <label>Tasa de cambio de referencia (RD$ por US$1)</label>
+                    <input type="number" id="tasaCambio" placeholder="Ej: 60">
+                    <p class="form-hint">
+                        Solo se usa para <strong>sugerirte</strong> un precio inicial en USD al crear/editar productos.
+                        Tú siempre revisas y confirmas el precio final antes de guardar — no convierte precios en vivo para los clientes.
+                    </p>
+                </div>
+                <button class="btn btn-success" onclick="saveTasaCambio()">
+                    <i class="fas fa-save"></i> Guardar Tasa
+                </button>
+            </div>
+        </div>
+
         <!-- PANEL NUEVO PRODUCTO -->
         <div class="panel" id="panel-nuevo">
             <div class="panel-header">
@@ -638,35 +708,59 @@
                         <input type="text" id="newNombre" placeholder="Ej: Shampoo Hidratante">
                     </div>
                     <div class="form-group">
-                        <label>Categoría *</label>
-                        <select id="newCategoria">
-                            <option value="shampoo">Shampoo</option>
-                            <option value="acondicionador">Acondicionador</option>
-                            <option value="tratamiento">Tratamiento</option>
-                            <option value="serum">Suero</option>
-                            <option value="combo">Combo</option>
-                            <option value="cuidado-personal">Cuidado Personal</option>
-                        </select>
+                        <label>Nombre en Inglés</label>
+                        <input type="text" id="newNombreEn" placeholder="Ej: Hydrating Shampoo">
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Descripción</label>
-                    <textarea id="newDescripcion" placeholder="Describe el producto..."></textarea>
+                    <label>Categoría *</label>
+                    <select id="newCategoria">
+                        <option value="shampoo">Shampoo</option>
+                        <option value="acondicionador">Acondicionador</option>
+                        <option value="tratamiento">Tratamiento</option>
+                        <option value="serum">Suero</option>
+                        <option value="combo">Combo</option>
+                        <option value="cuidado-personal">Cuidado Personal</option>
+                    </select>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Descripción</label>
+                        <textarea id="newDescripcion" placeholder="Describe el producto..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Descripción en Inglés</label>
+                        <textarea id="newDescripcionEn" placeholder="Describe the product..."></textarea>
+                    </div>
                 </div>
                 <div class="form-group">
-                    <label>Ingredientes</label>
+                    <label>Ingredientes (texto libre, opcional)</label>
                     <textarea id="newIngredientes" placeholder="Ej: Aloe vera, keratina, aceite de coco..."></textarea>
                 </div>
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Precio de Oferta (RD$) *</label>
+                        <label>Precio de Oferta RD$ *</label>
                         <input type="number" id="newPrecio" placeholder="900">
                         <p class="form-hint">Es el precio que paga el cliente hoy.</p>
                     </div>
                     <div class="form-group">
-                        <label>Precio Normal (RD$)</label>
+                        <label>Precio Normal RD$</label>
                         <input type="number" id="newPrecioNormal" placeholder="Opcional">
                         <p class="form-hint">Déjalo vacío si no hay descuento. Si lo llenas, se muestra tachado.</p>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Precio de Oferta USD</label>
+                        <div style="display:flex; gap:0.5rem;">
+                            <input type="number" id="newPrecioUsd" placeholder="Ej: 15" style="flex:1;">
+                            <button type="button" class="btn btn-outline btn-sm" onclick="sugerirPrecioUsd('new')" title="Sugerir según tasa de cambio"><i class="fas fa-magic"></i></button>
+                        </div>
+                        <p class="form-hint">Precio real en dólares (no es conversión automática). Vacío = no disponible en EE.UU.</p>
+                    </div>
+                    <div class="form-group">
+                        <label>Precio Normal USD</label>
+                        <input type="number" id="newPrecioNormalUsd" placeholder="Opcional">
                     </div>
                 </div>
                 <div class="form-row">
@@ -679,9 +773,15 @@
                         <input type="text" id="newBadge" placeholder="Ej: Más Vendido, Nuevo">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Modo de Uso (opcional)</label>
-                    <input type="text" id="newUso" placeholder="Instrucciones de uso">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Modo de Uso (opcional)</label>
+                        <input type="text" id="newUso" placeholder="Instrucciones de uso">
+                    </div>
+                    <div class="form-group">
+                        <label>Modo de Uso en Inglés</label>
+                        <input type="text" id="newUsoEn" placeholder="Usage instructions">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label class="form-check">
@@ -692,6 +792,8 @@
                 <div class="form-group" id="newKitIncluyeWrap" style="display:none;">
                     <label>¿Qué incluye el kit?</label>
                     <textarea id="newKitIncluye" placeholder="Ej: Shampoo + Mascarilla + Gotero anticaída"></textarea>
+                    <label style="margin-top:0.75rem;">¿Qué incluye el kit? (Inglés)</label>
+                    <textarea id="newKitIncluyeEn" placeholder="Ej: Shampoo + Hair Mask + Growth Drops"></textarea>
                     <p class="form-hint">Texto libre, se muestra tal cual en la tarjeta del kit.</p>
                 </div>
                 <div class="form-group">
@@ -731,33 +833,64 @@
                     <input type="text" id="editNombre">
                 </div>
                 <div class="form-group">
-                    <label>Categoría</label>
-                    <select id="editCategoria">
-                        <option value="shampoo">Shampoo</option>
-                        <option value="acondicionador">Acondicionador</option>
-                        <option value="tratamiento">Tratamiento</option>
-                        <option value="serum">Suero</option>
-                        <option value="combo">Combo</option>
-                        <option value="cuidado-personal">Cuidado Personal</option>
-                    </select>
+                    <label>Nombre en Inglés</label>
+                    <input type="text" id="editNombreEn">
                 </div>
             </div>
             <div class="form-group">
-                <label>Descripción</label>
-                <textarea id="editDescripcion"></textarea>
-            </div>
-            <div class="form-group">
-                <label>Ingredientes</label>
-                <textarea id="editIngredientes" placeholder="Ej: Aloe vera, keratina, aceite de coco..."></textarea>
+                <label>Categoría</label>
+                <select id="editCategoria">
+                    <option value="shampoo">Shampoo</option>
+                    <option value="acondicionador">Acondicionador</option>
+                    <option value="tratamiento">Tratamiento</option>
+                    <option value="serum">Suero</option>
+                    <option value="combo">Combo</option>
+                    <option value="cuidado-personal">Cuidado Personal</option>
+                </select>
             </div>
             <div class="form-row">
                 <div class="form-group">
-                    <label>Precio de Oferta (RD$)</label>
+                    <label>Descripción</label>
+                    <textarea id="editDescripcion"></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Descripción en Inglés</label>
+                    <textarea id="editDescripcionEn"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Ingredientes (texto libre, opcional)</label>
+                <textarea id="editIngredientes" placeholder="Ej: Aloe vera, keratina, aceite de coco..."></textarea>
+            </div>
+            <div class="form-group">
+                <label>Ingredientes con Beneficio (se muestran en la ficha del producto)</label>
+                <div id="editIngredientesBeneficio" style="display:flex; flex-direction:column; gap:0.6rem;"></div>
+                <button type="button" class="btn btn-outline btn-sm" style="margin-top:0.6rem;" onclick="addIngredienteRow('edit')">
+                    <i class="fas fa-plus"></i> Agregar ingrediente
+                </button>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Precio de Oferta RD$</label>
                     <input type="number" id="editPrecio">
                 </div>
                 <div class="form-group">
-                    <label>Precio Normal (RD$)</label>
+                    <label>Precio Normal RD$</label>
                     <input type="number" id="editPrecioNormal" placeholder="Opcional">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Precio de Oferta USD</label>
+                    <div style="display:flex; gap:0.5rem;">
+                        <input type="number" id="editPrecioUsd" placeholder="Ej: 15" style="flex:1;">
+                        <button type="button" class="btn btn-outline btn-sm" onclick="sugerirPrecioUsd('edit')" title="Sugerir según tasa de cambio"><i class="fas fa-magic"></i></button>
+                    </div>
+                    <p class="form-hint">Vacío = no disponible en EE.UU.</p>
+                </div>
+                <div class="form-group">
+                    <label>Precio Normal USD</label>
+                    <input type="number" id="editPrecioNormalUsd" placeholder="Opcional">
                 </div>
             </div>
             <div class="form-row">
@@ -775,6 +908,10 @@
                 <input type="text" id="editUso">
             </div>
             <div class="form-group">
+                <label>Modo de Uso en Inglés</label>
+                <input type="text" id="editUsoEn">
+            </div>
+            <div class="form-group">
                 <label class="form-check">
                     <input type="checkbox" id="editEsKit" onchange="toggleKitField('edit')">
                     Este producto es un Kit / Combo
@@ -783,6 +920,8 @@
             <div class="form-group" id="editKitIncluyeWrap" style="display:none;">
                 <label>¿Qué incluye el kit?</label>
                 <textarea id="editKitIncluye" placeholder="Ej: Shampoo + Mascarilla + Gotero anticaída"></textarea>
+                <label style="margin-top:0.75rem;">¿Qué incluye el kit? (Inglés)</label>
+                <textarea id="editKitIncluyeEn" placeholder="Ej: Shampoo + Hair Mask + Growth Drops"></textarea>
             </div>
             <div class="form-group">
                 <label>Imagen del Producto</label>
@@ -831,6 +970,10 @@
             <div class="form-group">
                 <label>Nombre *</label>
                 <input type="text" id="valorNombre" placeholder="Ej: Ingredientes Naturales">
+            </div>
+            <div class="form-group">
+                <label>Nombre en Inglés</label>
+                <input type="text" id="valorNombreEn" placeholder="Ej: Natural Ingredients">
             </div>
             <div class="form-group">
                 <label>Ícono (Font Awesome) *</label>
@@ -1053,6 +1196,7 @@ function renderTable(products) {
                         <td>
                             <strong>RD$ ${Number(p.precio).toLocaleString()}</strong>
                             ${p.precio_normal ? `<br><small style="color:#999; text-decoration:line-through;">RD$ ${Number(p.precio_normal).toLocaleString()}</small>` : ''}
+                            ${p.precio_usd ? `<br><small style="color:#3182ce;">$ ${Number(p.precio_usd).toLocaleString()} USD</small>` : ''}
                         </td>
                         <td>${p.stock}</td>
                         <td>
@@ -1097,6 +1241,68 @@ function filterAdminProducts() {
 }
 
 // ============================================================
+// INGREDIENTES CON BENEFICIO (por producto)
+// ============================================================
+function addIngredienteRow(prefix, ingrediente = '', beneficio = '', ingredienteEn = '', beneficioEn = '') {
+    const container = document.getElementById(`${prefix}IngredientesBeneficio`);
+    const row = document.createElement('div');
+    row.className = 'ing-row';
+    row.style.cssText = 'display:flex; flex-direction:column; gap:0.4rem; padding:0.6rem; background:#f8f8f8; border-radius:0.5rem;';
+    row.innerHTML = `
+        <div style="display:flex; gap:0.5rem; align-items:center;">
+            <input type="text" placeholder="Ingrediente (ej: Aloe Vera)" class="ing-nombre" value="${ingrediente}" style="flex:1; padding:0.6rem 0.8rem; border:2px solid #e0e0e0; border-radius:0.5rem; font-family:inherit; font-size:0.85rem;">
+            <input type="text" placeholder="Beneficio (ej: Hidrata y calma)" class="ing-beneficio" value="${beneficio}" style="flex:1.3; padding:0.6rem 0.8rem; border:2px solid #e0e0e0; border-radius:0.5rem; font-family:inherit; font-size:0.85rem;">
+            <button type="button" class="btn btn-danger btn-sm" onclick="this.closest('.ing-row').remove()"><i class="fas fa-trash"></i></button>
+        </div>
+        <div style="display:flex; gap:0.5rem;">
+            <input type="text" placeholder="Ingredient (EN)" class="ing-nombre-en" value="${ingredienteEn}" style="flex:1; padding:0.6rem 0.8rem; border:2px solid #e0e0e0; border-radius:0.5rem; font-family:inherit; font-size:0.8rem; background:#fff;">
+            <input type="text" placeholder="Benefit (EN)" class="ing-beneficio-en" value="${beneficioEn}" style="flex:1.3; padding:0.6rem 0.8rem; border:2px solid #e0e0e0; border-radius:0.5rem; font-family:inherit; font-size:0.8rem; background:#fff;">
+            <div style="width:38px;"></div>
+        </div>
+    `;
+    container.appendChild(row);
+}
+
+async function loadIngredientesBeneficio(productoId) {
+    const container = document.getElementById('editIngredientesBeneficio');
+    container.innerHTML = '';
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/producto_ingredientes?producto_id=eq.${productoId}&order=orden.asc`, { headers: HEADERS });
+        const rows = await res.json();
+        rows.forEach(r => addIngredienteRow('edit', r.ingrediente, r.beneficio, r.ingrediente_en || '', r.beneficio_en || ''));
+    } catch (err) {
+        console.error('Error al cargar ingredientes con beneficio:', err);
+    }
+}
+
+async function saveIngredientesBeneficio(productoId) {
+    const container = document.getElementById('editIngredientesBeneficio');
+    const rows = [...container.children].map((row, i) => ({
+        producto_id: productoId,
+        ingrediente: row.querySelector('.ing-nombre').value.trim(),
+        beneficio: row.querySelector('.ing-beneficio').value.trim(),
+        ingrediente_en: row.querySelector('.ing-nombre-en').value.trim() || null,
+        beneficio_en: row.querySelector('.ing-beneficio-en').value.trim() || null,
+        orden: i
+    })).filter(r => r.ingrediente && r.beneficio);
+
+    try {
+        // Reemplazo simple: borrar los existentes y volver a insertar
+        await fetch(`${SUPABASE_URL}/rest/v1/producto_ingredientes?producto_id=eq.${productoId}`, {
+            method: 'DELETE', headers: HEADERS
+        });
+
+        if (rows.length > 0) {
+            await fetch(`${SUPABASE_URL}/rest/v1/producto_ingredientes`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify(rows)
+            });
+        }
+    } catch (err) {
+        console.error('Error al guardar ingredientes con beneficio:', err);
+    }
+}
+
+// ============================================================
 // TOGGLE CAMPO KIT (mostrar/ocultar textarea de "incluye")
 // ============================================================
 function toggleKitField(prefix) {
@@ -1113,16 +1319,22 @@ function openEdit(id) {
 
     document.getElementById('editId').value = p.id;
     document.getElementById('editNombre').value = p.nombre;
+    document.getElementById('editNombreEn').value = p.nombre_en || '';
     document.getElementById('editCategoria').value = p.categoria;
     document.getElementById('editDescripcion').value = p.descripcion || '';
+    document.getElementById('editDescripcionEn').value = p.descripcion_en || '';
     document.getElementById('editIngredientes').value = p.ingredientes || '';
     document.getElementById('editPrecio').value = p.precio;
     document.getElementById('editPrecioNormal').value = p.precio_normal || '';
+    document.getElementById('editPrecioUsd').value = p.precio_usd || '';
+    document.getElementById('editPrecioNormalUsd').value = p.precio_normal_usd || '';
     document.getElementById('editStock').value = p.stock;
     document.getElementById('editBadge').value = p.badge || '';
     document.getElementById('editUso').value = p.uso || '';
+    document.getElementById('editUsoEn').value = p.uso_en || '';
     document.getElementById('editEsKit').checked = !!p.es_kit;
     document.getElementById('editKitIncluye').value = p.kit_incluye || '';
+    document.getElementById('editKitIncluyeEn').value = p.kit_incluye_en || '';
     document.getElementById('editKitIncluyeWrap').style.display = p.es_kit ? 'block' : 'none';
 
     const preview = document.getElementById('editImagePreview');
@@ -1138,6 +1350,7 @@ function openEdit(id) {
 
     currentEditFile = null;
     document.getElementById('editModal').classList.add('open');
+    loadIngredientesBeneficio(id);
 }
 
 function closeModal() {
@@ -1169,20 +1382,30 @@ async function saveEdit() {
     }
 
     const precioNormalVal = document.getElementById('editPrecioNormal').value;
+    const precioUsdVal = document.getElementById('editPrecioUsd').value;
+    const precioNormalUsdVal = document.getElementById('editPrecioNormalUsd').value;
 
     const updates = {
         nombre: document.getElementById('editNombre').value.trim(),
+        nombre_en: document.getElementById('editNombreEn').value.trim() || null,
         categoria: document.getElementById('editCategoria').value,
         descripcion: document.getElementById('editDescripcion').value.trim(),
+        descripcion_en: document.getElementById('editDescripcionEn').value.trim() || null,
         ingredientes: document.getElementById('editIngredientes').value.trim() || null,
         precio: parseFloat(document.getElementById('editPrecio').value),
         precio_normal: precioNormalVal ? parseFloat(precioNormalVal) : null,
+        precio_usd: precioUsdVal ? parseFloat(precioUsdVal) : null,
+        precio_normal_usd: precioNormalUsdVal ? parseFloat(precioNormalUsdVal) : null,
         stock: parseInt(document.getElementById('editStock').value),
         badge: document.getElementById('editBadge').value.trim() || null,
         uso: document.getElementById('editUso').value.trim() || null,
+        uso_en: document.getElementById('editUsoEn').value.trim() || null,
         es_kit: document.getElementById('editEsKit').checked,
         kit_incluye: document.getElementById('editEsKit').checked
             ? document.getElementById('editKitIncluye').value.trim()
+            : null,
+        kit_incluye_en: document.getElementById('editEsKit').checked
+            ? (document.getElementById('editKitIncluyeEn').value.trim() || null)
             : null,
         imagen_url
     };
@@ -1194,6 +1417,7 @@ async function saveEdit() {
         );
 
         if (res.ok) {
+            await saveIngredientesBeneficio(id);
             showToast('Producto actualizado correctamente', 'success');
             closeModal();
             loadAdminProducts();
@@ -1227,6 +1451,8 @@ async function saveNewProduct() {
     const precio = parseFloat(document.getElementById('newPrecio').value);
     const stock = parseInt(document.getElementById('newStock').value) || 0;
     const precioNormalVal = document.getElementById('newPrecioNormal').value;
+    const precioUsdVal = document.getElementById('newPrecioUsd').value;
+    const precioNormalUsdVal = document.getElementById('newPrecioNormalUsd').value;
 
     if (!nombre || !precio) {
         showToast('Nombre y precio son obligatorios', 'error');
@@ -1235,17 +1461,25 @@ async function saveNewProduct() {
 
     const newProduct = {
         nombre,
+        nombre_en: document.getElementById('newNombreEn').value.trim() || null,
         categoria: document.getElementById('newCategoria').value,
         descripcion: document.getElementById('newDescripcion').value.trim(),
+        descripcion_en: document.getElementById('newDescripcionEn').value.trim() || null,
         ingredientes: document.getElementById('newIngredientes').value.trim() || null,
         precio,
         precio_normal: precioNormalVal ? parseFloat(precioNormalVal) : null,
+        precio_usd: precioUsdVal ? parseFloat(precioUsdVal) : null,
+        precio_normal_usd: precioNormalUsdVal ? parseFloat(precioNormalUsdVal) : null,
         stock,
         badge: document.getElementById('newBadge').value.trim() || null,
         uso: document.getElementById('newUso').value.trim() || null,
+        uso_en: document.getElementById('newUsoEn').value.trim() || null,
         es_kit: document.getElementById('newEsKit').checked,
         kit_incluye: document.getElementById('newEsKit').checked
             ? document.getElementById('newKitIncluye').value.trim()
+            : null,
+        kit_incluye_en: document.getElementById('newEsKit').checked
+            ? (document.getElementById('newKitIncluyeEn').value.trim() || null)
             : null,
         activo: true,
         imagen_url: null
@@ -1279,7 +1513,7 @@ async function saveNewProduct() {
 }
 
 function resetNewForm() {
-    ['newNombre','newDescripcion','newIngredientes','newPrecio','newPrecioNormal','newStock','newBadge','newUso','newKitIncluye'].forEach(id => {
+    ['newNombre','newNombreEn','newDescripcion','newDescripcionEn','newIngredientes','newPrecio','newPrecioNormal','newPrecioUsd','newPrecioNormalUsd','newStock','newBadge','newUso','newUsoEn','newKitIncluye','newKitIncluyeEn'].forEach(id => {
         document.getElementById(id).value = '';
     });
     document.getElementById('newCategoria').value = 'shampoo';
@@ -1370,7 +1604,8 @@ function showPanel(name) {
     const titles = {
         productos: 'Productos', nuevo: 'Nuevo Producto', pedidos: 'Pedidos',
         valores: 'Valores de Marca', testimonios: 'Testimonios', newsletter: 'Newsletter',
-        imagenes: 'Imágenes del Sitio', mensajes: 'Mensajes de Contacto', bancario: 'Datos Bancarios'
+        imagenes: 'Imágenes del Sitio', mensajes: 'Mensajes de Contacto', bancario: 'Datos Bancarios',
+        landing: 'Landing de Suscripción', config: 'Configuración General'
     };
     document.getElementById('pageTitle').textContent = titles[name] || name;
 
@@ -1384,6 +1619,8 @@ function showPanel(name) {
     if (name === 'imagenes') menuItems[6].classList.add('active');
     if (name === 'mensajes') menuItems[7].classList.add('active');
     if (name === 'bancario') menuItems[8].classList.add('active');
+    if (name === 'landing') menuItems[9].classList.add('active');
+    if (name === 'config') menuItems[10].classList.add('active');
 
     if (name === 'pedidos') loadPedidos();
     if (name === 'valores') loadValores();
@@ -1392,6 +1629,132 @@ function showPanel(name) {
     if (name === 'imagenes') loadSiteImages();
     if (name === 'mensajes') loadMensajes();
     if (name === 'bancario') loadDatosBancarios();
+    if (name === 'landing') loadLandingConfig();
+    if (name === 'config') loadTasaCambio();
+}
+
+// ============================================================
+// CONFIGURACIÓN GENERAL (tasa de cambio)
+// ============================================================
+async function loadTasaCambio() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.tasa_cambio`, { headers: HEADERS });
+        const rows = await res.json();
+        document.getElementById('tasaCambio').value = (rows.length > 0 && rows[0].valor) ? rows[0].valor : '60';
+    } catch (err) {
+        console.error('Error al cargar tasa de cambio:', err);
+    }
+}
+
+async function saveTasaCambio() {
+    const tasa = document.getElementById('tasaCambio').value;
+    if (!tasa || parseFloat(tasa) <= 0) {
+        showToast('Ingresa una tasa válida', 'error');
+        return;
+    }
+
+    try {
+        const existing = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.tasa_cambio`, { headers: HEADERS });
+        const existingData = await existing.json();
+
+        const res = existingData.length > 0
+            ? await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.tasa_cambio`, {
+                method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: tasa, updated_at: new Date().toISOString() })
+              })
+            : await fetch(`${SUPABASE_URL}/rest/v1/site_config`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify({ clave: 'tasa_cambio', valor: tasa })
+              });
+
+        if (res.ok) {
+            showToast('Tasa de cambio guardada', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+async function sugerirPrecioUsd(prefix) {
+    const precioRD = parseFloat(document.getElementById(`${prefix}Precio`).value);
+    if (!precioRD) {
+        showToast('Primero ingresa el precio en RD$', 'error');
+        return;
+    }
+
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.tasa_cambio`, { headers: HEADERS });
+        const rows = await res.json();
+        const tasa = (rows.length > 0 && rows[0].valor) ? parseFloat(rows[0].valor) : 60;
+
+        const sugerido = Math.round((precioRD / tasa) * 100) / 100;
+        document.getElementById(`${prefix}PrecioUsd`).value = sugerido;
+        showToast(`Sugerido: $${sugerido} (tasa RD$${tasa}/US$1) — ajústalo si quieres`, 'success');
+    } catch (err) {
+        showToast('Error al calcular sugerencia', 'error');
+    }
+}
+
+// ============================================================
+// LANDING DE SUSCRIPCIÓN
+// ============================================================
+function toggleLandingIncentivo() {
+    document.getElementById('landingIncentivoWrap').style.display =
+        document.getElementById('landingTieneIncentivo').checked ? 'block' : 'none';
+}
+
+async function loadLandingConfig() {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.landing_suscripcion`, { headers: HEADERS });
+        const rows = await res.json();
+        if (rows.length > 0 && rows[0].valor) {
+            const data = JSON.parse(rows[0].valor);
+            document.getElementById('landingTitulo').value = data.titulo || '';
+            document.getElementById('landingSubtitulo').value = data.subtitulo || '';
+            document.getElementById('landingTieneIncentivo').checked = !!data.tieneIncentivo;
+            document.getElementById('landingIncentivoTexto').value = data.incentivoTexto || '';
+            document.getElementById('landingCupon').value = data.cupon || '';
+            toggleLandingIncentivo();
+        }
+    } catch (err) {
+        console.error('Error al cargar configuración de landing:', err);
+    }
+}
+
+async function saveLandingConfig() {
+    const data = {
+        titulo: document.getElementById('landingTitulo').value.trim(),
+        subtitulo: document.getElementById('landingSubtitulo').value.trim(),
+        tieneIncentivo: document.getElementById('landingTieneIncentivo').checked,
+        incentivoTexto: document.getElementById('landingIncentivoTexto').value.trim(),
+        cupon: document.getElementById('landingCupon').value.trim()
+    };
+
+    if (!data.titulo) {
+        showToast('El título es obligatorio', 'error');
+        return;
+    }
+
+    try {
+        const existing = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.landing_suscripcion`, { headers: HEADERS });
+        const existingData = await existing.json();
+
+        const res = existingData.length > 0
+            ? await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.landing_suscripcion`, {
+                method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: JSON.stringify(data), updated_at: new Date().toISOString() })
+              })
+            : await fetch(`${SUPABASE_URL}/rest/v1/site_config`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify({ clave: 'landing_suscripcion', valor: JSON.stringify(data) })
+              });
+
+        if (res.ok) {
+            showToast('Configuración guardada correctamente', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
 }
 
 // ============================================================
@@ -1644,7 +2007,7 @@ function renderPedidosTable(pedidos) {
                         <td><strong>${p.nombre}</strong><br><small style="color:#999">${p.ciudad}, ${p.provincia}</small></td>
                         <td>${p.telefono}<br><small style="color:#999">${p.email}</small></td>
                         <td><span class="badge badge-categoria">${pagoNames[p.metodo_pago] || p.metodo_pago}</span>${p.comprobante_url ? ' <i class="fas fa-paperclip" style="color:#38a169;" title="Comprobante adjunto"></i>' : ''}</td>
-                        <td><strong>RD$ ${Number(p.total).toLocaleString()}</strong></td>
+                        <td><strong>${p.moneda === 'USD' ? '$' : 'RD$'} ${Number(p.total).toLocaleString(p.moneda === 'USD' ? 'en-US' : 'es-DO')}</strong>${p.moneda === 'USD' ? ' <span class="badge badge-categoria">USD</span>' : ''}</td>
                         <td>
                             <select onchange="updateEstadoPedido(${p.id}, this.value)" style="padding:0.4rem 0.6rem; border-radius:0.5rem; border:2px solid #e0e0e0; font-family:inherit; font-size:0.8rem;">
                                 <option value="pendiente" ${p.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
@@ -1735,7 +2098,7 @@ function viewPedido(id) {
                 </table>
             </div>
         </div>
-        <div class="form-group"><label>Total</label><p style="font-size:1.25rem; font-weight:700; color:#652C83;">RD$ ${Number(p.total).toLocaleString()}</p></div>
+        <div class="form-group"><label>Total</label><p style="font-size:1.25rem; font-weight:700; color:#652C83;">${p.moneda === 'USD' ? '$' : 'RD$'} ${Number(p.total).toLocaleString(p.moneda === 'USD' ? 'en-US' : 'es-DO')}</p></div>
     `;
     document.getElementById('pedidoModal').classList.add('open');
 }
@@ -1795,6 +2158,7 @@ function openValorModal(id = null) {
         document.getElementById('valorModalTitle').textContent = 'Editar Valor de Marca';
         document.getElementById('valorId').value = v.id;
         document.getElementById('valorNombre').value = v.nombre;
+        document.getElementById('valorNombreEn').value = v.nombre_en || '';
         document.getElementById('valorIcono').value = v.icono;
         document.getElementById('valorOrden').value = v.orden;
         document.getElementById('valorActivo').checked = v.activo;
@@ -1802,6 +2166,7 @@ function openValorModal(id = null) {
         document.getElementById('valorModalTitle').textContent = 'Nuevo Valor de Marca';
         document.getElementById('valorId').value = '';
         document.getElementById('valorNombre').value = '';
+        document.getElementById('valorNombreEn').value = '';
         document.getElementById('valorIcono').value = '';
         document.getElementById('valorOrden').value = allValores.length + 1;
         document.getElementById('valorActivo').checked = true;
@@ -1817,6 +2182,7 @@ async function saveValor() {
     const id = document.getElementById('valorId').value;
     const payload = {
         nombre: document.getElementById('valorNombre').value.trim(),
+        nombre_en: document.getElementById('valorNombreEn').value.trim() || null,
         icono: document.getElementById('valorIcono').value.trim(),
         orden: parseInt(document.getElementById('valorOrden').value) || 0,
         activo: document.getElementById('valorActivo').checked
@@ -1998,11 +2364,13 @@ async function loadNewsletter() {
 
         document.getElementById('newsletterTableContainer').innerHTML = `
             <table>
-                <thead><tr><th>Email</th><th>Fecha de suscripción</th></tr></thead>
+                <thead><tr><th>Nombre</th><th>Email</th><th>WhatsApp</th><th>Fecha</th></tr></thead>
                 <tbody>
                     ${subs.map(s => `
                         <tr>
+                            <td>${[s.nombre, s.apellido].filter(Boolean).join(' ') || '<span style="color:#999;">—</span>'}</td>
                             <td>${s.email}</td>
+                            <td>${s.whatsapp || '<span style="color:#999;">—</span>'}</td>
                             <td>${new Date(s.created_at).toLocaleDateString('es-DO')}</td>
                         </tr>
                     `).join('')}
@@ -2022,7 +2390,7 @@ function exportNewsletter() {
         showToast('No hay suscriptores para exportar', 'error');
         return;
     }
-    const csv = 'email,fecha\n' + subs.map(s => `${s.email},${s.created_at}`).join('\n');
+    const csv = 'nombre,apellido,email,whatsapp,fecha\n' + subs.map(s => `${s.nombre||''},${s.apellido||''},${s.email},${s.whatsapp||''},${s.created_at}`).join('\n');
     const blob = new Blob([csv], { type: 'text/csv' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');

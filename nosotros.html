@@ -21,6 +21,7 @@
   .nav-links a{opacity:.7; transition:opacity .2s;}
   .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
   .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  #marketSwitcherContainer{font-size:.8rem;}
   .cart-dot{position:relative;}
   .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
   .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
@@ -80,13 +81,14 @@
     <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
   </a>
   <div class="nav-links" id="navLinks">
-    <a href="index.html">Inicio</a>
-    <a href="tienda.html">Tienda</a>
-    <a href="nosotros.html" class="on">Nosotros</a>
-    <a href="beneficios.html">Beneficios</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="index.html" data-i18n="nav_inicio">Inicio</a>
+    <a href="tienda.html" data-i18n="nav_tienda">Tienda</a>
+    <a href="nosotros.html" class="on" data-i18n="nav_nosotros">Nosotros</a>
+    <a href="beneficios.html" data-i18n="nav_beneficios">Beneficios</a>
+    <a href="contacto.html" data-i18n="nav_contacto">Contacto</a>
   </div>
   <div class="nav-icons">
+    <div id="marketSwitcherContainer"></div>
     <a href="carrito.html" class="cart-dot">
       <i class="fas fa-shopping-bag"></i>
       <span class="badge-count" id="cartCount">0</span>
@@ -96,32 +98,32 @@
 </nav>
 
 <section class="page-header">
-  <div class="eyebrow">Nuestra historia</div>
-  <h1>Lili Organic</h1>
-  <p>Lili Organic nace en febrero de 2021 de la pasión de Liliana García García por el cuidado natural del cabello. Somos una empresa dominicana comprometida con ofrecer productos naturales y orgánicos de la más alta calidad.</p>
+  <div class="eyebrow" data-i18n="about_eyebrow">Nuestra historia</div>
+  <h1 data-i18n="about_title">Lili Organic</h1>
+  <p data-i18n="about_hero_desc">Lili Organic nace en febrero de 2021 de la pasión de Liliana García García por el cuidado natural del cabello. Somos una empresa dominicana comprometida con ofrecer productos naturales y orgánicos de la más alta calidad.</p>
 </section>
 
 <section style="padding-top:0;">
   <div class="mvv-grid">
     <div class="mvv-card">
       <div class="mvv-icon"><i class="fas fa-bullseye"></i></div>
-      <h3>Misión</h3>
-      <p>Promover la belleza natural y el cuidado responsable del cabello a través de productos orgánicos de calidad, contribuyendo al bienestar de nuestras clientas y al medio ambiente.</p>
+      <h3 data-i18n="about_mision_t">Misión</h3>
+      <p data-i18n="about_mision_d">Promover la belleza natural y el cuidado responsable del cabello a través de productos orgánicos de calidad, contribuyendo al bienestar de nuestras clientas y al medio ambiente.</p>
     </div>
     <div class="mvv-card">
       <div class="mvv-icon"><i class="fas fa-eye"></i></div>
-      <h3>Visión</h3>
-      <p>Ser la marca líder en República Dominicana en productos naturales para el cuidado capilar, reconocida por nuestra calidad, innovación y compromiso con la naturaleza.</p>
+      <h3 data-i18n="about_vision_t">Visión</h3>
+      <p data-i18n="about_vision_d">Ser la marca líder en República Dominicana en productos naturales para el cuidado capilar, reconocida por nuestra calidad, innovación y compromiso con la naturaleza.</p>
     </div>
     <div class="mvv-card">
       <div class="mvv-icon"><i class="fas fa-heart"></i></div>
-      <h3>Valores</h3>
+      <h3 data-i18n="about_valores_t">Valores</h3>
       <ul>
-        <li><i class="fas fa-circle"></i> Calidad</li>
-        <li><i class="fas fa-circle"></i> Transparencia</li>
-        <li><i class="fas fa-circle"></i> Sostenibilidad</li>
-        <li><i class="fas fa-circle"></i> Innovación</li>
-        <li><i class="fas fa-circle"></i> Pasión por el cuidado natural del cabello</li>
+        <li><i class="fas fa-circle"></i> <span data-i18n="about_valor_1">Calidad</span></li>
+        <li><i class="fas fa-circle"></i> <span data-i18n="about_valor_2">Transparencia</span></li>
+        <li><i class="fas fa-circle"></i> <span data-i18n="about_valor_3">Sostenibilidad</span></li>
+        <li><i class="fas fa-circle"></i> <span data-i18n="about_valor_4">Innovación</span></li>
+        <li><i class="fas fa-circle"></i> <span data-i18n="about_valor_5">Pasión por el cuidado natural del cabello</span></li>
       </ul>
     </div>
   </div>
@@ -130,19 +132,19 @@
 <section>
   <div class="split">
     <div>
-      <div class="eyebrow">Por qué elegirnos</div>
-      <h2>Lo que nos distingue</h2>
+      <div class="eyebrow" data-i18n="about_why_eyebrow">Por qué elegirnos</div>
+      <h2 data-i18n="about_why_title">Lo que nos distingue</h2>
       <div class="why-item">
         <div class="why-icon"><i class="fas fa-leaf"></i></div>
-        <div><h4>Ingredientes Naturales</h4><p>Formulados con extractos botánicos, pensados para el cabello dominicano.</p></div>
+        <div><h4 data-i18n="about_why_1_t">Ingredientes Naturales</h4><p data-i18n="about_why_1_d">Formulados con extractos botánicos, pensados para el cabello dominicano.</p></div>
       </div>
       <div class="why-item">
         <div class="why-icon"><i class="fas fa-microscope"></i></div>
-        <div><h4>Formulación Experta</h4><p>Desarrollados con investigación y respaldo profesional en cada fórmula.</p></div>
+        <div><h4 data-i18n="about_why_2_t">Formulación Experta</h4><p data-i18n="about_why_2_d">Desarrollados con investigación y respaldo profesional en cada fórmula.</p></div>
       </div>
       <div class="why-item">
         <div class="why-icon"><i class="fas fa-hand-holding-heart"></i></div>
-        <div><h4>Hecho con Pasión</h4><p>Cada producto refleja el compromiso de Lili Organic con sus clientas.</p></div>
+        <div><h4 data-i18n="about_why_3_t">Hecho con Pasión</h4><p data-i18n="about_why_3_d">Cada producto refleja el compromiso de Lili Organic con sus clientas.</p></div>
       </div>
     </div>
     <div class="split-visual" id="aboutVisual"></div>
@@ -150,18 +152,19 @@
 </section>
 
 <section>
-  <div class="eyebrow" style="text-align:center;">Nuestros logros</div>
-  <h2 style="font-family:'Playfair Display',serif; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:2rem;">En números</h2>
+  <div class="eyebrow" style="text-align:center;" data-i18n="about_stats_eyebrow">Nuestros logros</div>
+  <h2 style="font-family:'Playfair Display',serif; font-weight:700; font-size:1.8rem; text-align:center; margin-bottom:2rem;" data-i18n="about_stats_title">En números</h2>
   <div class="stats-grid">
-    <div class="stat-box"><h3>5+</h3><p>Años de experiencia</p></div>
-    <div class="stat-box"><h3 id="statProductos">31+</h3><p>Productos desarrollados</p></div>
-    <div class="stat-box"><h3>1000+</h3><p>Clientas satisfechas</p></div>
-    <div class="stat-box"><h3>100%</h3><p>Natural y orgánico</p></div>
+    <div class="stat-box"><h3>5+</h3><p data-i18n="about_stat_years">Años de experiencia</p></div>
+    <div class="stat-box"><h3 id="statProductos">31+</h3><p data-i18n="about_stat_products">Productos desarrollados</p></div>
+    <div class="stat-box"><h3>1000+</h3><p data-i18n="about_stat_clients">Clientas satisfechas</p></div>
+    <div class="stat-box"><h3>100%</h3><p data-i18n="about_stat_natural">Natural y orgánico</p></div>
   </div>
 </section>
 
 <footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
+<script src="asents/JS/i18n.js"></script>
 <script src="asents/JS/supabase-api.js"></script>
 <script src="asents/JS/cart.js"></script>
 <script src="asents/JS/main.js"></script>
@@ -196,6 +199,8 @@ async function loadProductCountAbout() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  renderMarketSwitcher('marketSwitcherContainer');
+  applyI18n();
   loadAboutImage();
   loadProductCountAbout();
 });

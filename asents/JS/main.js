@@ -1,27 +1,31 @@
 // Main JavaScript - Lili Organic
-const navToggle = document.getElementById('nav-toggle');
-const navMenu = document.getElementById('nav-menu');
-const navClose = document.getElementById('nav-close');
+const navToggleOld = document.getElementById('nav-toggle');
+const navMenuOld = document.getElementById('nav-menu');
+const navCloseOld = document.getElementById('nav-close');
 
-// Menú móvil
-if (navToggle) {
-    navToggle.addEventListener('click', () => navMenu.classList.add('active'));
+// Menú móvil (diseño viejo, solo si existe)
+if (navToggleOld && navMenuOld) {
+    navToggleOld.addEventListener('click', () => navMenuOld.classList.add('active'));
 }
-if (navClose) {
-    navClose.addEventListener('click', () => navMenu.classList.remove('active'));
+if (navCloseOld && navMenuOld) {
+    navCloseOld.addEventListener('click', () => navMenuOld.classList.remove('active'));
 }
 
-// Cerrar menú al hacer clic en enlaces
-document.querySelectorAll('.nav-link').forEach(link => {
-    link.addEventListener('click', () => navMenu.classList.remove('active'));
-});
+// Cerrar menú al hacer clic en enlaces (diseño viejo, solo si existe)
+if (navMenuOld) {
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => navMenuOld.classList.remove('active'));
+    });
+}
 
-// Header con scroll
-window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (window.scrollY >= 50) header.classList.add('scroll-header');
-    else header.classList.remove('scroll-header');
-});
+// Header con scroll (diseño viejo, solo si existe)
+const headerOld = document.getElementById('header');
+if (headerOld) {
+    window.addEventListener('scroll', () => {
+        if (window.scrollY >= 50) headerOld.classList.add('scroll-header');
+        else headerOld.classList.remove('scroll-header');
+    });
+}
 
 // Scroll to top
 const scrollTop = document.getElementById('scrollTop');
@@ -35,13 +39,17 @@ if (scrollTop) {
 // Smooth scroll
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) target.scrollIntoView({ behavior: 'smooth' });
+        const targetId = this.getAttribute('href');
+        if (!targetId || targetId === '#') return;
+        const target = document.querySelector(targetId);
+        if (target) {
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth' });
+        }
     });
 });
 
-// Newsletter
+// Newsletter (diseño viejo, solo si existe ese formulario específico)
 const newsletterForm = document.querySelector('.newsletter-form');
 if (newsletterForm) {
     newsletterForm.addEventListener('submit', (e) => {
@@ -65,7 +73,7 @@ function showNotification(message, type = 'info') {
 
 window.showNotification = showNotification;
 
-// Hover efecto en WhatsApp flotante
+// Hover efecto en WhatsApp flotante (si existe en la página)
 document.querySelector('.whatsapp-float')?.addEventListener('mouseenter', function() {
     this.style.transform = 'scale(1.1)';
 });

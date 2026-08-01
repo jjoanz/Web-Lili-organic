@@ -26,6 +26,7 @@
   .nav-links a{opacity:.7; transition:opacity .2s;}
   .nav-links a:hover, .nav-links a.on{opacity:1; color:var(--purple);}
   .nav-icons{display:flex; gap:1.1rem; font-size:1.05rem; align-items:center;}
+  #marketSwitcherContainer{font-size:.8rem;}
   .cart-dot{position:relative;}
   .cart-dot .badge-count{position:absolute; top:-8px; right:-10px; background:var(--coral); color:#fff; font-size:.62rem; font-weight:700; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center;}
   .nav-toggle{display:none; font-size:1.2rem; cursor:pointer;}
@@ -117,13 +118,14 @@
     <img src="asents/logo.svg.png" alt="Lili Organic" onerror="this.style.display='none'">
   </a>
   <div class="nav-links" id="navLinks">
-    <a href="index.html">Inicio</a>
-    <a href="tienda.html">Tienda</a>
-    <a href="nosotros.html">Nosotros</a>
-    <a href="beneficios.html">Beneficios</a>
-    <a href="contacto.html">Contacto</a>
+    <a href="index.html" data-i18n="nav_inicio">Inicio</a>
+    <a href="tienda.html" data-i18n="nav_tienda">Tienda</a>
+    <a href="nosotros.html" data-i18n="nav_nosotros">Nosotros</a>
+    <a href="beneficios.html" data-i18n="nav_beneficios">Beneficios</a>
+    <a href="contacto.html" data-i18n="nav_contacto">Contacto</a>
   </div>
   <div class="nav-icons">
+    <div id="marketSwitcherContainer"></div>
     <a href="carrito.html" class="cart-dot">
       <i class="fas fa-shopping-bag"></i>
       <span class="badge-count" id="cartCount">0</span>
@@ -133,8 +135,8 @@
 </nav>
 
 <div class="page-header">
-  <div class="eyebrow">Tu selección</div>
-  <h1>Carrito de Compras</h1>
+  <div class="eyebrow" data-i18n="cart_eyebrow">Tu selección</div>
+  <h1 data-i18n="cart_title">Carrito de Compras</h1>
 </div>
 
 <section class="cart-container">
@@ -143,45 +145,45 @@
 </section>
 
 <section id="checkout">
-  <h2 class="section-title">Finalizar Compra</h2>
+  <h2 class="section-title" data-i18n="checkout_title">Finalizar Compra</h2>
   <div class="checkout-steps">
-    <div class="step active"><i class="fas fa-user"></i> Información</div>
-    <div class="step"><i class="fas fa-truck"></i> Envío</div>
-    <div class="step"><i class="fas fa-credit-card"></i> Pago</div>
+    <div class="step active"><i class="fas fa-user"></i> <span data-i18n="checkout_step_info">Información</span></div>
+    <div class="step"><i class="fas fa-truck"></i> <span data-i18n="checkout_step_shipping">Envío</span></div>
+    <div class="step"><i class="fas fa-credit-card"></i> <span data-i18n="checkout_step_payment">Pago</span></div>
   </div>
 
   <div class="checkout-form">
     <form id="checkoutForm">
-      <h3>Información de Contacto</h3>
+      <h3 data-i18n="checkout_contact_title">Información de Contacto</h3>
       <div class="form-grid">
         <div class="form-group">
-          <label>Nombre Completo *</label>
-          <input type="text" id="nombre" required placeholder="Tu nombre">
+          <label data-i18n="checkout_name">Nombre Completo *</label>
+          <input type="text" id="nombre" required data-i18n-placeholder="checkout_name_ph" placeholder="Tu nombre">
         </div>
         <div class="form-group">
-          <label>Teléfono *</label>
-          <input type="tel" id="telefono" required placeholder="809-xxx-xxxx">
+          <label data-i18n="checkout_phone">Teléfono *</label>
+          <input type="tel" id="telefono" required data-i18n-placeholder="checkout_phone_ph" placeholder="809-xxx-xxxx">
         </div>
       </div>
       <div class="form-group">
-        <label>Email *</label>
-        <input type="email" id="email" required placeholder="tu@email.com">
+        <label data-i18n="checkout_email">Email *</label>
+        <input type="email" id="email" required data-i18n-placeholder="checkout_email_ph" placeholder="tu@email.com">
       </div>
 
-      <h3 style="margin-top:1.5rem;">Dirección de Envío</h3>
+      <h3 style="margin-top:1.5rem;" data-i18n="checkout_shipping_title">Dirección de Envío</h3>
       <div class="form-group">
-        <label>Dirección Completa *</label>
-        <input type="text" id="direccion" required placeholder="Calle, número, edificio, apartamento">
+        <label data-i18n="checkout_address">Dirección Completa *</label>
+        <input type="text" id="direccion" required data-i18n-placeholder="checkout_address_ph" placeholder="Calle, número, edificio, apartamento">
       </div>
       <div class="form-grid">
         <div class="form-group">
-          <label>Ciudad *</label>
+          <label data-i18n="checkout_city">Ciudad *</label>
           <input type="text" id="ciudad" required>
         </div>
         <div class="form-group">
-          <label>Provincia *</label>
+          <label data-i18n="checkout_province">Provincia *</label>
           <select id="provincia" required>
-            <option value="">Seleccionar</option>
+            <option value="" data-i18n="checkout_select">Seleccionar</option>
             <option>Santo Domingo</option>
             <option>Santiago</option>
             <option>La Romana</option>
@@ -191,41 +193,41 @@
         </div>
       </div>
 
-      <h3 style="margin-top:1.5rem;">Método de Pago</h3>
+      <h3 style="margin-top:1.5rem;" data-i18n="checkout_payment_title">Método de Pago</h3>
       <div class="payment-methods">
-        <label class="payment-method">
+        <label class="payment-method payment-rd-only">
           <input type="radio" name="payment" value="transfer" checked>
           <div>
-            <strong><i class="fas fa-university"></i> Transferencia Bancaria</strong>
-            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;">Recibirás los datos bancarios por email</p>
+            <strong><i class="fas fa-university"></i> <span data-i18n="checkout_transfer_t">Transferencia Bancaria</span></strong>
+            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_transfer_d">Recibirás los datos bancarios por email</p>
           </div>
         </label>
         <div id="bankDetailsBox" style="display:none; background:#F5EEF7; border:1.5px solid var(--purple); border-radius:.9rem; padding:1.1rem 1.2rem; margin-top:-.4rem;">
           <div id="bankDetailsContent" style="font-size:.85rem; color:var(--ink); line-height:1.7;"></div>
           <div style="margin-top:1rem;">
-            <label style="display:block; font-size:.8rem; font-weight:600; margin-bottom:.4rem;">Adjuntar comprobante de pago (opcional)</label>
+            <label style="display:block; font-size:.8rem; font-weight:600; margin-bottom:.4rem;" data-i18n="checkout_attach_label">Adjuntar comprobante de pago (opcional)</label>
             <input type="file" id="comprobanteInput" accept="image/*,.pdf" style="width:100%; padding:.6rem; border:1.5px solid var(--line); border-radius:.5rem; font-size:.8rem; background:#fff;">
-            <p style="font-size:.72rem; color:#8a8090; margin-top:.4rem;">Si ya hiciste la transferencia, sube aquí una foto o captura del recibo.</p>
+            <p style="font-size:.72rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_attach_note">Si ya hiciste la transferencia, sube aquí una foto o captura del recibo.</p>
           </div>
         </div>
         <label class="payment-method">
           <input type="radio" name="payment" value="link">
           <div>
-            <strong><i class="fas fa-credit-card"></i> Link de Pago (Tarjeta)</strong>
-            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;">Te enviaremos un link seguro para pagar</p>
+            <strong><i class="fas fa-credit-card"></i> <span data-i18n="checkout_link_t">Link de Pago (Tarjeta)</span></strong>
+            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_link_d">Te enviaremos un link seguro para pagar</p>
           </div>
         </label>
-        <label class="payment-method">
+        <label class="payment-method payment-rd-only">
           <input type="radio" name="payment" value="delivery">
           <div>
-            <strong><i class="fas fa-money-bill-wave"></i> Pago Contra Entrega</strong>
-            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;">Paga en efectivo al recibir tu pedido</p>
+            <strong><i class="fas fa-money-bill-wave"></i> <span data-i18n="checkout_delivery_t">Pago Contra Entrega</span></strong>
+            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_delivery_d">Paga en efectivo al recibir tu pedido</p>
           </div>
         </label>
       </div>
 
       <button type="submit" class="btn btn-primary btn-lg" id="btnConfirmarPedido" style="width:100%; margin-top:1.75rem;">
-        <i class="fas fa-check-circle"></i> Confirmar Pedido
+        <i class="fas fa-check-circle"></i> <span data-i18n="checkout_confirm_btn">Confirmar Pedido</span>
       </button>
     </form>
   </div>
@@ -233,6 +235,7 @@
 
 <footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
+<script src="asents/JS/i18n.js"></script>
 <script src="asents/JS/supabase-api.js"></script>
 <script src="asents/JS/cart.js"></script>
 <script src="asents/JS/main.js"></script>
@@ -241,7 +244,15 @@ document.getElementById('navToggle').addEventListener('click', () => {
   document.getElementById('navLinks').classList.toggle('open');
 });
 
-document.addEventListener('DOMContentLoaded', loadCartItems);
+document.addEventListener('DOMContentLoaded', async () => {
+  await initializeProducts(); // asegura que PRODUCTS tenga los precios del mercado actual
+  loadCartItems();
+  if (getMarket() === 'US') {
+    document.querySelectorAll('.payment-rd-only').forEach(el => el.style.display = 'none');
+    const linkRadio = document.querySelector('input[name="payment"][value="link"]');
+    if (linkRadio) linkRadio.checked = true;
+  }
+});
 
 // ============================================================
 // DATOS BANCARIOS REALES
@@ -278,6 +289,8 @@ document.querySelectorAll('input[name="payment"]').forEach(radio => {
 });
 
 document.addEventListener('DOMContentLoaded', () => {
+  renderMarketSwitcher('marketSwitcherContainer');
+  applyI18n();
   loadDatosBancariosCheckout();
   toggleBankBox();
 });
@@ -321,18 +334,18 @@ document.querySelector('.payment-method').classList.add('selected');
 document.getElementById('checkoutForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
-  const cart = getCart();
+  const cart = getLiveCart();
   if (cart.length === 0) {
-    alert('Tu carrito está vacío.');
+    alert(t('checkout_empty_cart'));
     return;
   }
 
-  const { total } = calculateTotals();
+  const { total, currency } = calculateTotals();
   const metodoPago = document.querySelector('input[name="payment"]:checked').value;
 
   const btn = document.getElementById('btnConfirmarPedido');
   btn.disabled = true;
-  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+  btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('checkout_processing')}`;
 
   // Subir comprobante si el cliente adjuntó uno (solo aplica a transferencia)
   let comprobante_url = null;
@@ -357,7 +370,8 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
     })),
     total: total,
     estado: 'pendiente',
-    comprobante_url: comprobante_url
+    comprobante_url: comprobante_url,
+    moneda: currency
   };
 
 
@@ -383,15 +397,15 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
       console.warn('No se pudo enviar la notificación por email:', emailError);
     }
 
-    alert('¡Pedido confirmado! Recibirás un email con los detalles de tu orden.');
+    alert(t('checkout_success'));
     clearCart();
     window.location.href = 'index.html';
 
   } catch (error) {
     console.error('Error al procesar el pedido:', error);
-    alert('Hubo un problema al procesar tu pedido. Por favor intenta de nuevo o contáctanos por WhatsApp.');
+    alert(t('checkout_error'));
     btn.disabled = false;
-    btn.innerHTML = '<i class="fas fa-check-circle"></i> Confirmar Pedido';
+    btn.innerHTML = `<i class="fas fa-check-circle"></i> ${t('checkout_confirm_btn')}`;
   }
 });
 </script>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Únete a Lili Organic</title>
+<meta name="description" content="Suscríbete y recibe ofertas exclusivas de Lili Organic.">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  :root{
+    --purple:#652C83; --purple-deep:#4a1f61; --coral:#C04F4C;
+    --ivory:#FDFBF8; --sage:#7C8B65; --ink:#2B1F33; --line:#EAE3DC;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{font-family:'Montserrat',sans-serif; background:linear-gradient(155deg,#2B1F33 0%, #4a1f61 55%, #652C83 100%); color:var(--ink); min-height:100vh; display:flex; align-items:center; justify-content:center; padding:2rem 1.25rem;}
+
+  .wrap{background:var(--ivory); border-radius:1.75rem; max-width:460px; width:100%; padding:2.75rem 2.25rem; box-shadow:0 30px 80px rgba(0,0,0,.35); text-align:center;}
+  .logo{height:52px; margin-bottom:1.5rem;}
+  .eyebrow{font-size:.7rem; letter-spacing:.25em; text-transform:uppercase; color:var(--sage); font-weight:700; margin-bottom:.7rem;}
+  h1{font-family:'Playfair Display',serif; font-weight:700; font-size:1.7rem; line-height:1.2; margin-bottom:.6rem;}
+  .subtitulo{color:#5c5460; font-size:.9rem; margin-bottom:1.5rem; line-height:1.55;}
+
+  .incentivo-box{
+    background:linear-gradient(135deg, var(--coral), #a83f3c); color:#fff;
+    border-radius:1rem; padding:1.1rem 1.3rem; margin-bottom:1.75rem;
+    display:none; align-items:center; gap:.9rem; text-align:left;
+  }
+  .incentivo-box.show{display:flex;}
+  .incentivo-icon{font-size:1.5rem; flex-shrink:0;}
+  .incentivo-box strong{display:block; font-size:.95rem;}
+  .incentivo-box small{font-size:.75rem; opacity:.9;}
+
+  .form-group{margin-bottom:1rem; text-align:left;}
+  .form-group label{display:block; font-size:.78rem; font-weight:600; margin-bottom:.35rem;}
+  .form-row{display:grid; grid-template-columns:1fr 1fr; gap:.8rem;}
+  input{width:100%; padding:.8rem 1rem; border:2px solid var(--line); border-radius:.7rem; font-family:inherit; font-size:.88rem; transition:border .2s;}
+  input:focus{outline:none; border-color:var(--purple);}
+
+  .btn-submit{width:100%; padding:1rem; border-radius:.8rem; background:var(--purple); color:#fff; border:none; font-weight:700; font-size:.95rem; cursor:pointer; margin-top:.6rem; transition:background .2s; display:flex; align-items:center; justify-content:center; gap:.6rem;}
+  .btn-submit:hover{background:var(--purple-deep);}
+  .btn-submit:disabled{opacity:.6; cursor:not-allowed;}
+
+  .success-box{display:none; text-align:center;}
+  .success-box.show{display:block;}
+  .success-icon{width:64px; height:64px; border-radius:50%; background:#F0FFF4; color:#38a169; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 1.2rem;}
+  .success-box h2{font-family:'Playfair Display',serif; font-size:1.4rem; margin-bottom:.6rem;}
+  .success-box p{color:#5c5460; font-size:.88rem; margin-bottom:1.3rem;}
+  .cupon-display{background:#F5EEF7; border:2px dashed var(--purple); border-radius:.8rem; padding:1rem; font-family:'Playfair Display',serif; font-weight:800; font-size:1.3rem; color:var(--purple); letter-spacing:.05em;}
+
+  .form-msg{font-size:.8rem; margin-top:.8rem; min-height:1.1em; color:#e53e3e;}
+  .footer-note{margin-top:1.75rem; font-size:.72rem; color:#a99fb0;}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <img src="asents/logo.svg.png" alt="Lili Organic" class="logo" onerror="this.style.display='none'">
+
+  <div id="formState">
+    <div class="eyebrow">Cuidado capilar natural</div>
+    <h1 id="landingTitulo">Únete a la familia Lili Organic</h1>
+    <p class="subtitulo" id="landingSubtitulo">Sé la primera en enterarte de nuestras ofertas y consejos capilares.</p>
+
+    <div class="incentivo-box" id="incentivoBox">
+      <div class="incentivo-icon"><i class="fas fa-gift"></i></div>
+      <div><strong id="incentivoTexto"></strong><small>Al suscribirte, te lo enviamos por WhatsApp.</small></div>
+    </div>
+
+    <form id="leadForm">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Nombre *</label>
+          <input type="text" id="lNombre" required placeholder="Tu nombre">
+        </div>
+        <div class="form-group">
+          <label>Apellido *</label>
+          <input type="text" id="lApellido" required placeholder="Tu apellido">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Correo electrónico *</label>
+        <input type="email" id="lEmail" required placeholder="tu@email.com">
+      </div>
+      <div class="form-group">
+        <label>WhatsApp *</label>
+        <input type="tel" id="lWhatsapp" required placeholder="809-xxx-xxxx">
+      </div>
+      <button type="submit" class="btn-submit" id="leadBtn">
+        <i class="fas fa-paper-plane"></i> Quiero suscribirme
+      </button>
+      <div class="form-msg" id="leadMsg"></div>
+    </form>
+  </div>
+
+  <div class="success-box" id="successState">
+    <div class="success-icon"><i class="fas fa-check"></i></div>
+    <h2>¡Listo, ya eres parte!</h2>
+    <p id="successText">Gracias por suscribirte. Pronto recibirás nuestras novedades.</p>
+    <div class="cupon-display" id="cuponDisplay" style="display:none;"></div>
+  </div>
+
+  <p class="footer-note">Lili Organic · República Dominicana</p>
+</div>
+
+<script>
+const SUPABASE_URL = 'https://tvxknfbfusuppuwsdwag.supabase.co';
+const SUPABASE_KEY = 'sb_publishable_PchhZA-S7q-nGckaaK4-rw_tQW_SHgw';
+const HEADERS = {
+    'apikey': SUPABASE_KEY,
+    'Authorization': `Bearer ${SUPABASE_KEY}`,
+    'Content-Type': 'application/json'
+};
+
+let landingConfig = { titulo: '', subtitulo: '', tieneIncentivo: false, incentivoTexto: '', cupon: '' };
+
+async function loadLandingConfig() {
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.landing_suscripcion`, { headers: HEADERS });
+    const rows = await res.json();
+    if (rows.length > 0 && rows[0].valor) {
+      landingConfig = JSON.parse(rows[0].valor);
+      if (landingConfig.titulo) document.getElementById('landingTitulo').textContent = landingConfig.titulo;
+      if (landingConfig.subtitulo) document.getElementById('landingSubtitulo').textContent = landingConfig.subtitulo;
+      if (landingConfig.tieneIncentivo && landingConfig.incentivoTexto) {
+        document.getElementById('incentivoBox').classList.add('show');
+        document.getElementById('incentivoTexto').textContent = landingConfig.incentivoTexto;
+      }
+    }
+  } catch (err) {
+    console.error('Error al cargar configuración de landing:', err);
+  }
+}
+
+document.getElementById('leadForm').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const btn = document.getElementById('leadBtn');
+  const msg = document.getElementById('leadMsg');
+
+  const payload = {
+    nombre: document.getElementById('lNombre').value.trim(),
+    apellido: document.getElementById('lApellido').value.trim(),
+    email: document.getElementById('lEmail').value.trim(),
+    whatsapp: document.getElementById('lWhatsapp').value.trim()
+  };
+
+  btn.disabled = true;
+  btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/newsletter_subscribers`, {
+      method: 'POST',
+      headers: HEADERS,
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      document.getElementById('formState').style.display = 'none';
+      document.getElementById('successState').classList.add('show');
+      if (landingConfig.tieneIncentivo && landingConfig.cupon) {
+        document.getElementById('successText').textContent = 'Aquí tienes tu código de descuento:';
+        const cuponEl = document.getElementById('cuponDisplay');
+        cuponEl.textContent = landingConfig.cupon;
+        cuponEl.style.display = 'block';
+      }
+    } else {
+      const err = await res.json();
+      if (err.code === '23505') {
+        msg.textContent = 'Ese correo ya está suscrito.';
+      } else {
+        msg.textContent = 'Hubo un problema, intenta de nuevo.';
+      }
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fas fa-paper-plane"></i> Quiero suscribirme';
+    }
+  } catch (err) {
+    msg.textContent = 'Error de conexión.';
+    btn.disabled = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Quiero suscribirme';
+  }
+});
+
+document.addEventListener('DOMContentLoaded', loadLandingConfig);
+</script>
+
+</body>
+</html>
