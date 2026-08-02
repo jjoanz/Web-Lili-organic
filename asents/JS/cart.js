@@ -95,6 +95,31 @@ const SHIPPING_RULES = {
     USD: { freeFrom: 50, cost: 8 }
 };
 
+// ============================================================
+// CUPONES (con descuento real + validación de suscripción)
+// ============================================================
+const COUPONS = {
+    'BIENVENIDA10': { type: 'percent', value: 10, description: '10% de descuento', requiresSubscription: true },
+    'PRIMERACOMPRA': { type: 'fixed', value: 150, currency: 'DOP', description: 'RD$ 150 de descuento', requiresSubscription: true },
+    'ENVIOGRATIS': { type: 'shipping', value: 0, description: 'Envío gratis', requiresSubscription: true }
+};
+
+function getAppliedCoupon() {
+    const raw = sessionStorage.getItem('lili_applied_coupon');
+    return raw ? JSON.parse(raw) : null;
+}
+
+function setAppliedCoupon(codeAndData) {
+    if (codeAndData) sessionStorage.setItem('lili_applied_coupon', JSON.stringify(codeAndData));
+    else sessionStorage.removeItem('lili_applied_coupon');
+}
+
+function removeCoupon() {
+    setAppliedCoupon(null);
+    updateCartSummary();
+    if (typeof showNotification === 'function') showNotification('Cupón removido', 'info');
+}
+
 // Calcular totales
 function calculateTotals() {
     const cart = getLiveCart();
@@ -102,10 +127,24 @@ function calculateTotals() {
     const rules = SHIPPING_RULES[currency] || SHIPPING_RULES.DOP;
 
     const subtotal = cart.reduce((total, item) => total + (item.price * item.quantity), 0);
-    const shipping = subtotal >= rules.freeFrom ? 0 : rules.cost;
-    const total = subtotal + shipping;
+    let shipping = subtotal >= rules.freeFrom ? 0 : rules.cost;
 
-    return { subtotal, shipping, total, currency };
+    let discount = 0;
+    const applied = getAppliedCoupon();
+    if (applied) {
+        const coupon = applied.coupon;
+        if (coupon.type === 'percent') {
+            discount = subtotal * (coupon.value / 100);
+        } else if (coupon.type === 'fixed' && (!coupon.currency || coupon.currency === currency)) {
+            discount = Math.min(coupon.value, subtotal);
+        } else if (coupon.type === 'shipping') {
+            shipping = 0;
+        }
+    }
+
+    const total = Math.max(0, subtotal - discount) + shipping;
+
+    return { subtotal, shipping, discount, total, currency, appliedCoupon: applied };
 }
 
 // Actualizar contador del carrito
@@ -116,15 +155,9 @@ function updateCartCount() {
     if (badge) badge.textContent = count;
 }
 
-// Aplicar cupón
+// Aplicar cupón (lookup simple, la validación real está en handleCoupon)
 function applyCoupon(code) {
-    const coupons = {
-        'BIENVENIDA10': { type: 'percent', value: 10, description: '10% de descuento' },
-        'PRIMERACOMPRA': { type: 'fixed', value: 150, description: 'RD$ 150 de descuento' },
-        'ENVIOGRATIS': { type: 'shipping', value: 0, description: 'Envío gratis' }
-    };
-
-    return coupons[code.toUpperCase()];
+    return COUPONS[code.toUpperCase()];
 }
 
 // Cargar items del carrito (para página de carrito)
@@ -172,14 +205,14 @@ function loadCartItems() {
 
 // Actualizar resumen del carrito
 function updateCartSummary() {
-    const { subtotal, shipping, total, currency } = calculateTotals();
+    const { subtotal, shipping, discount, total, currency, appliedCoupon } = calculateTotals();
     const summaryContainer = document.getElementById('cartSummary');
     const isEn = typeof getLang === 'function' && getLang() === 'en';
     const rules = SHIPPING_RULES[currency] || SHIPPING_RULES.DOP;
 
     const labels = isEn
-        ? { subtotal: 'Subtotal:', shipping: 'Shipping:', free: 'FREE!', freeNote: `Free shipping on orders over ${fmtCartPrice(rules.freeFrom, currency)}`, coupon: 'Coupon code', apply: 'Apply', total: 'Total:', checkout: 'Proceed to Checkout', continue: 'Continue Shopping' }
-        : { subtotal: 'Subtotal:', shipping: 'Envío:', free: '¡GRATIS!', freeNote: `Envío gratis en compras mayores a ${fmtCartPrice(rules.freeFrom, currency)}`, coupon: 'Código de cupón', apply: 'Aplicar', total: 'Total:', checkout: 'Proceder al Pago', continue: 'Continuar Comprando' };
+        ? { subtotal: 'Subtotal:', shipping: 'Shipping:', free: 'FREE!', freeNote: `Free shipping on orders over ${fmtCartPrice(rules.freeFrom, currency)}`, coupon: 'Coupon code', apply: 'Apply', total: 'Total:', checkout: 'Proceed to Checkout', continue: 'Continue Shopping', discount: 'Discount', remove: 'Remove' }
+        : { subtotal: 'Subtotal:', shipping: 'Envío:', free: '¡GRATIS!', freeNote: `Envío gratis en compras mayores a ${fmtCartPrice(rules.freeFrom, currency)}`, coupon: 'Código de cupón', apply: 'Aplicar', total: 'Total:', checkout: 'Proceder al Pago', continue: 'Continuar Comprando', discount: 'Descuento', remove: 'Quitar' };
 
     if (summaryContainer) {
         summaryContainer.style.display = '';
@@ -189,15 +222,21 @@ function updateCartSummary() {
                 <span>${labels.subtotal}</span>
                 <span>${fmtCartPrice(subtotal, currency)}</span>
             </div>
+            ${discount > 0 ? `
+            <div class="summary-row">
+                <span>${labels.discount} (${appliedCoupon.code}) <a href="#" onclick="event.preventDefault(); removeCoupon();" style="font-size:0.75rem; color:var(--color-gray-dark, #999);">[${labels.remove}]</a></span>
+                <span style="color: var(--color-success, #38a169);">-${fmtCartPrice(discount, currency)}</span>
+            </div>` : ''}
             <div class="summary-row">
                 <span>${labels.shipping}</span>
                 <span>${shipping === 0 ? `<strong style="color: var(--color-success);">${labels.free}</strong>` : fmtCartPrice(shipping, currency)}</span>
             </div>
             ${shipping > 0 ? `<p style="font-size: 0.875rem; color: var(--color-info); margin: 0.5rem 0;">${labels.freeNote}</p>` : ''}
+            ${!appliedCoupon ? `
             <div class="coupon-input">
                 <input type="text" id="couponCode" placeholder="${labels.coupon}">
                 <button class="btn btn-secondary btn-sm" onclick="handleCoupon()">${labels.apply}</button>
-            </div>
+            </div>` : ''}
             <div class="summary-row total">
                 <span>${labels.total}</span>
                 <span>${fmtCartPrice(total, currency)}</span>
@@ -208,22 +247,62 @@ function updateCartSummary() {
     }
 }
 
-// Manejar cupón
-function handleCoupon() {
+// Manejar cupón (valida suscripción real y aplica el descuento de verdad)
+async function handleCoupon() {
     const input = document.getElementById('couponCode');
-    const code = input.value.trim();
+    const code = input.value.trim().toUpperCase();
     const coupon = applyCoupon(code);
+    const isEn = typeof getLang === 'function' && getLang() === 'en';
 
-    if (coupon) {
-        if (typeof showNotification === 'function') showNotification(`¡Cupón aplicado! ${coupon.description}`, 'success');
-    } else {
-        if (typeof showNotification === 'function') showNotification('Cupón no válido', 'error');
+    if (!coupon) {
+        if (typeof showNotification === 'function') showNotification(isEn ? 'Invalid coupon' : 'Cupón no válido', 'error');
+        return;
     }
+
+    if (coupon.type === 'fixed' && coupon.currency && typeof getCartCurrency === 'function' && getCartCurrency() !== coupon.currency) {
+        if (typeof showNotification === 'function') showNotification(isEn ? 'This coupon is not available in your currency' : 'Este cupón no está disponible en tu moneda', 'error');
+        return;
+    }
+
+    if (coupon.requiresSubscription) {
+        const emailField = document.getElementById('email');
+        const email = emailField ? emailField.value.trim() : '';
+
+        if (!email) {
+            if (typeof showNotification === 'function') {
+                showNotification(isEn ? 'Enter your email in the checkout form first to validate this coupon' : 'Ingresa tu email en el formulario de checkout primero para validar este cupón', 'error');
+            }
+            return;
+        }
+
+        try {
+            const res = await fetch(
+                `${SUPABASE_URL}/rest/v1/newsletter_subscribers?email=eq.${encodeURIComponent(email)}&select=id`,
+                { headers: HEADERS }
+            );
+            const rows = await res.json();
+
+            if (!rows || rows.length === 0) {
+                if (typeof showNotification === 'function') {
+                    showNotification(isEn ? 'This coupon is only for subscribers. Subscribe first with this same email.' : 'Este cupón es solo para suscriptores. Suscríbete primero con este mismo correo.', 'error');
+                }
+                return;
+            }
+        } catch (err) {
+            if (typeof showNotification === 'function') showNotification(isEn ? 'Error validating coupon' : 'Error al validar el cupón', 'error');
+            return;
+        }
+    }
+
+    setAppliedCoupon({ code, coupon });
+    updateCartSummary();
+    if (typeof showNotification === 'function') showNotification(`¡Cupón aplicado! ${coupon.description}`, 'success');
 }
 
 // Vaciar carrito
 function clearCart() {
     localStorage.removeItem('liliorganicCart');
+    setAppliedCoupon(null);
     updateCartCount();
     if (typeof loadCartItems === 'function') loadCartItems();
 }

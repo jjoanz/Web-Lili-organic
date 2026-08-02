@@ -95,6 +95,25 @@
 
   footer{text-align:center; padding:2.5rem 1rem; color:#a99fb0; font-size:.8rem; border-top:1px solid var(--line);}
 
+  /* MODAL DE CONFIRMACIÓN */
+  .confirm-overlay{position:fixed; inset:0; background:rgba(43,31,51,.65); display:none; align-items:center; justify-content:center; z-index:2000; padding:1.5rem;}
+  .confirm-overlay.open{display:flex;}
+  .confirm-box{background:#fff; border-radius:1.3rem; max-width:520px; width:100%; max-height:90vh; overflow-y:auto; padding:2.2rem;}
+  .confirm-icon{width:64px; height:64px; border-radius:50%; background:#F0FFF4; color:#38a169; display:flex; align-items:center; justify-content:center; font-size:1.8rem; margin:0 auto 1.2rem;}
+  .confirm-box h2{font-family:'Playfair Display',serif; font-size:1.4rem; text-align:center; margin-bottom:.5rem;}
+  .confirm-box p.sub{text-align:center; color:#5c5460; font-size:.88rem; margin-bottom:1.3rem;}
+  .order-number-box{background:#F5EEF7; border:2px dashed var(--purple); border-radius:.9rem; padding:1rem; text-align:center; margin-bottom:1.3rem;}
+  .order-number-box span{display:block; font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--purple); font-weight:700;}
+  .order-number-box strong{font-family:'Playfair Display',serif; font-size:1.6rem; color:var(--purple);}
+  .confirm-payment-info{background:#FBF3EC; border-radius:.9rem; padding:1.1rem 1.2rem; font-size:.85rem; line-height:1.7; margin-bottom:1.3rem;}
+  .confirm-upload label{display:block; font-size:.85rem; font-weight:600; margin-bottom:.5rem;}
+  .confirm-upload input[type=file]{width:100%; padding:.7rem; border:1.5px solid var(--line); border-radius:.6rem; font-size:.82rem; margin-bottom:.8rem;}
+  .confirm-btn-row{display:flex; gap:.7rem; margin-top:.5rem;}
+  .btn-whatsapp{flex:1; background:#25D366; color:#fff; padding:.85rem; border-radius:.7rem; border:none; font-weight:600; font-size:.85rem; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:.5rem;}
+  .btn-upload-confirm{flex:1; background:var(--purple); color:#fff; padding:.85rem; border-radius:.7rem; border:none; font-weight:600; font-size:.85rem; cursor:pointer;}
+  .confirm-close-link{display:block; text-align:center; margin-top:1.3rem; font-size:.82rem; color:#8a8090;}
+  .confirm-uploaded-ok{text-align:center; color:#38a169; font-size:.85rem; font-weight:600; margin-top:.6rem; display:none;}
+
   @media(max-width:960px){
     .cart-container{grid-template-columns:1fr;}
     .cart-summary{position:static;}
@@ -180,9 +199,9 @@
           <label data-i18n="checkout_city">Ciudad *</label>
           <input type="text" id="ciudad" required>
         </div>
-        <div class="form-group">
+        <div class="form-group field-rd-only">
           <label data-i18n="checkout_province">Provincia *</label>
-          <select id="provincia" required>
+          <select id="provincia">
             <option value="" data-i18n="checkout_select">Seleccionar</option>
             <option>Santo Domingo</option>
             <option>Santiago</option>
@@ -190,6 +209,16 @@
             <option>San Cristóbal</option>
             <option>Otra</option>
           </select>
+        </div>
+      </div>
+      <div class="form-grid field-us-only" style="display:none;">
+        <div class="form-group">
+          <label data-i18n="checkout_state">Estado *</label>
+          <input type="text" id="estadoUs" data-i18n-placeholder="checkout_state_ph" placeholder="Ej: Florida">
+        </div>
+        <div class="form-group">
+          <label data-i18n="checkout_zip">Código Postal (ZIP) *</label>
+          <input type="text" id="zipUs" data-i18n-placeholder="checkout_zip_ph" placeholder="Ej: 33101">
         </div>
       </div>
 
@@ -217,6 +246,20 @@
             <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_link_d">Te enviaremos un link seguro para pagar</p>
           </div>
         </label>
+        <label class="payment-method payment-us-only" style="display:none;">
+          <input type="radio" name="payment" value="zelle">
+          <div>
+            <strong><i class="fas fa-money-check-alt"></i> <span data-i18n="checkout_zelle_t">Zelle</span></strong>
+            <p style="font-size:.8rem; color:#8a8090; margin-top:.4rem;" data-i18n="checkout_zelle_d">Paga por Zelle y adjunta tu comprobante</p>
+          </div>
+        </label>
+        <div id="zelleDetailsBox" style="display:none; background:#F5EEF7; border:1.5px solid var(--purple); border-radius:.9rem; padding:1.1rem 1.2rem; margin-top:-.4rem;">
+          <div id="zelleDetailsContent" style="font-size:.85rem; color:var(--ink); line-height:1.7;"></div>
+          <div style="margin-top:1rem;">
+            <label style="display:block; font-size:.8rem; font-weight:600; margin-bottom:.4rem;" data-i18n="checkout_attach_label">Adjuntar comprobante de pago (opcional)</label>
+            <input type="file" id="comprobanteZelleInput" accept="image/*,.pdf" style="width:100%; padding:.6rem; border:1.5px solid var(--line); border-radius:.5rem; font-size:.8rem; background:#fff;">
+          </div>
+        </div>
         <label class="payment-method payment-rd-only">
           <input type="radio" name="payment" value="delivery">
           <div>
@@ -235,6 +278,7 @@
 
 <footer>&copy; 2026 Lili Organic &mdash; 829-210-1162 &middot; info@liliorganic.com</footer>
 
+<script src="asents/JS/image-utils.js"></script>
 <script src="asents/JS/i18n.js"></script>
 <script src="asents/JS/supabase-api.js"></script>
 <script src="asents/JS/cart.js"></script>
@@ -245,19 +289,35 @@ document.getElementById('navToggle').addEventListener('click', () => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
+  renderMarketSwitcher('marketSwitcherContainer');
+  applyI18n();
+  await loadDatosBancariosCheckout();
   await initializeProducts(); // asegura que PRODUCTS tenga los precios del mercado actual
   loadCartItems();
+
   if (getMarket() === 'US') {
     document.querySelectorAll('.payment-rd-only').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.payment-us-only').forEach(el => el.style.display = 'flex');
+    document.querySelectorAll('.field-rd-only').forEach(el => el.style.display = 'none');
+    document.querySelectorAll('.field-us-only').forEach(el => el.style.display = 'grid');
+    document.getElementById('provincia').required = false;
+    document.getElementById('estadoUs').required = true;
+    document.getElementById('zipUs').required = true;
     const linkRadio = document.querySelector('input[name="payment"][value="link"]');
     if (linkRadio) linkRadio.checked = true;
+  } else {
+    document.getElementById('provincia').required = true;
   }
+
+  // Recalcular al final, ya con el método de pago correcto seleccionado
+  toggleBankBox();
 });
 
 // ============================================================
 // DATOS BANCARIOS REALES
 // ============================================================
 let datosBancarios = null;
+let datosZelle = null;
 
 async function loadDatosBancariosCheckout() {
   try {
@@ -277,28 +337,39 @@ async function loadDatosBancariosCheckout() {
   } catch (err) {
     console.error('Error al cargar datos bancarios:', err);
   }
+
+  try {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_zelle`, { headers: HEADERS });
+    const rows = await res.json();
+    if (rows.length > 0 && rows[0].valor) {
+      datosZelle = JSON.parse(rows[0].valor);
+      const box = document.getElementById('zelleDetailsContent');
+      box.innerHTML = `
+        <strong>Zelle:</strong> ${datosZelle.contacto}<br>
+        ${getLang() === 'en' ? 'Recipient' : 'Destinatario'}: ${datosZelle.nombre}<br>
+        ${datosZelle.nota ? `<span style="display:block; margin-top:.5rem; font-style:italic;">${datosZelle.nota}</span>` : ''}
+      `;
+    }
+  } catch (err) {
+    console.error('Error al cargar datos de Zelle:', err);
+  }
 }
 
 function toggleBankBox() {
   const metodo = document.querySelector('input[name="payment"]:checked').value;
   document.getElementById('bankDetailsBox').style.display = metodo === 'transfer' ? 'block' : 'none';
+  document.getElementById('zelleDetailsBox').style.display = metodo === 'zelle' ? 'block' : 'none';
 }
 
 document.querySelectorAll('input[name="payment"]').forEach(radio => {
   radio.addEventListener('change', toggleBankBox);
 });
 
-document.addEventListener('DOMContentLoaded', () => {
-  renderMarketSwitcher('marketSwitcherContainer');
-  applyI18n();
-  loadDatosBancariosCheckout();
-  toggleBankBox();
-});
-
 // ============================================================
 // SUBIR COMPROBANTE A SUPABASE STORAGE
 // ============================================================
 async function uploadComprobante(file) {
+  file = await compressImage(file);
   const ext = file.name.split('.').pop();
   const fileName = `comprobante-${Date.now()}.${ext}`;
   try {
@@ -331,6 +402,9 @@ document.querySelectorAll('.payment-method').forEach(method => {
 });
 document.querySelector('.payment-method').classList.add('selected');
 
+let ultimoPedidoId = null;
+let ultimoPedidoMetodo = null;
+
 document.getElementById('checkoutForm')?.addEventListener('submit', async (e) => {
   e.preventDefault();
 
@@ -340,19 +414,18 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
     return;
   }
 
-  const { total, currency } = calculateTotals();
+  const { total, currency, discount, appliedCoupon } = calculateTotals();
   const metodoPago = document.querySelector('input[name="payment"]:checked').value;
 
   const btn = document.getElementById('btnConfirmarPedido');
   btn.disabled = true;
   btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${t('checkout_processing')}`;
 
-  // Subir comprobante si el cliente adjuntó uno (solo aplica a transferencia)
-  let comprobante_url = null;
-  const comprobanteInput = document.getElementById('comprobanteInput');
-  if (metodoPago === 'transfer' && comprobanteInput.files && comprobanteInput.files[0]) {
-    comprobante_url = await uploadComprobante(comprobanteInput.files[0]);
-  }
+  const esMercadoUS = getMarket() === 'US';
+  const provinciaFinal = esMercadoUS
+    ? document.getElementById('estadoUs').value.trim()
+    : document.getElementById('provincia').value;
+  const codigoPostal = esMercadoUS ? document.getElementById('zipUs').value.trim() : null;
 
   const pedido = {
     nombre: document.getElementById('nombre').value.trim(),
@@ -360,7 +433,8 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
     email: document.getElementById('email').value.trim(),
     direccion: document.getElementById('direccion').value.trim(),
     ciudad: document.getElementById('ciudad').value.trim(),
-    provincia: document.getElementById('provincia').value,
+    provincia: provinciaFinal,
+    codigo_postal: codigoPostal,
     metodo_pago: metodoPago,
     productos: cart.map(item => ({
       id: item.id,
@@ -370,15 +444,17 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
     })),
     total: total,
     estado: 'pendiente',
-    comprobante_url: comprobante_url,
-    moneda: currency
+    comprobante_url: null,
+    moneda: currency,
+    cupon_codigo: appliedCoupon ? appliedCoupon.code : null,
+    descuento: discount || 0
   };
 
-
   try {
+    // 1. Crear el pedido primero (rápido, sin esperar subida de imagen)
     const response = await fetch(`${SUPABASE_URL}/rest/v1/pedidos`, {
       method: 'POST',
-      headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+      headers: { ...HEADERS, 'Prefer': 'return=representation' },
       body: JSON.stringify(pedido)
     });
 
@@ -387,6 +463,28 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
       throw new Error(errorData.message || 'Error al guardar el pedido');
     }
 
+    const data = await response.json();
+    const pedidoCreado = data[0];
+    ultimoPedidoId = pedidoCreado.id;
+    ultimoPedidoMetodo = metodoPago;
+
+    // 2. Si ya había un comprobante adjunto en el formulario, subirlo y vincularlo de una vez
+    const comprobanteInput = document.getElementById('comprobanteInput');
+    const comprobanteZelleInput = document.getElementById('comprobanteZelleInput');
+    let comprobanteYaAdjunto = false;
+
+    const inputConArchivo = metodoPago === 'transfer' ? comprobanteInput : (metodoPago === 'zelle' ? comprobanteZelleInput : null);
+    if (inputConArchivo && inputConArchivo.files && inputConArchivo.files[0]) {
+      const url = await uploadComprobante(inputConArchivo.files[0]);
+      if (url) {
+        await fetch(`${SUPABASE_URL}/rest/v1/pedidos?id=eq.${ultimoPedidoId}`, {
+          method: 'PATCH', headers: HEADERS, body: JSON.stringify({ comprobante_url: url })
+        });
+        comprobanteYaAdjunto = true;
+      }
+    }
+
+    // 3. Intento de notificación por email (silencioso si falla)
     try {
       await fetch(`${SUPABASE_URL}/functions/v1/enviar-notificacion`, {
         method: 'POST',
@@ -397,9 +495,8 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
       console.warn('No se pudo enviar la notificación por email:', emailError);
     }
 
-    alert(t('checkout_success'));
     clearCart();
-    window.location.href = 'index.html';
+    showConfirmModal(pedidoCreado, metodoPago, total, currency, comprobanteYaAdjunto);
 
   } catch (error) {
     console.error('Error al procesar el pedido:', error);
@@ -408,6 +505,102 @@ document.getElementById('checkoutForm')?.addEventListener('submit', async (e) =>
     btn.innerHTML = `<i class="fas fa-check-circle"></i> ${t('checkout_confirm_btn')}`;
   }
 });
+
+// ============================================================
+// MODAL DE CONFIRMACIÓN CON NÚMERO DE ORDEN
+// ============================================================
+function showConfirmModal(pedidoCreado, metodoPago, total, currency, comprobanteYaAdjunto) {
+  document.getElementById('confirmTitle').textContent = t('confirm_title');
+  document.getElementById('confirmSub').textContent = t('confirm_sub');
+  document.getElementById('confirmOrderLabel').textContent = t('confirm_order_label');
+  document.getElementById('confirmOrderNumber').textContent = '#' + pedidoCreado.id;
+  document.getElementById('confirmUploadLabel').textContent = t('confirm_upload_label');
+  document.getElementById('confirmUploadBtn').textContent = t('confirm_upload_btn');
+  document.getElementById('confirmWhatsappLabel').textContent = t('confirm_whatsapp_btn');
+  document.getElementById('confirmUploadedText').textContent = t('confirm_uploaded_text');
+  document.getElementById('confirmCloseLink').textContent = t('confirm_close_link');
+
+  const infoBox = document.getElementById('confirmPaymentInfo');
+  const uploadWrap = document.getElementById('confirmUploadWrap');
+
+  if (metodoPago === 'transfer' || metodoPago === 'zelle') {
+    const detalle = metodoPago === 'transfer'
+      ? document.getElementById('bankDetailsContent').innerHTML
+      : document.getElementById('zelleDetailsContent').innerHTML;
+    infoBox.innerHTML = `${detalle}<p style="margin-top:.8rem; font-weight:700; color:var(--purple);">${t('confirm_ref_note')} #${pedidoCreado.id}</p>`;
+    infoBox.style.display = 'block';
+
+    if (comprobanteYaAdjunto) {
+      uploadWrap.style.display = 'none';
+      document.getElementById('confirmUploadedOk').style.display = 'block';
+    } else {
+      uploadWrap.style.display = 'block';
+      document.getElementById('confirmUploadedOk').style.display = 'none';
+
+      const waMsg = `${t('confirm_whatsapp_msg')} #${pedidoCreado.id} — ${fmtCartPrice(total, currency)}.`;
+      document.getElementById('confirmWhatsappBtn').href = `https://wa.me/18292101162?text=${encodeURIComponent(waMsg)}`;
+    }
+  } else {
+    infoBox.style.display = 'none';
+    uploadWrap.style.display = 'none';
+  }
+
+  document.getElementById('confirmCloseLink').href = 'index.html';
+  document.getElementById('confirmOverlay').classList.add('open');
+}
+
+async function uploadReceiptFromConfirm() {
+  const input = document.getElementById('confirmUploadInput');
+  if (!input.files || !input.files[0]) {
+    if (typeof showNotification === 'function') showNotification(t('confirm_select_file_first'), 'error');
+    return;
+  }
+
+  const btn = document.getElementById('confirmUploadBtn');
+  btn.disabled = true;
+  btn.textContent = t('confirm_uploading');
+
+  const url = await uploadComprobante(input.files[0]);
+  if (url && ultimoPedidoId) {
+    await fetch(`${SUPABASE_URL}/rest/v1/pedidos?id=eq.${ultimoPedidoId}`, {
+      method: 'PATCH', headers: HEADERS, body: JSON.stringify({ comprobante_url: url })
+    });
+    document.getElementById('confirmUploadWrap').querySelector('label').style.display = 'none';
+    document.getElementById('confirmUploadInput').style.display = 'none';
+    document.querySelector('.confirm-btn-row').style.display = 'none';
+    document.getElementById('confirmUploadedOk').style.display = 'block';
+  } else {
+    btn.disabled = false;
+    btn.textContent = t('confirm_upload_btn');
+  }
+}
 </script>
+<div class="confirm-overlay" id="confirmOverlay">
+  <div class="confirm-box">
+    <div class="confirm-icon"><i class="fas fa-check"></i></div>
+    <h2 id="confirmTitle">¡Pedido confirmado!</h2>
+    <p class="sub" id="confirmSub">Guarda tu número de orden como referencia.</p>
+
+    <div class="order-number-box">
+      <span id="confirmOrderLabel">Número de orden</span>
+      <strong id="confirmOrderNumber">#0000</strong>
+    </div>
+
+    <div class="confirm-payment-info" id="confirmPaymentInfo" style="display:none;"></div>
+
+    <div class="confirm-upload" id="confirmUploadWrap" style="display:none;">
+      <label id="confirmUploadLabel">Adjuntar comprobante de pago</label>
+      <input type="file" id="confirmUploadInput" accept="image/*,.pdf">
+      <div class="confirm-btn-row">
+        <button class="btn-upload-confirm" id="confirmUploadBtn" onclick="uploadReceiptFromConfirm()">Subir comprobante</button>
+        <a class="btn-whatsapp" id="confirmWhatsappBtn" href="#" target="_blank"><i class="fab fa-whatsapp"></i> <span id="confirmWhatsappLabel">Enviar por WhatsApp</span></a>
+      </div>
+      <p class="confirm-uploaded-ok" id="confirmUploadedOk"><i class="fas fa-check-circle"></i> <span id="confirmUploadedText">¡Comprobante recibido, gracias!</span></p>
+    </div>
+
+    <a href="#" class="confirm-close-link" id="confirmCloseLink">Ir al inicio</a>
+  </div>
+</div>
+
 </body>
 </html>

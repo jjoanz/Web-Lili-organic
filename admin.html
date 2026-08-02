@@ -66,7 +66,7 @@
         }
         .sidebar-logo img { width: 80px; }
         .sidebar-logo p { font-size: 0.75rem; color: rgba(255,255,255,0.5); margin-top: 0.5rem; }
-        .sidebar-menu { padding: 1.5rem 0; }
+        .sidebar-menu { padding: 1.5rem 0 6rem; }
         .menu-item {
             display: flex; align-items: center; gap: 0.75rem;
             padding: 0.875rem 1.5rem; cursor: pointer;
@@ -81,6 +81,7 @@
         .sidebar-footer {
             position: absolute; bottom: 0; left: 0; right: 0;
             padding: 1.5rem; border-top: 1px solid rgba(255,255,255,0.1);
+            background: #1a1a2e;
         }
         .btn-logout {
             width: 100%; padding: 0.75rem;
@@ -295,6 +296,7 @@
 
         @media (max-width: 768px) {
             .sidebar { width: 100%; height: auto; position: relative; }
+            .sidebar-footer { position: static; margin-top: 1rem; }
             .main-content { margin-left: 0; }
             .stats-grid { grid-template-columns: 1fr 1fr; }
             .form-row { grid-template-columns: 1fr; }
@@ -625,6 +627,25 @@
                 </div>
                 <button class="btn btn-success" onclick="saveDatosBancarios()">
                     <i class="fas fa-save"></i> Guardar Datos Bancarios
+                </button>
+            </div>
+
+            <div style="background:white; padding:2rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08); max-width:600px; margin-top:1.5rem;">
+                <h3 style="font-size:1rem; margin-bottom:1rem; color:#652C83;"><i class="fab fa-cc-visa"></i> Zelle (clientes en EE.UU.)</h3>
+                <div class="form-group">
+                    <label>Correo o teléfono de Zelle *</label>
+                    <input type="text" id="zelleContacto" placeholder="Ej: pagos@liliorganic.com o 829-000-0000">
+                </div>
+                <div class="form-group">
+                    <label>Nombre del destinatario *</label>
+                    <input type="text" id="zelleNombre" placeholder="Ej: Liliana García">
+                </div>
+                <div class="form-group">
+                    <label>Nota adicional (opcional)</label>
+                    <textarea id="zelleNota" placeholder="Ej: Envía tu comprobante por WhatsApp al 829-210-1162"></textarea>
+                </div>
+                <button class="btn btn-success" onclick="saveDatosZelle()">
+                    <i class="fas fa-save"></i> Guardar Datos de Zelle
                 </button>
             </div>
         </div>
@@ -1047,6 +1068,7 @@
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
 
+<script src="asents/JS/image-utils.js"></script>
 <script>
 const SUPABASE_URL = 'https://tvxknfbfusuppuwsdwag.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_PchhZA-S7q-nGckaaK4-rw_tQW_SHgw';
@@ -1563,6 +1585,7 @@ async function deleteProduct(id) {
 // SUBIR IMAGEN A SUPABASE STORAGE
 // ============================================================
 async function uploadImage(file, productId) {
+    file = await compressImage(file);
     const ext = file.name.split('.').pop();
     const fileName = `producto-${productId}-${Date.now()}.${ext}`;
 
@@ -1776,6 +1799,53 @@ async function loadDatosBancarios() {
     } catch (err) {
         console.error('Error al cargar datos bancarios:', err);
     }
+
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_zelle`, { headers: HEADERS });
+        const rows = await res.json();
+        if (rows.length > 0 && rows[0].valor) {
+            const data = JSON.parse(rows[0].valor);
+            document.getElementById('zelleContacto').value = data.contacto || '';
+            document.getElementById('zelleNombre').value = data.nombre || '';
+            document.getElementById('zelleNota').value = data.nota || '';
+        }
+    } catch (err) {
+        console.error('Error al cargar datos de Zelle:', err);
+    }
+}
+
+async function saveDatosZelle() {
+    const data = {
+        contacto: document.getElementById('zelleContacto').value.trim(),
+        nombre: document.getElementById('zelleNombre').value.trim(),
+        nota: document.getElementById('zelleNota').value.trim()
+    };
+
+    if (!data.contacto || !data.nombre) {
+        showToast('Correo/teléfono y nombre son obligatorios', 'error');
+        return;
+    }
+
+    try {
+        const existing = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_zelle`, { headers: HEADERS });
+        const existingData = await existing.json();
+
+        const res = existingData.length > 0
+            ? await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.datos_zelle`, {
+                method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: JSON.stringify(data), updated_at: new Date().toISOString() })
+              })
+            : await fetch(`${SUPABASE_URL}/rest/v1/site_config`, {
+                method: 'POST', headers: HEADERS, body: JSON.stringify({ clave: 'datos_zelle', valor: JSON.stringify(data) })
+              });
+
+        if (res.ok) {
+            showToast('Datos de Zelle guardados correctamente', 'success');
+        } else {
+            showToast('Error al guardar', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
 }
 
 async function saveDatosBancarios() {
@@ -1899,7 +1969,7 @@ async function loadSiteImages() {
 
 async function uploadSiteImage(input, clave, previewId) {
     if (!input.files || !input.files[0]) return;
-    const file = input.files[0];
+    const file = await compressImage(input.files[0]);
     const ext = file.name.split('.').pop();
     const fileName = `site-${clave}-${Date.now()}.${ext}`;
 
@@ -1985,7 +2055,7 @@ function renderPedidosTable(pedidos) {
         return;
     }
 
-    const pagoNames = { transfer: 'Transferencia', link: 'Link de Pago', delivery: 'Contra Entrega' };
+    const pagoNames = { transfer: 'Transferencia', link: 'Link de Pago', delivery: 'Contra Entrega', zelle: 'Zelle' };
 
     document.getElementById('pedidosTableContainer').innerHTML = `
         <table>
@@ -2066,16 +2136,18 @@ function viewPedido(id) {
     if (!p) return;
 
     const productos = typeof p.productos === 'string' ? JSON.parse(p.productos) : p.productos;
-    const pagoNames = { transfer: 'Transferencia Bancaria', link: 'Link de Pago', delivery: 'Contra Entrega' };
+    const pagoNames = { transfer: 'Transferencia Bancaria', link: 'Link de Pago', delivery: 'Contra Entrega', zelle: 'Zelle' };
 
     document.getElementById('pedidoModalBody').innerHTML = `
+        <div class="form-group"><label>Número de Orden</label><p style="font-size:1.1rem; font-weight:700; color:#652C83;">#${p.id}</p></div>
         <div class="form-group"><label>Cliente</label><p>${p.nombre}</p></div>
         <div class="form-row">
             <div class="form-group"><label>Teléfono</label><p>${p.telefono}</p></div>
             <div class="form-group"><label>Email</label><p>${p.email}</p></div>
         </div>
-        <div class="form-group"><label>Dirección</label><p>${p.direccion}, ${p.ciudad}, ${p.provincia}</p></div>
+        <div class="form-group"><label>Dirección</label><p>${p.direccion}, ${p.ciudad}, ${p.provincia}${p.codigo_postal ? ', ZIP: ' + p.codigo_postal : ''}</p></div>
         <div class="form-group"><label>Método de Pago</label><p>${pagoNames[p.metodo_pago] || p.metodo_pago}</p></div>
+        ${p.cupon_codigo ? `<div class="form-group"><label>Cupón aplicado</label><p><span class="badge badge-active">${p.cupon_codigo}</span> — Descuento: ${p.moneda === 'USD' ? '$' : 'RD$'} ${Number(p.descuento || 0).toLocaleString(p.moneda === 'USD' ? 'en-US' : 'es-DO')}</p></div>` : ''}
         ${p.comprobante_url ? `
         <div class="form-group">
             <label>Comprobante de Pago</label>

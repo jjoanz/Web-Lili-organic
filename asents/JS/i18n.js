@@ -159,6 +159,23 @@ const LILI_DICT = {
         checkout_empty_cart: 'Tu carrito está vacío.',
         checkout_success: '¡Pedido confirmado! Recibirás un email con los detalles de tu orden.',
         checkout_error: 'Hubo un problema al procesar tu pedido. Por favor intenta de nuevo o contáctanos por WhatsApp.',
+        checkout_state: 'Estado *', checkout_state_ph: 'Ej: Florida',
+        checkout_zip: 'Código Postal (ZIP) *', checkout_zip_ph: 'Ej: 33101',
+        checkout_zelle_t: 'Zelle', checkout_zelle_d: 'Paga por Zelle y adjunta tu comprobante',
+
+        // CONFIRMACIÓN DE PEDIDO
+        confirm_title: '¡Pedido confirmado!',
+        confirm_sub: 'Guarda tu número de orden como referencia.',
+        confirm_order_label: 'Número de orden',
+        confirm_ref_note: 'Incluye este número de orden como referencia en tu pago.',
+        confirm_upload_label: 'Adjuntar comprobante de pago',
+        confirm_upload_btn: 'Subir comprobante',
+        confirm_whatsapp_btn: 'Enviar por WhatsApp',
+        confirm_uploaded_text: '¡Comprobante recibido, gracias!',
+        confirm_close_link: 'Ir al inicio',
+        confirm_whatsapp_msg: 'Hola! Acabo de hacer el pedido',
+        confirm_uploading: 'Subiendo...',
+        confirm_select_file_first: 'Selecciona un archivo primero',
     },
     en: {
         nav_inicio: 'Home', nav_tienda: 'Shop', nav_nosotros: 'About Us',
@@ -299,6 +316,23 @@ const LILI_DICT = {
         checkout_empty_cart: 'Your cart is empty.',
         checkout_success: 'Order confirmed! You\'ll receive an email with your order details.',
         checkout_error: 'There was a problem processing your order. Please try again or contact us on WhatsApp.',
+        checkout_state: 'State *', checkout_state_ph: 'E.g: Florida',
+        checkout_zip: 'ZIP Code *', checkout_zip_ph: 'E.g: 33101',
+        checkout_zelle_t: 'Zelle', checkout_zelle_d: 'Pay via Zelle and attach your receipt',
+
+        // ORDER CONFIRMATION
+        confirm_title: 'Order confirmed!',
+        confirm_sub: 'Save your order number as a reference.',
+        confirm_order_label: 'Order number',
+        confirm_ref_note: 'Include this order number as a reference in your payment.',
+        confirm_upload_label: 'Attach payment receipt',
+        confirm_upload_btn: 'Upload receipt',
+        confirm_whatsapp_btn: 'Send via WhatsApp',
+        confirm_uploaded_text: 'Receipt received, thank you!',
+        confirm_close_link: 'Go to homepage',
+        confirm_whatsapp_msg: 'Hi! I just placed order',
+        confirm_uploading: 'Uploading...',
+        confirm_select_file_first: 'Select a file first',
     }
 };
 
