@@ -75,6 +75,10 @@
   .pm-media{background:#E8E2D8; min-height:320px; display:flex; align-items:center; justify-content:center; position:relative;}
   .pm-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
   .pm-close{position:absolute; top:1rem; right:1rem; z-index:2; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.9); border:none; cursor:pointer; font-size:1rem; color:var(--ink);}
+  .pm-thumbs{position:absolute; bottom:.8rem; left:0; right:0; display:flex; justify-content:center; gap:.5rem; z-index:2;}
+  .pm-thumb{width:44px; height:44px; border-radius:.5rem; overflow:hidden; border:2px solid rgba(255,255,255,.6); cursor:pointer; opacity:.75; transition:all .2s;}
+  .pm-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
+  .pm-thumb.active{border-color:var(--purple); opacity:1; transform:scale(1.08);}
   .pm-body{padding:2rem;}
   .pm-cat{font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--sage); font-weight:700;}
   .pm-name{font-family:'Playfair Display',serif; font-weight:700; font-size:1.5rem; margin:.5rem 0;}
@@ -108,6 +112,14 @@
     .product-grid{grid-template-columns:repeat(2,1fr);}
     .nav{padding:1rem 1.5rem;}
     .page-header, .shop{padding-left:1.5rem; padding-right:1.5rem;}
+  }
+  @media(max-width:700px){
+    .product-modal{grid-template-columns:1fr; max-width:480px; max-height:95vh;}
+    .pm-media{min-height:240px;}
+    .pm-body{padding:1.4rem;}
+    .pm-price-row{flex-wrap:wrap;}
+    .pm-add-row{flex-direction:column; align-items:stretch;}
+    .qty-box{justify-content:center;}
   }
   @media(max-width:600px){
     .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
@@ -337,7 +349,8 @@ async function openProductModal(id) {
 
   document.getElementById('pmMedia').innerHTML = `
     <button class="pm-close" onclick="closeProductModal()">&times;</button>
-    ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${nombre}">` : ''}
+    ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${nombre}" id="pmMainImg">` : ''}
+    <div class="pm-thumbs" id="pmThumbs"></div>
   `;
 
   document.getElementById('pmBody').innerHTML = `
@@ -364,6 +377,42 @@ async function openProductModal(id) {
 
   document.getElementById('productModal').classList.add('open');
   loadProductIngredients(p.id);
+  loadProductGallery(p.id, p.imagen_url, nombre);
+}
+
+async function loadProductGallery(productoId, imagenPrincipal, nombre) {
+  const thumbsContainer = document.getElementById('pmThumbs');
+  try {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${productoId}&order=orden.asc`,
+      { headers: HEADERS }
+    );
+    const extras = await res.json();
+
+    const todasLasImagenes = [
+      ...(imagenPrincipal ? [imagenPrincipal] : []),
+      ...extras.map(e => e.imagen_url)
+    ];
+
+    if (todasLasImagenes.length <= 1) {
+      thumbsContainer.innerHTML = '';
+      return;
+    }
+
+    thumbsContainer.innerHTML = todasLasImagenes.map((url, i) => `
+      <div class="pm-thumb ${i === 0 ? 'active' : ''}" onclick="switchPmImage('${url.replace(/'/g, "\\'")}', this)">
+        <img src="${url}" alt="${nombre} ${i + 1}">
+      </div>
+    `).join('');
+  } catch (err) {
+    thumbsContainer.innerHTML = '';
+  }
+}
+
+function switchPmImage(url, thumbEl) {
+  document.getElementById('pmMainImg').src = url;
+  document.querySelectorAll('.pm-thumb').forEach(t => t.classList.remove('active'));
+  thumbEl.classList.add('active');
 }
 
 function changeModalQty(delta) {

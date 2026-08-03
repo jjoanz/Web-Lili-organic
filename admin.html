@@ -551,6 +551,9 @@
                         <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
                         <p class="image-upload-text">Haz clic o arrastra la foto del hero aquí</p>
                     </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="removeHeroImgBtn" style="margin-top:0.6rem; display:none;" onclick="removeSiteImage('hero_image', 'previewHeroImg', 'removeHeroImgBtn')">
+                        <i class="fas fa-trash"></i> Quitar imagen
+                    </button>
                 </div>
                 <div style="background:white; padding:1.5rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     <h3 style="font-size:1rem; margin-bottom:1rem;">Foto de Ingredientes</h3>
@@ -560,6 +563,9 @@
                         <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
                         <p class="image-upload-text">Haz clic o arrastra la foto de ingredientes aquí</p>
                     </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="removeIngredientesImgBtn" style="margin-top:0.6rem; display:none;" onclick="removeSiteImage('ingredientes_image', 'previewIngredientesImg', 'removeIngredientesImgBtn')">
+                        <i class="fas fa-trash"></i> Quitar imagen
+                    </button>
                 </div>
                 <div style="background:white; padding:1.5rem; border-radius:0.75rem; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     <h3 style="font-size:1rem; margin-bottom:1rem;">Foto de "Nosotros" (Por qué elegirnos)</h3>
@@ -569,6 +575,9 @@
                         <div class="image-upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
                         <p class="image-upload-text">Haz clic o arrastra la foto de Nosotros aquí</p>
                     </div>
+                    <button type="button" class="btn btn-danger btn-sm" id="removeAboutImgBtn" style="margin-top:0.6rem; display:none;" onclick="removeSiteImage('about_image', 'previewAboutImg', 'removeAboutImgBtn')">
+                        <i class="fas fa-trash"></i> Quitar imagen
+                    </button>
                 </div>
             </div>
         </div>
@@ -945,7 +954,7 @@
                 <textarea id="editKitIncluyeEn" placeholder="Ej: Shampoo + Hair Mask + Growth Drops"></textarea>
             </div>
             <div class="form-group">
-                <label>Imagen del Producto</label>
+                <label>Imagen del Producto (principal)</label>
                 <div class="image-upload-area">
                     <input type="file" accept="image/*" onchange="previewEditImage(this)">
                     <img class="image-preview" id="editImagePreview">
@@ -954,6 +963,19 @@
                         <p class="image-upload-text">Haz clic para cambiar la imagen</p>
                     </div>
                 </div>
+                <button type="button" class="btn btn-danger btn-sm" id="editRemoveMainImageBtn" style="margin-top:0.6rem; display:none;" onclick="removeMainImage()">
+                    <i class="fas fa-trash"></i> Quitar imagen principal
+                </button>
+            </div>
+            <div class="form-group">
+                <label>Imágenes Adicionales (hasta 4 más — 5 en total)</label>
+                <div id="editImagenesAdicionales" style="display:flex; gap:0.75rem; flex-wrap:wrap; margin-bottom:0.75rem;"></div>
+                <div class="image-upload-area" id="editAddImagenArea">
+                    <input type="file" accept="image/*" id="editNuevaImagenInput" onchange="addImagenAdicional(this)">
+                    <div class="image-upload-icon"><i class="fas fa-plus-circle"></i></div>
+                    <p class="image-upload-text">Agregar otra foto</p>
+                </div>
+                <p class="form-hint" id="editImagenesLimitMsg" style="display:none;">Ya tienes el máximo de 5 imágenes. Elimina una para agregar otra.</p>
             </div>
         </div>
         <div class="modal-footer">
@@ -1082,6 +1104,16 @@ const HEADERS = {
 let allAdminProducts = [];
 let currentEditFile = null;
 let newImageFile = null;
+let mainImageMarcadaParaQuitar = false;
+
+function removeMainImage() {
+    if (!confirm('¿Quitar la imagen principal de este producto?')) return;
+    mainImageMarcadaParaQuitar = true;
+    currentEditFile = null;
+    document.getElementById('editImagePreview').style.display = 'none';
+    document.getElementById('editImagePlaceholder').style.display = 'block';
+    document.getElementById('editRemoveMainImageBtn').style.display = 'none';
+}
 
 // ============================================================
 // LOGIN
@@ -1325,6 +1357,97 @@ async function saveIngredientesBeneficio(productoId) {
 }
 
 // ============================================================
+// IMÁGENES ADICIONALES (hasta 5 por producto en total)
+// ============================================================
+let editImagenesActuales = [];
+let editProductoIdActual = null;
+
+async function loadImagenesAdicionales(productoId) {
+    editProductoIdActual = productoId;
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${productoId}&order=orden.asc`, { headers: HEADERS });
+        editImagenesActuales = await res.json();
+        renderImagenesAdicionales();
+    } catch (err) {
+        console.error('Error al cargar imágenes adicionales:', err);
+    }
+}
+
+function renderImagenesAdicionales() {
+    const container = document.getElementById('editImagenesAdicionales');
+    container.innerHTML = editImagenesActuales.map(img => `
+        <div style="position:relative; width:80px; height:80px;">
+            <img src="${img.imagen_url}" style="width:100%; height:100%; object-fit:cover; border-radius:0.5rem; border:2px solid #e0e0e0;">
+            <button type="button" onclick="removeImagenAdicional(${img.id})" 
+                style="position:absolute; top:-8px; right:-8px; width:22px; height:22px; border-radius:50%; background:#e53e3e; color:white; border:none; cursor:pointer; font-size:0.7rem;">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    `).join('');
+
+    const alMaximo = editImagenesActuales.length >= 4;
+    document.getElementById('editAddImagenArea').style.display = alMaximo ? 'none' : 'block';
+    document.getElementById('editImagenesLimitMsg').style.display = alMaximo ? 'block' : 'none';
+}
+
+async function addImagenAdicional(input) {
+    if (!input.files || !input.files[0] || !editProductoIdActual) return;
+
+    if (editImagenesActuales.length >= 4) {
+        showToast('Ya tienes el máximo de 5 imágenes', 'error');
+        return;
+    }
+
+    const file = await compressImage(input.files[0]);
+    const ext = file.name.split('.').pop();
+    const fileName = `producto-${editProductoIdActual}-extra-${Date.now()}.${ext}`;
+
+    try {
+        const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/productos/${fileName}`, {
+            method: 'POST',
+            headers: {
+                'apikey': SUPABASE_KEY,
+                'Authorization': `Bearer ${SUPABASE_KEY}`,
+                'Content-Type': file.type
+            },
+            body: file
+        });
+
+        if (!uploadRes.ok) {
+            showToast('Error al subir la imagen', 'error');
+            return;
+        }
+
+        const url = `${SUPABASE_URL}/storage/v1/object/public/productos/${fileName}`;
+
+        const insertRes = await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes`, {
+            method: 'POST', headers: HEADERS,
+            body: JSON.stringify({ producto_id: editProductoIdActual, imagen_url: url, orden: editImagenesActuales.length })
+        });
+
+        if (insertRes.ok) {
+            showToast('Imagen agregada', 'success');
+            input.value = '';
+            loadImagenesAdicionales(editProductoIdActual);
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
+    }
+}
+
+async function removeImagenAdicional(id) {
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/producto_imagenes?id=eq.${id}`, { method: 'DELETE', headers: HEADERS });
+        if (res.ok) {
+            showToast('Imagen eliminada', 'success');
+            loadImagenesAdicionales(editProductoIdActual);
+        }
+    } catch (err) {
+        showToast('Error al eliminar', 'error');
+    }
+}
+
+// ============================================================
 // TOGGLE CAMPO KIT (mostrar/ocultar textarea de "incluye")
 // ============================================================
 function toggleKitField(prefix) {
@@ -1365,14 +1488,18 @@ function openEdit(id) {
         preview.src = p.imagen_url;
         preview.style.display = 'block';
         placeholder.style.display = 'none';
+        document.getElementById('editRemoveMainImageBtn').style.display = 'inline-flex';
     } else {
         preview.style.display = 'none';
         placeholder.style.display = 'block';
+        document.getElementById('editRemoveMainImageBtn').style.display = 'none';
     }
 
     currentEditFile = null;
+    mainImageMarcadaParaQuitar = false;
     document.getElementById('editModal').classList.add('open');
     loadIngredientesBeneficio(id);
+    loadImagenesAdicionales(id);
 }
 
 function closeModal() {
@@ -1398,7 +1525,9 @@ async function saveEdit() {
     const id = parseInt(document.getElementById('editId').value);
     let imagen_url = allAdminProducts.find(p => p.id == id)?.imagen_url || null;
 
-    if (currentEditFile) {
+    if (mainImageMarcadaParaQuitar) {
+        imagen_url = null;
+    } else if (currentEditFile) {
         imagen_url = await uploadImage(currentEditFile, id);
         if (!imagen_url) return;
     }
@@ -1953,17 +2082,39 @@ async function loadSiteImages() {
         if (hero && hero.valor) {
             document.getElementById('previewHeroImg').src = hero.valor;
             document.getElementById('previewHeroImg').style.display = 'block';
+            document.getElementById('removeHeroImgBtn').style.display = 'inline-flex';
         }
         if (ingredientes && ingredientes.valor) {
             document.getElementById('previewIngredientesImg').src = ingredientes.valor;
             document.getElementById('previewIngredientesImg').style.display = 'block';
+            document.getElementById('removeIngredientesImgBtn').style.display = 'inline-flex';
         }
         if (about && about.valor) {
             document.getElementById('previewAboutImg').src = about.valor;
             document.getElementById('previewAboutImg').style.display = 'block';
+            document.getElementById('removeAboutImgBtn').style.display = 'inline-flex';
         }
     } catch (err) {
         console.error('Error al cargar imágenes del sitio:', err);
+    }
+}
+
+async function removeSiteImage(clave, previewId, btnId) {
+    if (!confirm('¿Quitar esta imagen del sitio?')) return;
+    try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/site_config?clave=eq.${clave}`, {
+            method: 'PATCH', headers: HEADERS, body: JSON.stringify({ valor: null, updated_at: new Date().toISOString() })
+        });
+        if (res.ok) {
+            document.getElementById(previewId).style.display = 'none';
+            document.getElementById(previewId).src = '';
+            document.getElementById(btnId).style.display = 'none';
+            showToast('Imagen quitada correctamente', 'success');
+        } else {
+            showToast('Error al quitar la imagen', 'error');
+        }
+    } catch (err) {
+        showToast('Error de conexión', 'error');
     }
 }
 
@@ -2074,7 +2225,10 @@ function renderPedidosTable(pedidos) {
                 ${pedidos.map(p => `
                     <tr>
                         <td>${new Date(p.created_at).toLocaleDateString('es-DO', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' })}</td>
-                        <td><strong>${p.nombre}</strong><br><small style="color:#999">${p.ciudad}, ${p.provincia}</small></td>
+                        <td>
+                            <strong>${p.nombre}</strong>${p.moneda === 'USD' ? ' <img src="https://flagcdn.com/16x12/us.png" style="vertical-align:middle;" alt="US">' : ''}<br>
+                            <small style="color:#999">${p.ciudad}, ${p.provincia}${p.codigo_postal ? ' ' + p.codigo_postal : ''}</small>
+                        </td>
                         <td>${p.telefono}<br><small style="color:#999">${p.email}</small></td>
                         <td><span class="badge badge-categoria">${pagoNames[p.metodo_pago] || p.metodo_pago}</span>${p.comprobante_url ? ' <i class="fas fa-paperclip" style="color:#38a169;" title="Comprobante adjunto"></i>' : ''}</td>
                         <td><strong>${p.moneda === 'USD' ? '$' : 'RD$'} ${Number(p.total).toLocaleString(p.moneda === 'USD' ? 'en-US' : 'es-DO')}</strong>${p.moneda === 'USD' ? ' <span class="badge badge-categoria">USD</span>' : ''}</td>
@@ -2140,12 +2294,25 @@ function viewPedido(id) {
 
     document.getElementById('pedidoModalBody').innerHTML = `
         <div class="form-group"><label>Número de Orden</label><p style="font-size:1.1rem; font-weight:700; color:#652C83;">#${p.id}</p></div>
+        <div class="form-group">
+            <label>Mercado</label>
+            <p>
+                ${p.moneda === 'USD'
+                    ? '<img src="https://flagcdn.com/20x15/us.png" style="vertical-align:middle; border-radius:2px;" alt="US"> Estados Unidos (USD)'
+                    : '<img src="https://flagcdn.com/20x15/do.png" style="vertical-align:middle; border-radius:2px;" alt="RD"> República Dominicana (RD$)'}
+            </p>
+        </div>
         <div class="form-group"><label>Cliente</label><p>${p.nombre}</p></div>
         <div class="form-row">
             <div class="form-group"><label>Teléfono</label><p>${p.telefono}</p></div>
             <div class="form-group"><label>Email</label><p>${p.email}</p></div>
         </div>
-        <div class="form-group"><label>Dirección</label><p>${p.direccion}, ${p.ciudad}, ${p.provincia}${p.codigo_postal ? ', ZIP: ' + p.codigo_postal : ''}</p></div>
+        <div class="form-group"><label>Dirección</label><p>${p.direccion}</p></div>
+        <div class="form-row">
+            <div class="form-group"><label>Ciudad</label><p>${p.ciudad}</p></div>
+            <div class="form-group"><label>${p.moneda === 'USD' ? 'Estado' : 'Provincia'}</label><p>${p.provincia}</p></div>
+        </div>
+        ${p.codigo_postal ? `<div class="form-group"><label>Código Postal (ZIP)</label><p><strong>${p.codigo_postal}</strong></p></div>` : ''}
         <div class="form-group"><label>Método de Pago</label><p>${pagoNames[p.metodo_pago] || p.metodo_pago}</p></div>
         ${p.cupon_codigo ? `<div class="form-group"><label>Cupón aplicado</label><p><span class="badge badge-active">${p.cupon_codigo}</span> — Descuento: ${p.moneda === 'USD' ? '$' : 'RD$'} ${Number(p.descuento || 0).toLocaleString(p.moneda === 'USD' ? 'en-US' : 'es-DO')}</p></div>` : ''}
         ${p.comprobante_url ? `
