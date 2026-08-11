@@ -2,6 +2,17 @@
 
 Sistema completo de tienda en línea con carrito de compras y múltiples opciones de pago.
 
+## 🆕 Actualización — Galería de producto (Agosto 2026)
+
+Se mejoró la vista de detalle de producto (`tienda.html`) al hacer clic en un producto:
+
+- Imagen principal grande, con flechas de navegación (prev/siguiente), contador "1/3" y miniaturas debajo para cambiar de imagen fácilmente.
+- Cambio de imagen instantáneo: todas las imágenes de la galería se precargan al abrir el producto.
+- Imágenes completas sin recorte (`object-fit: contain`) que se adaptan automáticamente a cualquier proporción, tanto en las tarjetas del catálogo como en el modal.
+- Navegación por teclado (flechas izquierda/derecha, Escape para cerrar) y swipe táctil en móvil.
+- Cierre al hacer clic fuera del modal.
+- Diseño responsive: modal a pantalla completa en móvil, tamaños intermedios en tablet y layout amplio en escritorio.
+
 ## 📋 Archivos del Proyecto
 
 ### Páginas HTML (6 páginas)

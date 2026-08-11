@@ -52,7 +52,7 @@
   .card{background:var(--card); border-radius:1.1rem; overflow:hidden; border:1px solid var(--line); transition:box-shadow .25s, transform .25s; display:flex; flex-direction:column;}
   .card:hover{box-shadow:0 18px 40px rgba(101,44,131,.13); transform:translateY(-3px);}
   .card-media{aspect-ratio:1/1; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.9rem; text-align:center; padding:1rem; background:#E8E2D8;}
-  .card-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
+  .card-media img{width:100%; height:100%; object-fit:contain; position:absolute; inset:0; padding:.8rem;}
   .card-badge{position:absolute; top:.8rem; left:.8rem; z-index:2; background:var(--coral); color:#fff; font-size:.7rem; font-weight:800; letter-spacing:.03em; padding:.4rem .7rem; border-radius:.5rem; box-shadow:0 6px 16px rgba(192,79,76,.3);}
   .card-body{padding:1.1rem 1.2rem 1.3rem; display:flex; flex-direction:column; gap:.5rem; flex:1;}
   .card-cat{font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:var(--sage); font-weight:700;}
@@ -71,14 +71,24 @@
   /* MODAL DETALLE DE PRODUCTO */
   .modal-overlay{position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(43,31,51,.6); display:none; align-items:center; justify-content:center; z-index:1000; padding:1.5rem;}
   .modal-overlay.open{display:flex;}
-  .product-modal{background:#fff; border-radius:1.3rem; width:100%; max-width:880px; max-height:90vh; overflow-y:auto; display:grid; grid-template-columns:1fr 1.1fr;}
-  .pm-media{background:#E8E2D8; min-height:320px; display:flex; align-items:center; justify-content:center; position:relative;}
-  .pm-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0;}
-  .pm-close{position:absolute; top:1rem; right:1rem; z-index:2; width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,.9); border:none; cursor:pointer; font-size:1rem; color:var(--ink);}
-  .pm-thumbs{position:absolute; bottom:.8rem; left:0; right:0; display:flex; justify-content:center; gap:.5rem; z-index:2;}
-  .pm-thumb{width:44px; height:44px; border-radius:.5rem; overflow:hidden; border:2px solid rgba(255,255,255,.6); cursor:pointer; opacity:.75; transition:all .2s;}
+  .product-modal{background:#fff; border-radius:1.3rem; width:100%; max-width:960px; max-height:92vh; overflow-y:auto; display:grid; grid-template-columns:1.15fr 1fr; box-shadow:0 30px 70px rgba(43,31,51,.35);}
+  .pm-media{background:#fff; display:flex; flex-direction:column; position:relative;}
+  .pm-main-wrap{position:relative; aspect-ratio:1/1; overflow:hidden; background:#E8E2D8; flex-shrink:0;}
+  .pm-main-wrap img{width:100%; height:100%; object-fit:contain; position:absolute; inset:0; opacity:0; transition:opacity .12s ease; cursor:zoom-in; padding:1.5rem;}
+  .pm-main-wrap img.loaded{opacity:1;}
+  .pm-media-placeholder{position:absolute; inset:0; display:flex; align-items:center; justify-content:center; text-align:center; padding:1.5rem; color:#a99fb0; font-weight:700; font-size:1rem; background:linear-gradient(135deg,#F5EEF7,#E8E2D8);}
+  .pm-close{position:absolute; top:1rem; right:1rem; z-index:4; width:38px; height:38px; border-radius:50%; background:rgba(255,255,255,.92); border:none; cursor:pointer; font-size:1.05rem; color:var(--ink); box-shadow:0 4px 14px rgba(0,0,0,.15); transition:background .2s, transform .2s;}
+  .pm-close:hover{background:#fff; transform:scale(1.08);}
+  .pm-nav{position:absolute; top:50%; transform:translateY(-50%); width:42px; height:42px; border-radius:50%; background:rgba(255,255,255,.92); border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; color:var(--ink); font-size:1rem; box-shadow:0 4px 14px rgba(0,0,0,.15); transition:background .2s, transform .2s; z-index:3;}
+  .pm-nav:hover{background:#fff; transform:translateY(-50%) scale(1.08);}
+  .pm-nav-prev{left:.9rem;}
+  .pm-nav-next{right:.9rem;}
+  .pm-counter{position:absolute; bottom:.8rem; right:.8rem; background:rgba(43,31,51,.6); color:#fff; font-size:.7rem; font-weight:700; padding:.35rem .7rem; border-radius:1rem; z-index:3; letter-spacing:.03em;}
+  .pm-thumbs{display:flex; gap:.65rem; padding:.9rem 1rem; overflow-x:auto; background:#fff; border-top:1px solid var(--line); scrollbar-width:thin;}
+  .pm-thumb{width:58px; height:58px; flex-shrink:0; border-radius:.6rem; overflow:hidden; border:2px solid var(--line); cursor:pointer; opacity:.7; transition:all .2s; background:#E8E2D8;}
   .pm-thumb img{width:100%; height:100%; object-fit:cover; display:block;}
-  .pm-thumb.active{border-color:var(--purple); opacity:1; transform:scale(1.08);}
+  .pm-thumb.active{border-color:var(--purple); opacity:1; transform:scale(1.05);}
+  .pm-thumb:hover{opacity:1; border-color:var(--purple);}
   .pm-body{padding:2rem;}
   .pm-cat{font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; color:var(--sage); font-weight:700;}
   .pm-name{font-family:'Playfair Display',serif; font-weight:700; font-size:1.5rem; margin:.5rem 0;}
@@ -114,12 +124,18 @@
     .page-header, .shop{padding-left:1.5rem; padding-right:1.5rem;}
   }
   @media(max-width:700px){
-    .product-modal{grid-template-columns:1fr; max-width:480px; max-height:95vh;}
-    .pm-media{min-height:240px;}
+    .modal-overlay{padding:0;}
+    .product-modal{grid-template-columns:1fr; max-width:560px; max-height:100vh; height:100%; border-radius:0;}
+    .pm-main-wrap{aspect-ratio:1/1; max-height:58vh;}
+    .pm-nav{width:38px; height:38px;}
+    .pm-thumb{width:52px; height:52px;}
     .pm-body{padding:1.4rem;}
     .pm-price-row{flex-wrap:wrap;}
     .pm-add-row{flex-direction:column; align-items:stretch;}
     .qty-box{justify-content:center;}
+  }
+  @media(min-width:701px) and (max-width:960px){
+    .product-modal{max-width:720px;}
   }
   @media(max-width:600px){
     .nav-links{display:none; position:absolute; top:100%; left:0; right:0; background:#fff; flex-direction:column; padding:1rem 1.5rem; border-bottom:1px solid var(--line); gap:1.1rem;}
@@ -336,20 +352,28 @@ document.getElementById('searchInput').addEventListener('input', (e) => {
 // MODAL DE DETALLE DE PRODUCTO
 // ============================================================
 let modalQty = 1;
+let pmImages = [];
+let pmIndex = 0;
+let pmNombre = '';
 
 async function openProductModal(id) {
   const p = allProducts.find(x => String(x.id) === String(id));
   if (!p) return;
 
   modalQty = 1;
+  pmImages = [];
+  pmIndex = 0;
   const pricing = getMarketPricing(p);
   const nombre = productText(p, 'nombre');
   const descripcion = productText(p, 'descripcion');
   const uso = productText(p, 'uso');
+  pmNombre = nombre;
 
   document.getElementById('pmMedia').innerHTML = `
-    <button class="pm-close" onclick="closeProductModal()">&times;</button>
-    ${p.imagen_url ? `<img src="${p.imagen_url}" alt="${nombre}" id="pmMainImg">` : ''}
+    <div class="pm-main-wrap" id="pmMainWrap">
+      <button class="pm-close" onclick="closeProductModal()" aria-label="Cerrar">&times;</button>
+      <div class="pm-media-placeholder" id="pmPlaceholder" style="display:none;">${nombre}</div>
+    </div>
     <div class="pm-thumbs" id="pmThumbs"></div>
   `;
 
@@ -376,12 +400,12 @@ async function openProductModal(id) {
   `;
 
   document.getElementById('productModal').classList.add('open');
+  attachPmSwipe();
   loadProductIngredients(p.id);
   loadProductGallery(p.id, p.imagen_url, nombre);
 }
 
 async function loadProductGallery(productoId, imagenPrincipal, nombre) {
-  const thumbsContainer = document.getElementById('pmThumbs');
   try {
     const res = await fetch(
       `${SUPABASE_URL}/rest/v1/producto_imagenes?producto_id=eq.${productoId}&order=orden.asc`,
@@ -389,31 +413,113 @@ async function loadProductGallery(productoId, imagenPrincipal, nombre) {
     );
     const extras = await res.json();
 
-    const todasLasImagenes = [
+    pmImages = [
       ...(imagenPrincipal ? [imagenPrincipal] : []),
       ...extras.map(e => e.imagen_url)
     ];
-
-    if (todasLasImagenes.length <= 1) {
-      thumbsContainer.innerHTML = '';
-      return;
-    }
-
-    thumbsContainer.innerHTML = todasLasImagenes.map((url, i) => `
-      <div class="pm-thumb ${i === 0 ? 'active' : ''}" onclick="switchPmImage('${url.replace(/'/g, "\\'")}', this)">
-        <img src="${url}" alt="${nombre} ${i + 1}">
-      </div>
-    `).join('');
   } catch (err) {
-    thumbsContainer.innerHTML = '';
+    pmImages = imagenPrincipal ? [imagenPrincipal] : [];
   }
+
+  preloadPmImages();
+  renderPmGallery();
 }
 
-function switchPmImage(url, thumbEl) {
-  document.getElementById('pmMainImg').src = url;
-  document.querySelectorAll('.pm-thumb').forEach(t => t.classList.remove('active'));
-  thumbEl.classList.add('active');
+function preloadPmImages() {
+  pmImages.forEach(url => { const im = new Image(); im.src = url; });
 }
+
+function renderPmGallery() {
+  const wrap = document.getElementById('pmMainWrap');
+  const thumbsContainer = document.getElementById('pmThumbs');
+  if (!wrap) return;
+
+  // limpiar nav/imagen/contador previos, dejando el botón de cerrar
+  wrap.querySelectorAll('.pm-nav, .pm-counter, img#pmMainImg').forEach(el => el.remove());
+  const placeholder = document.getElementById('pmPlaceholder');
+
+  if (pmImages.length === 0) {
+    if (placeholder) placeholder.style.display = 'flex';
+    thumbsContainer.innerHTML = '';
+    return;
+  }
+  if (placeholder) placeholder.style.display = 'none';
+
+  const img = document.createElement('img');
+  img.id = 'pmMainImg';
+  img.alt = '';
+  img.onload = () => img.classList.add('loaded');
+  img.onerror = () => { if (placeholder) { placeholder.style.display = 'flex'; } img.style.display = 'none'; };
+  img.src = pmImages[pmIndex];
+  wrap.appendChild(img);
+  if (img.complete) img.classList.add('loaded');
+
+  if (pmImages.length > 1) {
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'pm-nav pm-nav-prev';
+    prevBtn.setAttribute('aria-label', 'Anterior');
+    prevBtn.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevBtn.onclick = () => pmNavigate(-1);
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'pm-nav pm-nav-next';
+    nextBtn.setAttribute('aria-label', 'Siguiente');
+    nextBtn.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextBtn.onclick = () => pmNavigate(1);
+
+    const counter = document.createElement('span');
+    counter.className = 'pm-counter';
+    counter.textContent = `${pmIndex + 1} / ${pmImages.length}`;
+
+    wrap.appendChild(prevBtn);
+    wrap.appendChild(nextBtn);
+    wrap.appendChild(counter);
+  }
+
+  thumbsContainer.innerHTML = pmImages.length > 1 ? pmImages.map((url, i) => `
+    <div class="pm-thumb ${i === pmIndex ? 'active' : ''}" onclick="switchPmImage(${i})">
+      <img src="${url}" alt="${pmNombre} ${i + 1}" loading="lazy">
+    </div>
+  `).join('') : '';
+}
+
+function switchPmImage(i) {
+  pmIndex = i;
+  renderPmGallery();
+}
+
+function pmNavigate(delta) {
+  if (pmImages.length === 0) return;
+  pmIndex = (pmIndex + delta + pmImages.length) % pmImages.length;
+  renderPmGallery();
+}
+
+function attachPmSwipe() {
+  const media = document.getElementById('pmMedia');
+  let startX = 0, startY = 0;
+  media.ontouchstart = (e) => {
+    startX = e.touches[0].clientX;
+    startY = e.touches[0].clientY;
+  };
+  media.ontouchend = (e) => {
+    const dx = e.changedTouches[0].clientX - startX;
+    const dy = e.changedTouches[0].clientY - startY;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      pmNavigate(dx < 0 ? 1 : -1);
+    }
+  };
+}
+
+document.addEventListener('keydown', (e) => {
+  if (!document.getElementById('productModal').classList.contains('open')) return;
+  if (e.key === 'Escape') closeProductModal();
+  if (e.key === 'ArrowLeft') pmNavigate(-1);
+  if (e.key === 'ArrowRight') pmNavigate(1);
+});
+
+document.getElementById('productModal').addEventListener('click', (e) => {
+  if (e.target.id === 'productModal') closeProductModal();
+});
 
 function changeModalQty(delta) {
   modalQty = Math.max(1, modalQty + delta);
