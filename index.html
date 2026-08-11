@@ -108,8 +108,8 @@
   .kits-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; margin-top:2.5rem;}
   .kit-card{background:#fff; border-radius:1.2rem; overflow:hidden; border:1px solid var(--line); display:flex; flex-direction:column; transition:transform .3s cubic-bezier(.2,.8,.3,1), box-shadow .3s; position:relative;}
   .kit-card:hover{transform:translateY(-6px); box-shadow:0 24px 50px -18px rgba(43,31,51,.28);}
-  .kit-media{aspect-ratio:16/11; background:#E8E2D8; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.85rem; text-align:center; padding:1.5rem; position:relative; overflow:hidden;}
-  .kit-media img{width:100%; height:100%; object-fit:cover; position:absolute; inset:0; transition:transform .4s;}
+  .kit-media{aspect-ratio:16/11; background:#fff; display:flex; align-items:center; justify-content:center; color:#8a8090; font-weight:600; font-size:.85rem; text-align:center; padding:1.5rem; position:relative; overflow:hidden; border-bottom:1px solid var(--line);}
+  .kit-media img{width:100%; height:100%; object-fit:contain; position:absolute; inset:0; padding:1.2rem; transition:transform .4s;}
   .kit-card:hover .kit-media img{transform:scale(1.06);}
   .kit-save{position:absolute; top:.8rem; left:.8rem; z-index:2; background:var(--coral); color:#fff; font-size:.85rem; font-weight:800; padding:.5rem .9rem; border-radius:.6rem; box-shadow:0 6px 16px rgba(192,79,76,.35);}
   .kit-body{padding:1.3rem 1.4rem 1.5rem; display:flex; flex-direction:column; gap:.6rem; flex:1;}
@@ -241,7 +241,7 @@
       </div>
     </div>
     <div class="hero-visual" id="heroVisual">
-      <div class="ph-label" id="heroPlaceholder">Sube la foto del hero desde Admin &rarr; Im&aacute;genes del Sitio</div>
+      <div class="ph-label" id="heroPlaceholder"> </div>
      
     </div>
   </section>
